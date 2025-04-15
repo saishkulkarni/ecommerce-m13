@@ -1,0 +1,27 @@
+{"properties": [
+  {
+    "name": "cloudinary.api.name",
+    "type": "java.lang.String",
+    "description": "A description for 'cloudinary.api.name'"
+  },
+  {
+    "name": "razor-pay.api.secret",
+    "type": "java.lang.String",
+    "description": "A description for 'razor-pay.api.secret'"
+  },
+  {
+    "name": "razor-pay.api.key",
+    "type": "java.lang.String",
+    "description": "A description for 'razor-pay.api.key'"
+  },
+  {
+    "name": "cloudinary.api.secret",
+    "type": "java.lang.String",
+    "description": "A description for 'cloudinary.api.secret'"
+  },
+  {
+    "name": "cloudinary.api.key",
+    "type": "java.lang.String",
+    "description": "A description for 'cloudinary.api.key'"
+  }
+]}
