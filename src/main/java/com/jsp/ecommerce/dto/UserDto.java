@@ -10,7 +10,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class AdminDto {
+public class UserDto {
 	@Size(min = 5, max = 15, message = "* Name should be 5~15 charecters")
 	private String name;
 	@NotEmpty(message = "* Email is Required")
