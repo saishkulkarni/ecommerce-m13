@@ -1,11 +1,14 @@
 package com.jsp.ecommerce.service;
 
+import java.util.Random;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
 import com.jsp.ecommerce.dto.UserDto;
+import com.jsp.ecommerce.helper.EmailSender;
 import com.jsp.ecommerce.repository.AdminRepository;
 import com.jsp.ecommerce.repository.CustomerRepository;
 import com.jsp.ecommerce.repository.MerchantRepository;
@@ -18,6 +21,8 @@ public class AdminServiceImpl implements AdminService {
 	CustomerRepository customerRepository;
 	@Autowired
 	MerchantRepository merchantRepository;
+	@Autowired
+	EmailSender emailSender;
 
 	@Override
 	public String register(UserDto userDto, Model model) {
@@ -33,11 +38,11 @@ public class AdminServiceImpl implements AdminService {
 		if (adminRepository.existsByEmail(userDto.getEmail()) || customerRepository.existsByEmail(userDto.getEmail())
 				|| merchantRepository.existsByEmail(userDto.getEmail()))
 			result.rejectValue("email", "error.email", "* Email Already Exists");
-		
+
 		if (result.hasErrors()) {
 			return "admin-register.html";
 		}
-		
-		return "redirect:/";
+		emailSender.sendEmail(userDto);
+		return "redirect:/admin/otp";
 	}
 }
