@@ -8,10 +8,14 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
 import com.jsp.ecommerce.dto.UserDto;
+import com.jsp.ecommerce.entity.Admin;
+import com.jsp.ecommerce.helper.AES;
 import com.jsp.ecommerce.helper.EmailSender;
 import com.jsp.ecommerce.repository.AdminRepository;
 import com.jsp.ecommerce.repository.CustomerRepository;
 import com.jsp.ecommerce.repository.MerchantRepository;
+
+import jakarta.servlet.http.HttpSession;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -31,7 +35,7 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public String register(UserDto userDto, BindingResult result) {
+	public String register(UserDto userDto, BindingResult result, HttpSession session) {
 		if (!userDto.getPassword().equals(userDto.getConfirmPassword()))
 			result.rejectValue("confirmPassword", "error.confirmPassword",
 					"* Password and Confirm password not matching");
@@ -42,7 +46,32 @@ public class AdminServiceImpl implements AdminService {
 		if (result.hasErrors()) {
 			return "admin-register.html";
 		}
-		emailSender.sendEmail(userDto);
+
+		int otp = new Random().nextInt(100000, 1000000);
+		emailSender.sendEmail(userDto, otp);
+
+		session.setAttribute("otp", otp);
+		session.setAttribute("userDto", userDto);
+		session.setAttribute("pass", "Otp Sent Success");
 		return "redirect:/admin/otp";
+	}
+
+	@Override
+	public String sumbitOtp(int otp, HttpSession session) {
+		int generatedOtp = (int) session.getAttribute("otp");
+		if (generatedOtp == otp) {
+			UserDto dto = (UserDto) session.getAttribute("userDto");
+			Admin admin = new Admin();
+			admin.setEmail(dto.getEmail());
+			admin.setName(dto.getName());
+			admin.setPassword(AES.encrypt(dto.getPassword()));
+			adminRepository.save(admin);
+			session.setAttribute("pass", "Account Created Success");
+			return "redirect:/";
+		} else {
+			session.setAttribute("fail", "Otp Missmatch");
+			return "redirect:/admin/otp";
+		}
+
 	}
 }
