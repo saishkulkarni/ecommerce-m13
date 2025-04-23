@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="message">
+      <h2 style="color: green" th:text="${session.pass}"></h2>
+      <h2 style="color: red" th:text="${session.fail}"></h2>
+      <th:block th:text="${@messageRemover.remove()}"></th:block>
+    </div>
+    <form action="/merchant/otp" method="post">
+      <input type="text" name="otp" placeholder="Enter OTP Received" />
+      <button>Submit</button>
+    </form>
+  </body>
+</html>

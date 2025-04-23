@@ -6,14 +6,12 @@
     <title>Document</title>
 </head>
 <body>
-
-	
-    <div class="message">
+	<div class="message">
         <h2 style="color: green" th:text="${session.pass}"></h2>
         <h2 style="color: red" th:text="${session.fail}"></h2>
         <th:block th:text="${@messageRemover.remove()}"></th:block>
       </div>
-    <form action="/admin/otp" method="post">
+    <form action="/customer/otp" method="post">
         <input type="text" name="otp" placeholder="Enter OTP Received">
         <button>Submit</button>
     </form>

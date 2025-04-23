@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
-</head>
-<body>
-	<h2 style="color:green" th:text="${session.pass}"></h2>
-    
+  <head>
+    <meta charset="ISO-8859-1" />
+    <title>Insert title here</title>
+  </head>
+  <body>
+    <div class="message">
+      <h2 style="color: green" th:text="${session.pass}"></h2>
+      <h2 style="color: red" th:text="${session.fail}"></h2>
+      <th:block th:text="${@messageRemover.remove()}"></th:block>
+    </div>
     <h1>Main Page</h1>
-</body>
+  </body>
 </html>
