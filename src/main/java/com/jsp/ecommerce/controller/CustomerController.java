@@ -28,10 +28,10 @@ public class CustomerController {
 	}
 
 	@PostMapping("/register")
-	public String register(@Valid UserDto userDto, BindingResult result,HttpSession session) {
-		return customerService.register(userDto, result,session);
+	public String register(@Valid UserDto userDto, BindingResult result, HttpSession session) {
+		return customerService.register(userDto, result, session);
 	}
-	
+
 	@GetMapping("/otp")
 	public String loadOtp() {
 		return "customer-otp.html";
@@ -39,12 +39,12 @@ public class CustomerController {
 
 	@PostMapping("/otp")
 	public String submitOtp(@RequestParam("otp") int otp, HttpSession session) {
-		return customerService.sumbitOtp(otp,session);
+		return customerService.sumbitOtp(otp, session);
 	}
-	
+
 	@GetMapping("/home")
-	public String loadHome() {
-		return "customer-home.html";
+	public String loadHome(HttpSession session) {
+		return customerService.loadHome(session);
 	}
 
 }

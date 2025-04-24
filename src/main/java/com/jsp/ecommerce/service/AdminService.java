@@ -15,4 +15,6 @@ public interface AdminService {
 
 	String sumbitOtp(int otp, HttpSession session);
 
+	String loadHome(HttpSession session);
+
 }

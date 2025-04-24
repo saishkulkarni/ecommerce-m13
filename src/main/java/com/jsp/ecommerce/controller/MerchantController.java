@@ -43,7 +43,7 @@ public class MerchantController {
 	}
 
 	@GetMapping("/home")
-	public String loadHome() {
-		return "merchant-home.html";
+	public String loadHome(HttpSession session) {
+		return merchantService.loadHome(session);
 	}
 }

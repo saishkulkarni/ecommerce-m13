@@ -1,15 +1,440 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <meta charset="ISO-8859-1" />
-    <title>Insert title here</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ShopEase - Your One-Stop Shopping Destination</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      body {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        background-color: #f8f9fa;
+      }
+
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 5%;
+        background-color: #ffffff;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+      }
+
+      .logo img {
+        height: 40px;
+        margin-right: 10px;
+      }
+
+      .logo h1 {
+        font-size: 1.8rem;
+        color: #3a86ff;
+        font-weight: 700;
+      }
+
+      .nav-buttons {
+        display: flex;
+        gap: 15px;
+      }
+
+      .nav-btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .login-btn {
+        background-color: #ffffff;
+        color: #3a86ff;
+        border: 2px solid #3a86ff;
+      }
+
+      .login-btn:hover {
+        background-color: #3a86ff;
+        color: white;
+      }
+
+      .register-btn {
+        background-color: #3a86ff;
+        color: white;
+        position: relative;
+      }
+
+      .register-btn:hover {
+        background-color: #2878ff;
+      }
+
+      .dropdown {
+        position: relative;
+        display: inline-block;
+      }
+
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        right: 0;
+        background-color: #ffffff;
+        min-width: 200px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+        z-index: 1;
+        overflow: hidden;
+        transition: all 0.3s ease;
+      }
+
+      .dropdown:hover .dropdown-content {
+        display: block;
+        animation: fadeIn 0.3s;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .dropdown-option {
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+        color: #333;
+        transition: all 0.2s ease;
+      }
+
+      .dropdown-option:hover {
+        background-color: #f1f5ff;
+        color: #3a86ff;
+      }
+
+      .hero {
+        background: linear-gradient(135deg, #3a86ff 0%, #8338ec 100%);
+        color: white;
+        padding: 5rem 5%;
+        text-align: center;
+        flex: 1;
+      }
+
+      .hero h1 {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+      }
+
+      .hero p {
+        font-size: 1.2rem;
+        max-width: 700px;
+        margin: 0 auto 2rem;
+        opacity: 0.9;
+      }
+
+      .cta-btn {
+        padding: 15px 30px;
+        background-color: white;
+        color: #3a86ff;
+        border: none;
+        border-radius: 30px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .cta-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+      }
+
+      .features {
+        padding: 5rem 5%;
+        background-color: white;
+        text-align: center;
+      }
+
+      .features h2 {
+        font-size: 2.5rem;
+        margin-bottom: 3rem;
+        color: #333;
+      }
+
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .feature-card {
+        background-color: #f8f9fa;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s ease;
+      }
+
+      .feature-card:hover {
+        transform: translateY(-10px);
+      }
+
+      .feature-icon {
+        font-size: 3rem;
+        color: #3a86ff;
+        margin-bottom: 1.5rem;
+      }
+
+      .feature-card h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: #333;
+      }
+
+      .feature-card p {
+        color: #666;
+        line-height: 1.6;
+      }
+
+      .footer {
+        background-color: #222;
+        color: white;
+        padding: 2rem 5%;
+        text-align: center;
+      }
+
+      .footer-content {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .footer-section {
+        flex: 1;
+        min-width: 200px;
+        margin-bottom: 1.5rem;
+        text-align: left;
+        padding: 0 15px;
+      }
+
+      .footer-section h3 {
+        font-size: 1.2rem;
+        margin-bottom: 1.5rem;
+        position: relative;
+        padding-bottom: 10px;
+      }
+
+      .footer-section h3::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 50px;
+        height: 2px;
+        background-color: #3a86ff;
+      }
+
+      .footer-section p {
+        margin-bottom: 1rem;
+        opacity: 0.8;
+        line-height: 1.6;
+      }
+
+      .footer-links a {
+        display: block;
+        color: #ddd;
+        text-decoration: none;
+        margin-bottom: 10px;
+        transition: color 0.3s ease;
+      }
+
+      .footer-links a:hover {
+        color: #3a86ff;
+      }
+
+      .social-icons {
+        display: flex;
+        gap: 15px;
+        margin-top: 1rem;
+      }
+
+      .social-icons a {
+        color: white;
+        background-color: #444;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+      }
+
+      .social-icons a:hover {
+        background-color: #3a86ff;
+        transform: translateY(-3px);
+      }
+
+      .footer-bottom {
+        text-align: center;
+        padding-top: 2rem;
+        margin-top: 2rem;
+        border-top: 1px solid #444;
+      }
+
+      .footer-bottom p {
+        opacity: 0.7;
+      }
+
+      .message {
+        padding: 1rem;
+        text-align: center;
+      }
+
+      @media (max-width: 768px) {
+        .navbar {
+          padding: 1rem 3%;
+        }
+
+        .logo h1 {
+          font-size: 1.5rem;
+        }
+
+        .hero h1 {
+          font-size: 2.2rem;
+        }
+
+        .hero p {
+          font-size: 1rem;
+        }
+
+        .features h2 {
+          font-size: 2rem;
+        }
+
+        .footer-section {
+          flex: 100%;
+          text-align: center;
+        }
+
+        .footer-section h3::after {
+          left: 50%;
+          transform: translateX(-50%);
+        }
+      }
+    </style>
   </head>
   <body>
+    <nav class="navbar">
+      <div class="logo">
+        <a href="/">
+        <img src="/images/logo.png" alt="ShopEase Logo" />
+        </a>
+        <h1>ShopEase</h1>
+      </div>
+      <div class="nav-buttons">
+        <a href="/login"><button class="nav-btn login-btn">Login</button></a>
+        <div class="dropdown">
+          <button class="nav-btn register-btn">Register</button>
+          <div class="dropdown-content">
+            <a href="/admin/register" class="dropdown-option">Admin Register</a>
+            <a href="/merchant/register" class="dropdown-option">Merchant Register</a>
+            <a href="/customer/register" class="dropdown-option">Customer Register</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
     <div class="message">
       <h2 style="color: green" th:text="${session.pass}"></h2>
       <h2 style="color: red" th:text="${session.fail}"></h2>
       <th:block th:text="${@messageRemover.remove()}"></th:block>
     </div>
-    <h1>Main Page</h1>
+
+    <section class="hero">
+      <h1>Welcome to ShopEase</h1>
+      <p>
+        Discover a world of products with unbeatable prices and exceptional
+        quality. Your one-stop destination for all your shopping needs.
+      </p>
+      <a href="/login"><button class="cta-btn">Shop Now</button></a>
+    </section>
+
+    <section class="features">
+      <h2>Why Choose Us</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-shipping-fast"></i>
+          </div>
+          <h3>Fast Delivery</h3>
+          <p>
+            Get your products delivered to your doorstep within 24-48 hours of
+            placing your order.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-shield-alt"></i>
+          </div>
+          <h3>Secure Payments</h3>
+          <p>
+            Our payment gateway ensures your transactions are safe and secure at
+            all times.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-undo"></i>
+          </div>
+          <h3>Easy Returns</h3>
+          <p>
+            Not satisfied with your purchase? Return it within 30 days for a
+            full refund.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>About Us</h3>
+          <p>
+            ShopEase is a premier online shopping platform offering a wide range
+            of products at competitive prices. We strive to provide the best
+            shopping experience to our customers.
+          </p>
+        </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 ShopEase. All Rights Reserved.</p>
+      </div>
+    </footer>
   </body>
 </html>

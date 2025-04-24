@@ -8,7 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
 import com.jsp.ecommerce.dto.UserDto;
-import com.jsp.ecommerce.entity.Admin;
 import com.jsp.ecommerce.entity.Customer;
 import com.jsp.ecommerce.helper.AES;
 import com.jsp.ecommerce.helper.EmailSender;
@@ -75,6 +74,17 @@ public class CustomerServiceImpl implements CustomerService {
 		} else {
 			session.setAttribute("fail", "Otp Missmatch");
 			return "redirect:/customer/otp";
+		}
+	}
+
+	@Override
+	public String loadHome(HttpSession session) {
+		Customer customer = (Customer) session.getAttribute("customer");
+		if (customer != null)
+			return "customer-home.html";
+		else {
+			session.setAttribute("fail", "Invalid Session, First Login to Access");
+			return "redirect:/login";
 		}
 	}
 }

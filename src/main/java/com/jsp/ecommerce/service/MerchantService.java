@@ -15,4 +15,6 @@ public interface MerchantService {
 
 	String sumbitOtp(int otp, HttpSession session);
 
+	String loadHome(HttpSession session);
+
 }

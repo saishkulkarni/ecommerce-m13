@@ -41,9 +41,9 @@ public class AdminController {
 	public String submitOtp(@RequestParam("otp") int otp, HttpSession session) {
 		return adminService.sumbitOtp(otp, session);
 	}
-	
+
 	@GetMapping("/home")
-	public String loadHome() {
-		return "admin-home.html";
+	public String loadHome(HttpSession session) {
+		return adminService.loadHome(session);
 	}
 }
