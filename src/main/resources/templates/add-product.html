@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Add Product</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <h2>Add New Product</h2>
+    <form
+      action="/merchant/add-product"
+      method="POST"
+      enctype="multipart/form-data"
+      th:object="${productDto}"
+    >
+      <div>
+        <label for="name">Product Name:</label>
+        <input type="text" id="name" th:field="*{name}" />
+        <span th:errors="*{name}"></span>
+      </div>
+
+      <div>
+        <label for="description">Description:</label>
+        <textarea
+          id="description"
+          name="description"
+          rows="4"
+          th:field="*{description}"
+        ></textarea>
+        <span th:errors="*{description}"></span>
+      </div>
+
+      <div>
+        <label for="image">Product Image:</label>
+        <input type="file" id="image" th:field="*{image}" accept="image/*" />
+        <span th:errors="*{image}"></span>
+      </div>
+
+      <div>
+        <label for="stock">Stock:</label>
+        <input type="number" id="stock" th:field="*{stock}" />
+        <span th:errors="*{stock}"></span>
+      </div>
+
+      <div>
+        <label for="price">Price:</label>
+        <input type="text" id="price" th:field="*{price}" />
+        <span th:errors="*{price}"></span>
+      </div>
+
+      <div>
+        <label for="category">Category:</label>
+        <select id="category" th:field="*{category}">
+          <option value="">Select a category</option>
+          <option value="electronics">Electronics</option>
+          <option value="fashion">Fashion</option>
+          <option value="grocery">Grocery</option>
+          <option value="kitchen">Kitchen</option>
+          <option value="furniture">Furniture</option>
+        </select>
+        <span th:errors="*{category}"></span>
+      </div>
+
+      <button type="submit">Add Product</button>
+    </form>
+  </body>
+</html>
