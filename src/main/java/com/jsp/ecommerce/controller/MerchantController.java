@@ -57,4 +57,9 @@ public class MerchantController {
 	public String addProduct(@Valid ProductDto productDto, BindingResult result, HttpSession session) {
 		return merchantService.addProduct(productDto, result, session);
 	}
+	
+	@GetMapping("/manage-products")
+	public String manageProducts(HttpSession session,Model model) {
+		return merchantService.manageProducts(session,model);
+	}
 }

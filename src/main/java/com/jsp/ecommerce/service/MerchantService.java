@@ -23,4 +23,6 @@ public interface MerchantService {
 
 	String addProduct(@Valid ProductDto productDto, BindingResult result, HttpSession session);
 
+	String manageProducts(HttpSession session, Model model);
+
 }

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div align="center">
+      <h1>Products</h1>
+      <table border="1">
+        <tr>
+          <th>Image</th>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Price</th>
+          <th>Stock</th>
+          <th>Category</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+        <tr th:each="product : ${products}">
+          <td>
+            <img height="100px" width="100px" th:src="${product.imageUrl}" />
+          </td>
+          <td th:text="${product.name}"></td>
+          <td th:text="${product.description}"></td>
+          <td th:text="${product.price}+'&#8377'"></td>
+          <td th:text="${product.stock}"></td>
+          <td th:text="${product.category}"></td>
+          <td th:text="${product.status}"></td>
+          <td>
+            <button>Edit</button>
+            <button>Delete</button>
+          </td>
+        </tr>
+      </table>
+      <br>
+      <a href="/merchant/home"><button>Back</button></a>
+    </div>
+  </body>
+</html>
