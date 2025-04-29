@@ -1,5 +1,6 @@
 package com.jsp.ecommerce.service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 
@@ -152,6 +153,77 @@ public class MerchantServiceImpl implements MerchantService {
 				model.addAttribute("products", products);
 				return "manage-products.html";
 			}
+		} else {
+			session.setAttribute("fail", "Invalid Session, First Login to Access");
+			return "redirect:/login";
+		}
+	}
+
+	@Override
+	public String editProduct(Long id, Model model, HttpSession session) {
+		Merchant merchant = (Merchant) session.getAttribute("merchant");
+		if (merchant != null) {
+			Product product = productRepository.findById(id).orElseThrow();
+
+			ProductDto productDto = new ProductDto();
+			productDto.setName(product.getName());
+			productDto.setDescription(product.getDescription());
+			productDto.setPrice(product.getPrice());
+			productDto.setStock(product.getStock());
+			productDto.setCategory(product.getCategory());
+
+			model.addAttribute("productDto", productDto);
+			model.addAttribute("id", product.getId());
+			model.addAttribute("link", product.getImageUrl());
+
+			return "edit-product.html";
+		} else {
+			session.setAttribute("fail", "Invalid Session, First Login to Access");
+			return "redirect:/login";
+		}
+	}
+
+	@Override
+	public String updateProduct(Long id, ProductDto productDto, BindingResult result, Model model,
+			HttpSession session) {
+		Merchant merchant = (Merchant) session.getAttribute("merchant");
+		if (merchant != null) {
+
+			Product product = productRepository.findById(id).orElseThrow();
+
+			if (result.hasErrors()) {
+				model.addAttribute("id", id);
+				model.addAttribute("link", product.getImageUrl());
+				return "edit-product.html";
+			}
+			product.setName(productDto.getName());
+			product.setDescription(productDto.getDescription());
+			product.setStock(productDto.getStock());
+			product.setPrice(productDto.getPrice());
+			product.setCategory(productDto.getCategory());
+			try {
+				if (productDto.getImage().getInputStream().available() > 0)
+					product.setImageUrl(cloudinaryHelper.saveImage(productDto.getImage()));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			productRepository.save(product);
+			session.setAttribute("pass", "Product Updated Success");
+			return "redirect:/merchant/manage-products";
+		} else {
+			session.setAttribute("fail", "Invalid Session, First Login to Access");
+			return "redirect:/login";
+		}
+	}
+
+	@Override
+	public String deleteById(Long id, HttpSession session) {
+		Merchant merchant = (Merchant) session.getAttribute("merchant");
+		if (merchant != null) {
+			productRepository.deleteById(id);
+			session.setAttribute("pass", "Product Deleted Success");
+			return "redirect:/merchant/manage-products";
 		} else {
 			session.setAttribute("fail", "Invalid Session, First Login to Access");
 			return "redirect:/login";
