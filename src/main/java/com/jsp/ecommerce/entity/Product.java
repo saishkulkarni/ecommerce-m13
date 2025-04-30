@@ -40,6 +40,8 @@ public class Product {
 	private Integer stock;
 	@UpdateTimestamp
 	private LocalDateTime createdTime;
+	
+	private String reason;
 
 	@ManyToOne
 	Merchant merchant;

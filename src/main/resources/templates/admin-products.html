@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Approve Products</title>
   </head>
   <body>
     <div class="message">
@@ -11,6 +11,7 @@
       <h2 style="color: red" th:text="${session.fail}"></h2>
       <th:block th:text="${@messageRemover.remove()}"></th:block>
     </div>
+
     <div align="center">
       <h1>Products</h1>
       <table border="1">
@@ -33,18 +34,16 @@
           <td th:text="${product.price}+'&#8377'"></td>
           <td th:text="${product.stock}"></td>
           <td th:text="${product.category}"></td>
+          <td th:text="${product.status}"></td>
           <td>
-            <span th:if="${product.status.name().equals('REJECTED')}" th:text="${product.status}+'->'+${product.reason}"></span>
-            <span th:if="${!product.status.name().equals('REJECTED')}" th:text="${product.status}" ></span>
+            <a th:if="${!product.status.name().equals('APPROVED')}"  th:href="'/admin/approve/'+${product.id}"><button>Approve</button></a>
+            <a th:if="${!product.status.name().equals('REJECTED')}"  th:href="'/admin/reject/'+${product.id}"><button>Reject</button></a>
           </td>
-          <td>
-            <a th:href="'/merchant/edit/'+${product.id}"><button>Edit</button></a>
-            <a th:href="'/merchant/delete/'+${product.id}"><button>Delete</button></a>
-          </td>
-           </tr>
+        </tr>
       </table>
       <br>
-      <a href="/merchant/home"><button>Back</button></a>
+      <a href="/admin/home"><button>Back</button></a>
+      
     </div>
   </body>
 </html>
