@@ -1,50 +1,699 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Manage Products | ShopEase</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #4361ee;
+        --primary-dark: #3a56d4;
+        --secondary: #7209b7;
+        --light: #f8f9fa;
+        --dark: #212529;
+        --success: #2ecc71;
+        --danger: #e74c3c;
+        --gray: #6c757d;
+        --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        --transition: all 0.3s ease;
+        --merchant: #4361ee;
+        --merchant-dark: #3a56d4;
+        --merchant-gradient: linear-gradient(135deg, #4361ee 0%, #3a56d4 100%);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      body {
+        min-height: 100vh;
+        background-color: #f5f7fa;
+        color: var(--dark);
+        display: flex;
+        flex-direction: column;
+      }
+
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 5%;
+        background-color: #ffffff;
+        box-shadow: var(--shadow);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+      }
+
+      .logo a {
+        text-decoration: none;
+        color: var(--dark);
+      }
+
+      .logo img {
+        height: 40px;
+        margin-right: 10px;
+      }
+
+      .logo h1 {
+        font-size: 1.8rem;
+        color: var(--primary);
+        font-weight: 700;
+      }
+
+      .merchant-badge {
+        background: var(--merchant-gradient);
+        color: white;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        margin-left: 10px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .logout-btn {
+        background-color: #f1f1f1;
+        color: var(--dark);
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 500;
+        transition: var(--transition);
+        text-decoration: none;
+      }
+
+      .logout-btn:hover {
+        background-color: #e9e9e9;
+      }
+
+      .alert {
+        position: fixed;
+        top: 80px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 15px 25px;
+        border-radius: 8px;
+        box-shadow: var(--shadow);
+        z-index: 1001;
+        display: flex;
+        align-items: center;
+        min-width: 300px;
+        max-width: 500px;
+        animation: slideDown 0.3s, fadeOut 0.5s 1.5s forwards;
+      }
+
+      .alert-success {
+        background-color: #d4edda;
+        color: #155724;
+        border-left: 4px solid var(--success);
+      }
+
+      .alert-danger {
+        background-color: #f8d7da;
+        color: #721c24;
+        border-left: 4px solid var(--danger);
+      }
+
+      .alert-icon {
+        margin-right: 10px;
+        font-size: 1.2rem;
+      }
+
+      @keyframes slideDown {
+        from {
+          transform: translate(-50%, -20px);
+          opacity: 0;
+        }
+        to {
+          transform: translate(-50%, 0);
+          opacity: 1;
+        }
+      }
+
+      @keyframes fadeOut {
+        from {
+          opacity: 1;
+        }
+        to {
+          opacity: 0;
+          visibility: hidden;
+        }
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+        flex: 1;
+      }
+
+      .action-buttons a {
+        text-decoration: none;
+      }
+
+      .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+      }
+
+      .page-title {
+        font-size: 2rem;
+        color: var(--dark);
+        font-weight: 600;
+      }
+
+      .back-btn {
+        background-color: var(--light);
+        color: var(--dark);
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 500;
+        transition: var(--transition);
+        text-decoration: none;
+      }
+
+      .back-btn:hover {
+        background-color: #e9e9e9;
+      }
+
+      .add-product-btn {
+        background-color: var(--merchant);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 500;
+        transition: var(--transition);
+        text-decoration: none;
+      }
+
+      .add-product-btn:hover {
+        background-color: var(--merchant-dark);
+      }
+
+      .products-table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: white;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      }
+
+      .products-table th {
+        background-color: var(--merchant);
+        color: white;
+        padding: 15px;
+        text-align: left;
+        font-weight: 500;
+      }
+
+      .products-table td {
+        padding: 15px;
+        border-bottom: 1px solid #eee;
+        vertical-align: middle;
+      }
+
+      .products-table tr:last-child td {
+        border-bottom: none;
+      }
+
+      .products-table tr:hover {
+        background-color: #f8f9fa;
+      }
+
+      .product-image {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .product-name {
+        font-weight: 500;
+        color: var(--dark);
+      }
+
+      .product-description {
+        color: var(--gray);
+        max-width: 300px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+      }
+
+      .product-price {
+        font-weight: 500;
+        color: var(--merchant);
+      }
+
+      .product-stock {
+        font-weight: 500;
+      }
+
+      .product-category {
+        background-color: #e9ecef;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        display: inline-block;
+      }
+
+      .status-badge {
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        display: inline-block;
+      }
+
+      .status-pending {
+        background-color: #fff3cd;
+        color: #856404;
+      }
+
+      .status-approved {
+        background-color: #d4edda;
+        color: #155724;
+      }
+
+      .status-rejected {
+        background-color: #f8d7da;
+        color: #721c24;
+      }
+
+      .rejection-reason {
+        display: block;
+        font-size: 0.8rem;
+        margin-top: 5px;
+        color: var(--danger);
+      }
+
+      .action-buttons {
+        display: flex;
+        gap: 10px;
+      }
+
+      .edit-btn, .delete-btn {
+        padding: 8px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .edit-btn {
+        background-color: var(--merchant);
+        color: white;
+      }
+
+      .edit-btn:hover {
+        background-color: var(--merchant-dark);
+      }
+
+      .delete-btn {
+        background-color: var(--danger);
+        color: white;
+      }
+
+      .delete-btn:hover {
+        background-color: #c0392b;
+      }
+
+      /* Modal Styles */
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 2000;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+      }
+
+      .modal-overlay.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .modal {
+        background-color: white;
+        border-radius: 10px;
+        width: 100%;
+        max-width: 500px;
+        padding: 2rem;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        transform: translateY(-20px);
+        transition: all 0.3s ease;
+      }
+
+      .modal-overlay.active .modal {
+        transform: translateY(0);
+      }
+
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #eee;
+      }
+
+      .modal-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--dark);
+      }
+
+      .modal-close {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: var(--gray);
+        transition: var(--transition);
+      }
+
+      .modal-close:hover {
+        color: var(--danger);
+      }
+
+      .modal-body {
+        margin-bottom: 1.5rem;
+      }
+
+      .modal-footer {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+      }
+
+      .btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: var(--transition);
+      }
+
+      .btn-secondary {
+        background-color: #e9ecef;
+        color: var(--dark);
+      }
+
+      .btn-secondary:hover {
+        background-color: #dde2e6;
+      }
+
+      .btn-danger {
+        background-color: var(--danger);
+        color: white;
+      }
+
+      .btn-danger:hover {
+        background-color: #c0392b;
+      }
+
+      .footer {
+        background-color: #1a1a1a;
+        color: white;
+        padding: 3rem 5% 1.5rem;
+        margin-top: auto;
+      }
+
+      .footer-bottom {
+        text-align: center;
+        padding-top: 1.5rem;
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.9rem;
+      }
+
+      .no-products {
+        text-align: center;
+        padding: 3rem;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      }
+      
+      .no-products h3 {
+        font-size: 1.5rem;
+        color: var(--gray);
+        margin-bottom: 1rem;
+      }
+      
+      .no-products p {
+        color: var(--gray);
+        margin-bottom: 1.5rem;
+      }
+
+      @media (max-width: 992px) {
+        .products-table {
+          display: block;
+          overflow-x: auto;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .page-header {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 1rem;
+        }
+        
+        .footer-content {
+          flex-direction: column;
+          gap: 20px;
+          text-align: center;
+        }
+      }
+
+      @media (max-width: 576px) {
+        .alert {
+          min-width: 90%;
+        }
+        
+        .product-description {
+          max-width: 200px;
+        }
+        
+        .modal {
+          width: 90%;
+          padding: 1.5rem;
+        }
+      }
+    </style>
   </head>
   <body>
-    <div class="message">
-      <h2 style="color: green" th:text="${session.pass}"></h2>
-      <h2 style="color: red" th:text="${session.fail}"></h2>
-      <th:block th:text="${@messageRemover.remove()}"></th:block>
+    <nav class="navbar">
+      <div class="logo">
+        <a href="/merchant/home">
+          <img src="/images/logo.png" alt="ShopEase Logo" />
+        </a>
+        <a href="/merchant/home"><h1>ShopEase</h1></a>
+        <span class="merchant-badge">
+          <i class="fas fa-store"></i> Merchant
+        </span>
+      </div>
+      <a href="/logout" class="logout-btn">
+        <i class="fas fa-sign-out-alt"></i> Logout
+      </a>
+    </nav>
+    <!-- Alert messages that will disappear after 2 seconds -->
+    <div th:if="${session.pass}" class="alert alert-success">
+      <i class="fas fa-check-circle alert-icon"></i>
+      <span th:text="${session.pass}"></span>
     </div>
-    <div align="center">
-      <h1>Products</h1>
-      <table border="1">
-        <tr>
-          <th>Image</th>
-          <th>Name</th>
-          <th>Description</th>
-          <th>Price</th>
-          <th>Stock</th>
-          <th>Category</th>
-          <th>Status</th>
-          <th>Action</th>
-        </tr>
-        <tr th:each="product : ${products}">
-          <td>
-            <img height="100px" width="100px" th:src="${product.imageUrl}" />
-          </td>
-          <td th:text="${product.name}"></td>
-          <td th:text="${product.description}"></td>
-          <td th:text="${product.price}+'&#8377'"></td>
-          <td th:text="${product.stock}"></td>
-          <td th:text="${product.category}"></td>
-          <td>
-            <span th:if="${product.status.name().equals('REJECTED')}" th:text="${product.status}+'->'+${product.reason}"></span>
-            <span th:if="${!product.status.name().equals('REJECTED')}" th:text="${product.status}" ></span>
-          </td>
-          <td>
-            <a th:href="'/merchant/edit/'+${product.id}"><button>Edit</button></a>
-            <a th:href="'/merchant/delete/'+${product.id}"><button>Delete</button></a>
-          </td>
-           </tr>
+    <div th:if="${session.fail}" class="alert alert-danger">
+      <i class="fas fa-exclamation-circle alert-icon"></i>
+      <span th:text="${session.fail}"></span>
+    </div>
+    <th:block th:text="${@messageRemover.remove()}"></th:block>
+
+    <div class="container">
+      <div class="page-header">
+        <h1 class="page-title">Manage Products</h1>
+        <div style="display: flex; gap: 10px;">
+          <a href="/merchant/add-product" class="add-product-btn">
+            <i class="fas fa-plus"></i> Add New Product
+          </a>
+          <a href="/merchant/home" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Back to Dashboard
+          </a>
+        </div>
+      </div>
+
+      <div th:if="${#lists.isEmpty(products)}" class="no-products">
+        <h3>No products found</h3>
+        <p>You haven't added any products yet. Click the button below to add your first product.</p>
+        <a href="/merchant/add-product" class="add-product-btn">
+          <i class="fas fa-plus"></i> Add New Product
+        </a>
+      </div>
+
+      <table th:if="${not #lists.isEmpty(products)}" class="products-table">
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Stock</th>
+            <th>Category</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="product : ${products}">
+            <td>
+              <img class="product-image" th:src="${product.imageUrl}" alt="Product Image" />
+            </td>
+            <td class="product-name" th:text="${product.name}"></td>
+            <td class="product-description" th:text="${product.description}"></td>
+            <td class="product-price" th:text="${product.price}+'&#8377'"></td>
+            <td class="product-stock" th:text="${product.stock}"></td>
+            <td><span class="product-category" th:text="${product.category}"></span></td>
+            <td>
+              <span th:if="${product.status.name().equals('PENDING')}" class="status-badge status-pending" th:text="${product.status}"></span>
+              <span th:if="${product.status.name().equals('APPROVED')}" class="status-badge status-approved" th:text="${product.status}"></span>
+              <span th:if="${product.status.name().equals('REJECTED')}" class="status-badge status-rejected" th:text="${product.status}"></span>
+              <span th:if="${product.status.name().equals('REJECTED')}" class="rejection-reason" th:text="'Reason: ' + ${product.reason}"></span>
+            </td>
+            <td>
+              <div class="action-buttons">
+                <a th:href="'/merchant/edit/'+${product.id}">
+                  <button class="edit-btn">
+                    <i class="fas fa-edit"></i> Edit
+                  </button>
+                </a>
+                <button class="delete-btn" th:onclick="'openDeleteModal(' + ${product.id} + ')'">
+                  <i class="fas fa-trash"></i> Delete
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
       </table>
-      <br>
-      <a href="/merchant/home"><button>Back</button></a>
     </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteModal" class="modal-overlay">
+      <div class="modal">
+        <div class="modal-header">
+          <h3 class="modal-title">Confirm Deletion</h3>
+          <button class="modal-close" onclick="closeDeleteModal()">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to delete this product? This action cannot be undone.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeDeleteModal()">Cancel</button>
+          <a id="deleteLink" href="#">
+            <button class="btn btn-danger">Delete</button>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <div class="footer-bottom">
+        <p>&copy; 2025 ShopEase. All Rights Reserved.</p>
+      </div>
+    </footer>
+
+    <script>
+      // Script to automatically remove alerts after 2 seconds
+      document.addEventListener('DOMContentLoaded', function() {
+        const alerts = document.querySelectorAll('.alert');
+        
+        if (alerts.length > 0) {
+          setTimeout(function() {
+            alerts.forEach(alert => {
+              alert.style.display = 'none';
+            });
+          }, 2000);
+        }
+      });
+      
+      // Modal functionality for delete confirmation
+      const deleteModal = document.getElementById('deleteModal');
+      const deleteLink = document.getElementById('deleteLink');
+      
+      function openDeleteModal(productId) {
+        deleteLink.href = '/merchant/delete/' + productId;
+        deleteModal.classList.add('active');
+        document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+      }
+      
+      function closeDeleteModal() {
+        deleteModal.classList.remove('active');
+        document.body.style.overflow = ''; // Restore scrolling
+      }
+      
+      // Close modal if user clicks outside the modal content
+      deleteModal.addEventListener('click', function(event) {
+        if (event.target === deleteModal) {
+          closeDeleteModal();
+        }
+      });
+      
+      // Close modal with Escape key
+      document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape' && deleteModal.classList.contains('active')) {
+          closeDeleteModal();
+        }
+      });
+    </script>
   </body>
 </html>

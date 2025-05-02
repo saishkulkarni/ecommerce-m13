@@ -8,7 +8,24 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <style>
+      :root {
+        --primary: #4361ee;
+        --primary-dark: #3a56d4;
+        --secondary: #7209b7;
+        --light: #f8f9fa;
+        --dark: #212529;
+        --success: #2ecc71;
+        --danger: #e74c3c;
+        --gray: #6c757d;
+        --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        --transition: all 0.3s ease;
+      }
+
       * {
         margin: 0;
         padding: 0;
@@ -20,7 +37,8 @@
         min-height: 100vh;
         display: flex;
         flex-direction: column;
-        background-color: #f8f9fa;
+        background-color: var(--light);
+        color: var(--dark);
       }
 
       .navbar {
@@ -29,7 +47,7 @@
         align-items: center;
         padding: 1rem 5%;
         background-color: #ffffff;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        box-shadow: var(--shadow);
         position: sticky;
         top: 0;
         z-index: 1000;
@@ -40,6 +58,11 @@
         align-items: center;
       }
 
+      .logo a {
+        text-decoration: none;
+        color: var(--dark);
+      }
+
       .logo img {
         height: 40px;
         margin-right: 10px;
@@ -47,8 +70,24 @@
 
       .logo h1 {
         font-size: 1.8rem;
-        color: #3a86ff;
+        color: var(--primary);
         font-weight: 700;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 30px;
+      }
+
+      .nav-links a {
+        color: var(--dark);
+        text-decoration: none;
+        font-weight: 500;
+        transition: var(--transition);
+      }
+
+      .nav-links a:hover {
+        color: var(--primary);
       }
 
       .nav-buttons {
@@ -62,28 +101,28 @@
         border-radius: 5px;
         font-weight: 600;
         cursor: pointer;
-        transition: all 0.3s ease;
+        transition: var(--transition);
       }
 
       .login-btn {
-        background-color: #ffffff;
-        color: #3a86ff;
-        border: 2px solid #3a86ff;
+        background-color: transparent;
+        color: var(--primary);
+        border: 2px solid var(--primary);
       }
 
       .login-btn:hover {
-        background-color: #3a86ff;
+        background-color: var(--primary);
         color: white;
       }
 
       .register-btn {
-        background-color: #3a86ff;
+        background-color: var(--primary);
         color: white;
         position: relative;
       }
 
       .register-btn:hover {
-        background-color: #2878ff;
+        background-color: var(--primary-dark);
       }
 
       .dropdown {
@@ -96,12 +135,12 @@
         position: absolute;
         right: 0;
         background-color: #ffffff;
-        min-width: 200px;
+        min-width: 220px;
         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-        border-radius: 5px;
+        border-radius: 8px;
         z-index: 1;
         overflow: hidden;
-        transition: all 0.3s ease;
+        transition: var(--transition);
       }
 
       .dropdown:hover .dropdown-content {
@@ -124,45 +163,105 @@
         padding: 12px 16px;
         text-decoration: none;
         display: block;
-        color: #333;
-        transition: all 0.2s ease;
+        color: var(--dark);
+        transition: var(--transition);
       }
 
       .dropdown-option:hover {
         background-color: #f1f5ff;
-        color: #3a86ff;
+        color: var(--primary);
+      }
+
+      .alert {
+        position: fixed;
+        top: 80px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 15px 25px;
+        border-radius: 8px;
+        box-shadow: var(--shadow);
+        z-index: 1001;
+        display: flex;
+        align-items: center;
+        min-width: 300px;
+        max-width: 500px;
+        animation: slideDown 0.3s, fadeOut 0.5s 1.5s forwards;
+      }
+
+      .alert-success {
+        background-color: #d4edda;
+        color: #155724;
+        border-left: 4px solid var(--success);
+      }
+
+      .alert-danger {
+        background-color: #f8d7da;
+        color: #721c24;
+        border-left: 4px solid var(--danger);
+      }
+
+      .alert-icon {
+        margin-right: 10px;
+        font-size: 1.2rem;
+      }
+
+      @keyframes slideDown {
+        from {
+          transform: translate(-50%, -20px);
+          opacity: 0;
+        }
+        to {
+          transform: translate(-50%, 0);
+          opacity: 1;
+        }
+      }
+
+      @keyframes fadeOut {
+        from {
+          opacity: 1;
+        }
+        to {
+          opacity: 0;
+          visibility: hidden;
+        }
       }
 
       .hero {
-        background: linear-gradient(135deg, #3a86ff 0%, #8338ec 100%);
+        background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
         color: white;
-        padding: 5rem 5%;
+        padding: 6rem 5%;
         text-align: center;
-        flex: 1;
+      }
+
+      .hero-content {
+        max-width: 800px;
+        margin: 0 auto;
       }
 
       .hero h1 {
-        font-size: 3rem;
-        margin-bottom: 1rem;
+        font-size: 3.5rem;
+        margin-bottom: 1.5rem;
+        font-weight: 700;
       }
 
       .hero p {
         font-size: 1.2rem;
         max-width: 700px;
-        margin: 0 auto 2rem;
+        margin: 0 auto 2.5rem;
         opacity: 0.9;
+        line-height: 1.6;
       }
 
       .cta-btn {
         padding: 15px 30px;
         background-color: white;
-        color: #3a86ff;
+        color: var(--primary);
         border: none;
         border-radius: 30px;
         font-size: 1.1rem;
         font-weight: 600;
         cursor: pointer;
-        transition: all 0.3s ease;
+        transition: var(--transition);
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
       }
 
@@ -172,15 +271,23 @@
       }
 
       .features {
-        padding: 5rem 5%;
+        padding: 6rem 5%;
         background-color: white;
         text-align: center;
       }
 
-      .features h2 {
+      .section-title {
         font-size: 2.5rem;
-        margin-bottom: 3rem;
-        color: #333;
+        margin-bottom: 1rem;
+        color: var(--dark);
+        font-weight: 700;
+      }
+
+      .section-subtitle {
+        color: var(--gray);
+        max-width: 700px;
+        margin: 0 auto 3rem;
+        font-size: 1.1rem;
       }
 
       .features-grid {
@@ -192,129 +299,111 @@
       }
 
       .feature-card {
-        background-color: #f8f9fa;
-        padding: 2rem;
-        border-radius: 10px;
+        background-color: var(--light);
+        padding: 2.5rem 2rem;
+        border-radius: 12px;
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-        transition: transform 0.3s ease;
+        transition: var(--transition);
       }
 
       .feature-card:hover {
         transform: translateY(-10px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
       }
 
       .feature-icon {
         font-size: 3rem;
-        color: #3a86ff;
+        color: var(--primary);
         margin-bottom: 1.5rem;
+        background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
       }
 
       .feature-card h3 {
         font-size: 1.5rem;
         margin-bottom: 1rem;
-        color: #333;
+        color: var(--dark);
       }
 
       .feature-card p {
-        color: #666;
+        color: var(--gray);
         line-height: 1.6;
       }
 
       .footer {
-        background-color: #222;
+        background-color: #1a1a1a;
         color: white;
-        padding: 2rem 5%;
-        text-align: center;
+        padding: 3rem 5% 1.5rem;
       }
 
       .footer-content {
         display: flex;
         justify-content: space-between;
-        flex-wrap: wrap;
+        align-items: center;
         max-width: 1200px;
         margin: 0 auto;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       }
 
-      .footer-section {
-        flex: 1;
-        min-width: 200px;
-        margin-bottom: 1.5rem;
-        text-align: left;
-        padding: 0 15px;
+      .footer-logo {
+        display: flex;
+        align-items: center;
       }
 
-      .footer-section h3 {
-        font-size: 1.2rem;
-        margin-bottom: 1.5rem;
-        position: relative;
-        padding-bottom: 10px;
+      .footer-logo img {
+        height: 35px;
+        margin-right: 10px;
       }
 
-      .footer-section h3::after {
-        content: "";
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        width: 50px;
-        height: 2px;
-        background-color: #3a86ff;
-      }
-
-      .footer-section p {
-        margin-bottom: 1rem;
-        opacity: 0.8;
-        line-height: 1.6;
-      }
-
-      .footer-links a {
-        display: block;
-        color: #ddd;
-        text-decoration: none;
-        margin-bottom: 10px;
-        transition: color 0.3s ease;
-      }
-
-      .footer-links a:hover {
-        color: #3a86ff;
+      .footer-logo h2 {
+        font-size: 1.5rem;
+        color: white;
       }
 
       .social-icons {
         display: flex;
         gap: 15px;
-        margin-top: 1rem;
       }
 
       .social-icons a {
         color: white;
-        background-color: #444;
+        background-color: rgba(255, 255, 255, 0.1);
         width: 40px;
         height: 40px;
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        transition: all 0.3s ease;
+        transition: var(--transition);
       }
 
       .social-icons a:hover {
-        background-color: #3a86ff;
+        background-color: var(--primary);
         transform: translateY(-3px);
       }
 
       .footer-bottom {
         text-align: center;
-        padding-top: 2rem;
-        margin-top: 2rem;
-        border-top: 1px solid #444;
+        padding-top: 1.5rem;
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.9rem;
       }
 
-      .footer-bottom p {
-        opacity: 0.7;
+      .mobile-menu-btn {
+        display: none;
+        background: none;
+        border: none;
+        color: var(--dark);
+        font-size: 1.5rem;
+        cursor: pointer;
       }
 
-      .message {
-        padding: 1rem;
-        text-align: center;
+      @media (max-width: 992px) {
+        .nav-links {
+          display: none;
+        }
       }
 
       @media (max-width: 768px) {
@@ -322,30 +411,44 @@
           padding: 1rem 3%;
         }
 
+        .mobile-menu-btn {
+          display: block;
+        }
+
+        .nav-buttons {
+          display: none;
+        }
+
         .logo h1 {
           font-size: 1.5rem;
         }
 
         .hero h1 {
-          font-size: 2.2rem;
+          font-size: 2.5rem;
+        }
+
+        .section-title {
+          font-size: 2rem;
+        }
+
+        .footer-content {
+          flex-direction: column;
+          gap: 20px;
+          text-align: center;
+        }
+      }
+
+      @media (max-width: 576px) {
+        .hero h1 {
+          font-size: 2rem;
         }
 
         .hero p {
           font-size: 1rem;
         }
 
-        .features h2 {
-          font-size: 2rem;
-        }
-
-        .footer-section {
-          flex: 100%;
-          text-align: center;
-        }
-
-        .footer-section h3::after {
-          left: 50%;
-          transform: translateX(-50%);
+        .alert {
+          min-width: 90%;
         }
       }
     </style>
@@ -354,41 +457,59 @@
     <nav class="navbar">
       <div class="logo">
         <a href="/">
-        <img src="/images/logo.png" alt="ShopEase Logo" />
+          <img src="/images/logo.png" alt="ShopEase Logo" />
         </a>
-        <h1>ShopEase</h1>
+        <a href="/"><h1>ShopEase</h1></a>
       </div>
+
+
       <div class="nav-buttons">
         <a href="/login"><button class="nav-btn login-btn">Login</button></a>
         <div class="dropdown">
           <button class="nav-btn register-btn">Register</button>
           <div class="dropdown-content">
-            <a href="/admin/register" class="dropdown-option">Admin Register</a>
-            <a href="/merchant/register" class="dropdown-option">Merchant Register</a>
-            <a href="/customer/register" class="dropdown-option">Customer Register</a>
+            <a href="/admin/register" class="dropdown-option">
+              <i class="fas fa-user-shield"></i> Admin Register
+            </a>
+            <a href="/merchant/register" class="dropdown-option">
+              <i class="fas fa-store"></i> Merchant Register
+            </a>
+            <a href="/customer/register" class="dropdown-option">
+              <i class="fas fa-user"></i> Customer Register
+            </a>
           </div>
         </div>
       </div>
     </nav>
 
-    <div class="message">
-      <h2 style="color: green" th:text="${session.pass}"></h2>
-      <h2 style="color: red" th:text="${session.fail}"></h2>
-      <th:block th:text="${@messageRemover.remove()}"></th:block>
+    <!-- Alert messages that will disappear after 2 seconds -->
+    <div th:if="${session.pass}" class="alert alert-success">
+      <i class="fas fa-check-circle alert-icon"></i>
+      <span th:text="${session.pass}"></span>
     </div>
+    <div th:if="${session.fail}" class="alert alert-danger">
+      <i class="fas fa-exclamation-circle alert-icon"></i>
+      <span th:text="${session.fail}"></span>
+    </div>
+    <th:block th:text="${@messageRemover.remove()}"></th:block>
 
     <section class="hero">
-      <h1>Welcome to ShopEase</h1>
-      <p>
-        Discover a world of products with unbeatable prices and exceptional
-        quality. Your one-stop destination for all your shopping needs.
-      </p>
-      <a href="/login"><button class="cta-btn">Shop Now</button></a>
+      <div class="hero-content">
+        <h1>Welcome to ShopEase</h1>
+        <p>
+          Discover a world of products with unbeatable prices and exceptional
+          quality. Your one-stop destination for all your shopping needs.
+        </p>
+        <a href="/login"><button class="cta-btn">Shop Now <i class="fas fa-arrow-right"></i></button></a>
+      </div>
     </section>
 
     <section class="features">
-      <h2>Why Choose Us</h2>
-      <div class="features-grid">
+      <h2 class="section-title">Why Choose Us</h2>
+      <p class="section-subtitle">
+        We provide the best shopping experience with premium services tailored to your needs.
+      </p>
+            <div class="features-grid">
         <div class="feature-card">
           <div class="feature-icon">
             <i class="fas fa-shipping-fast"></i>
@@ -396,7 +517,7 @@
           <h3>Fast Delivery</h3>
           <p>
             Get your products delivered to your doorstep within 24-48 hours of
-            placing your order.
+            placing your order with our premium shipping partners.
           </p>
         </div>
         <div class="feature-card">
@@ -406,7 +527,7 @@
           <h3>Secure Payments</h3>
           <p>
             Our payment gateway ensures your transactions are safe and secure at
-            all times.
+            all times with end-to-end encryption technology.
           </p>
         </div>
         <div class="feature-card">
@@ -416,25 +537,118 @@
           <h3>Easy Returns</h3>
           <p>
             Not satisfied with your purchase? Return it within 30 days for a
-            full refund.
+            full refund with our hassle-free return policy.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="features" style="background-color: var(--light);">
+      <h2 class="section-title">Our Products</h2>
+      <p class="section-subtitle">
+        Browse through our extensive collection of high-quality products
+      </p>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-tshirt"></i>
+          </div>
+          <h3>Fashion</h3>
+          <p>
+            Discover the latest trends in clothing, footwear, and accessories for men, women, and children.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-mobile-alt"></i>
+          </div>
+          <h3>Electronics</h3>
+          <p>
+            Explore cutting-edge gadgets, smartphones, laptops, and home appliances from top brands.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-home"></i>
+          </div>
+          <h3>Home & Living</h3>
+          <p>
+            Transform your living space with our stylish furniture, decor items, and kitchen essentials.
           </p>
         </div>
       </div>
     </section>
 
     <footer class="footer">
-      <div class="footer-content">
-        <div class="footer-section">
-          <h3>About Us</h3>
-          <p>
-            ShopEase is a premier online shopping platform offering a wide range
-            of products at competitive prices. We strive to provide the best
-            shopping experience to our customers.
-          </p>
-        </div>
       <div class="footer-bottom">
         <p>&copy; 2025 ShopEase. All Rights Reserved.</p>
       </div>
     </footer>
+
+    <script>
+      // Script to automatically remove alerts after 2 seconds
+      document.addEventListener('DOMContentLoaded', function() {
+        const alerts = document.querySelectorAll('.alert');
+        
+        if (alerts.length > 0) {
+          setTimeout(function() {
+            alerts.forEach(alert => {
+              alert.style.display = 'none';
+            });
+          }, 2000);
+        }
+        
+        // Mobile menu toggle functionality
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+        const navButtons = document.querySelector('.nav-buttons');
+        
+        if (mobileMenuBtn) {
+          mobileMenuBtn.addEventListener('click', function() {
+            // Create mobile menu if it doesn't exist
+            if (!document.querySelector('.mobile-menu')) {
+              const mobileMenu = document.createElement('div');
+              mobileMenu.className = 'mobile-menu';
+              mobileMenu.style.position = 'fixed';
+              mobileMenu.style.top = '70px';
+              mobileMenu.style.left = '0';
+              mobileMenu.style.width = '100%';
+              mobileMenu.style.backgroundColor = '#fff';
+              mobileMenu.style.padding = '20px';
+              mobileMenu.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
+              mobileMenu.style.zIndex = '999';
+              mobileMenu.style.display = 'none';
+              
+              // Clone nav links
+              if (navLinks) {
+                const clonedLinks = navLinks.cloneNode(true);
+                clonedLinks.style.display = 'flex';
+                clonedLinks.style.flexDirection = 'column';
+                clonedLinks.style.gap = '15px';
+                mobileMenu.appendChild(clonedLinks);
+              }
+              
+              // Clone nav buttons
+              if (navButtons) {
+                const clonedButtons = navButtons.cloneNode(true);
+                clonedButtons.style.display = 'flex';
+                clonedButtons.style.marginTop = '20px';
+                mobileMenu.appendChild(clonedButtons);
+              }
+              
+              document.body.appendChild(mobileMenu);
+            }
+            
+            const mobileMenu = document.querySelector('.mobile-menu');
+            if (mobileMenu.style.display === 'none' || mobileMenu.style.display === '') {
+              mobileMenu.style.display = 'block';
+            } else {
+              mobileMenu.style.display = 'none';
+            }
+          });
+        }
+      });
+    </script>
   </body>
 </html>
+

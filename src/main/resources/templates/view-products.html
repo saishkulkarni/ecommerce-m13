@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Browse Products | ShopEase</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #4361ee;
+        --primary-dark: #3a56d4;
+        --secondary: #7209b7;
+        --light: #f8f9fa;
+        --dark: #212529;
+        --success: #2ecc71;
+        --danger: #e74c3c;
+        --gray: #6c757d;
+        --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        --transition: all 0.3s ease;
+        --customer: #7209b7;
+        --customer-dark: #6008a0;
+        --customer-gradient: linear-gradient(135deg, #7209b7 0%, #6008a0 100%);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      body {
+        min-height: 100vh;
+        background-color: #f5f7fa;
+        color: var(--dark);
+        display: flex;
+        flex-direction: column;
+      }
+
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 5%;
+        background-color: #ffffff;
+        box-shadow: var(--shadow);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+      }
+
+      .logo a {
+        text-decoration: none;
+        color: var(--dark);
+      }
+
+      .logo img {
+        height: 40px;
+        margin-right: 10px;
+      }
+
+      .logo h1 {
+        font-size: 1.8rem;
+        color: var(--primary);
+        font-weight: 700;
+      }
+
+      .customer-badge {
+        background: var(--customer-gradient);
+        color: white;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        margin-left: 10px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .cart-btn {
+        position: relative;
+        background-color: #f1f1f1;
+        color: var(--dark);
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 500;
+        transition: var(--transition);
+        text-decoration: none;
+      }
+
+      .cart-btn:hover {
+        background-color: #e9e9e9;
+      }
+      
+      a{
+		  text-decoration: none;
+	  }
+
+      .cart-count {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        background-color: var(--customer);
+        color: white;
+        font-size: 0.7rem;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .logout-btn {
+        background-color: #f1f1f1;
+        color: var(--dark);
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 500;
+        transition: var(--transition);
+        text-decoration: none;
+      }
+
+      .logout-btn:hover {
+        background-color: #e9e9e9;
+      }
+
+      .alert {
+        position: fixed;
+        top: 80px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 15px 25px;
+        border-radius: 8px;
+        box-shadow: var(--shadow);
+        z-index: 1001;
+        display: flex;
+        align-items: center;
+        min-width: 300px;
+        max-width: 500px;
+        animation: slideDown 0.3s, fadeOut 0.5s 1.5s forwards;
+      }
+
+      .alert-success {
+        background-color: #d4edda;
+        color: #155724;
+        border-left: 4px solid var(--success);
+      }
+
+      .alert-danger {
+        background-color: #f8d7da;
+        color: #721c24;
+        border-left: 4px solid var(--danger);
+      }
+
+      .alert-icon {
+        margin-right: 10px;
+        font-size: 1.2rem;
+      }
+
+      @keyframes slideDown {
+        from {
+          transform: translate(-50%, -20px);
+          opacity: 0;
+        }
+        to {
+          transform: translate(-50%, 0);
+          opacity: 1;
+        }
+      }
+
+      @keyframes fadeOut {
+        from {
+          opacity: 1;
+        }
+        to {
+          opacity: 0;
+          visibility: hidden;
+        }
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+        flex: 1;
+      }
+
+      .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+      }
+
+      .page-title {
+        font-size: 2rem;
+        color: var(--dark);
+        font-weight: 600;
+      }
+
+      .back-btn {
+        background-color: var(--light);
+        color: var(--dark);
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 500;
+        transition: var(--transition);
+        text-decoration: none;
+      }
+
+      .back-btn:hover {
+        background-color: #e9e9e9;
+      }
+
+      .filter-section {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+        background-color: white;
+        padding: 1rem 1.5rem;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      }
+
+      .filter-group {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .filter-label {
+        font-weight: 500;
+        color: var(--dark);
+      }
+
+      .filter-select {
+        padding: 8px 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 0.9rem;
+        color: var(--dark);
+        background-color: white;
+      }
+
+      .search-box {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .search-input {
+        padding: 8px 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 0.9rem;
+        width: 250px;
+      }
+
+      .search-btn {
+        background-color: var(--customer);
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .search-btn:hover {
+        background-color: var(--customer-dark);
+      }
+
+      .products-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 25px;
+      }
+
+      .product-card {
+        background-color: white;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        transition: var(--transition);
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+
+      .product-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+      }
+
+      .product-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-bottom: 1px solid #f1f1f1;
+      }
+
+      .product-details {
+        padding: 1.5rem;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .product-category {
+        background-color: #f1f1f1;
+        color: var(--dark);
+        font-size: 0.8rem;
+        padding: 5px 10px;
+        border-radius: 20px;
+        display: inline-block;
+        margin-bottom: 10px;
+      }
+
+      .product-name {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+        color: var(--dark);
+      }
+
+      .product-description {
+        color: var(--gray);
+        font-size: 0.9rem;
+        margin-bottom: 15px;
+        flex: 1;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .product-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+
+      .product-price {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: var(--customer);
+      }
+
+      .product-stock {
+        font-size: 0.9rem;
+        color: var(--gray);
+      }
+
+      .product-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .add-to-cart-btn {
+        background-color: var(--customer);
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        width: 100%;
+        justify-content: center;
+      }
+
+      .add-to-cart-btn:hover {
+        background-color: var(--customer-dark);
+      }
+
+      .view-details-btn {
+        background-color: transparent;
+        color: var(--customer);
+        border: 1px solid var(--customer);
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: var(--transition);
+        text-align: center;
+      }
+
+      .view-details-btn:hover {
+        background-color: rgba(114, 9, 183, 0.1);
+      }
+
+      .products-table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: white;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      }
+
+      .products-table th {
+        background-color: var(--customer);
+        color: white;
+        padding: 15px;
+        text-align: left;
+        font-weight: 500;
+      }
+
+      .products-table td {
+        padding: 15px;
+        border-bottom: 1px solid #eee;
+        vertical-align: middle;
+      }
+
+      .products-table tr:last-child td {
+        border-bottom: none;
+      }
+
+      .products-table tr:hover {
+        background-color: #f8f9fa;
+      }
+
+      .table-product-image {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .table-product-name {
+        font-weight: 500;
+        color: var(--dark);
+      }
+
+      .table-product-description {
+        color: var(--gray);
+        max-width: 300px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+      }
+
+      .table-product-price {
+        font-weight: 500;
+        color: var(--customer);
+      }
+
+      .table-product-stock {
+        font-weight: 500;
+      }
+
+      .table-product-category {
+        background-color: #e9ecef;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        display: inline-block;
+      }
+
+      .table-add-to-cart-btn {
+        background-color: var(--customer);
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .table-add-to-cart-btn:hover {
+        background-color: var(--customer-dark);
+      }
+
+      .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 2rem;
+        gap: 10px;
+      }
+
+      .pagination-btn {
+        padding: 8px 15px;
+        border: 1px solid #ddd;
+        background-color: white;
+        color: var(--dark);
+                border-radius: 5px;
+        cursor: pointer;
+        transition: var(--transition);
+      }
+
+      .pagination-btn:hover {
+        background-color: #f1f1f1;
+      }
+
+      .pagination-btn.active {
+        background-color: var(--customer);
+        color: white;
+        border-color: var(--customer);
+      }
+
+      .no-products {
+        text-align: center;
+        padding: 3rem;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      }
+
+      .no-products h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: var(--dark);
+      }
+
+      .no-products p {
+        color: var(--gray);
+        margin-bottom: 1.5rem;
+        max-width: 500px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .view-type-toggle {
+        display: flex;
+        gap: 10px;
+      }
+
+      .view-btn {
+        background-color: #f1f1f1;
+        color: var(--dark);
+        border: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: var(--transition);
+      }
+
+      .view-btn.active {
+        background-color: var(--customer);
+        color: white;
+      }
+
+      .view-btn:hover:not(.active) {
+        background-color: #e9e9e9;
+      }
+
+      .footer {
+        background-color: #1a1a1a;
+        color: white;
+        padding: 3rem 5% 1.5rem;
+        margin-top: auto;
+      }
+
+      .footer-bottom {
+        text-align: center;
+        padding-top: 1.5rem;
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.9rem;
+      }
+
+      @media (max-width: 992px) {
+        .filter-section {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 15px;
+        }
+        
+        .search-box {
+          width: 100%;
+        }
+        
+        .search-input {
+          flex: 1;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .products-table {
+          display: block;
+          overflow-x: auto;
+        }
+        
+        .filter-group {
+          flex-wrap: wrap;
+        }
+      }
+
+      @media (max-width: 576px) {
+        .container {
+          padding: 1.5rem;
+        }
+        
+        .alert {
+          min-width: 90%;
+        }
+        
+        .page-header {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="logo">
+        <a href="/customer/home">
+          <img src="/images/logo.png" alt="ShopEase Logo" />
+        </a>
+        <a href="/customer/home"><h1>ShopEase</h1></a>
+        <span class="customer-badge">
+          <i class="fas fa-user"></i> Customer
+        </span>
+      </div>
+      <div class="nav-actions">
+        <a href="/customer/cart" class="cart-btn">
+          <i class="fas fa-shopping-cart"></i> Cart
+          <span class="cart-count" th:if="${cartCount != null}" th:text="${cartCount}">0</span>
+        </a>
+        <a href="/logout" class="logout-btn">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
+      </div>
+    </nav>
+
+    <!-- Alert messages that will disappear after 2 seconds -->
+    <div th:if="${session.pass}" class="alert alert-success">
+      <i class="fas fa-check-circle alert-icon"></i>
+      <span th:text="${session.pass}"></span>
+    </div>
+    <div th:if="${session.fail}" class="alert alert-danger">
+      <i class="fas fa-exclamation-circle alert-icon"></i>
+      <span th:text="${session.fail}"></span>
+    </div>
+    <th:block th:text="${@messageRemover.remove()}"></th:block>
+
+    <div class="container">
+      <div class="page-header">
+        <h1 class="page-title">Browse Products</h1>
+        <div style="display: flex; gap: 15px;">
+          <div class="view-type-toggle">
+            <button id="gridViewBtn" class="view-btn active" title="Grid View">
+              <i class="fas fa-th"></i>
+            </button>
+            <button id="listViewBtn" class="view-btn" title="List View">
+              <i class="fas fa-list"></i>
+            </button>
+          </div>
+          <a href="/customer/home" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Back to Dashboard
+          </a>
+        </div>
+      </div>
+
+      <div class="filter-section">
+        <div class="filter-group">
+          <span class="filter-label">Category:</span>
+          <select id="categoryFilter" class="filter-select">
+            <option value="">All Categories</option>
+            <option value="electronics">Electronics</option>
+            <option value="fashion">Fashion</option>
+            <option value="grocery">Grocery</option>
+            <option value="kitchen">Kitchen</option>
+            <option value="furniture">Furniture</option>
+          </select>
+          
+          <span class="filter-label">Sort By:</span>
+          <select id="sortFilter" class="filter-select">
+            <option value="name_asc">Name (A-Z)</option>
+            <option value="name_desc">Name (Z-A)</option>
+            <option value="price_asc">Price (Low to High)</option>
+            <option value="price_desc">Price (High to Low)</option>
+            <option value="newest">Newest First</option>
+          </select>
+        </div>
+        
+        <div class="search-box">
+          <input type="text" class="search-input" placeholder="Search products..." />
+          <button class="search-btn">
+            <i class="fas fa-search"></i> Search
+          </button>
+        </div>
+      </div>
+
+      <div th:if="${#lists.isEmpty(products)}" class="no-products">
+        <h3>No products found</h3>
+        <p>We couldn't find any products matching your criteria. Try adjusting your filters or check back later for new arrivals.</p>
+      </div>
+
+      <!-- Grid View (Default) -->
+      <div id="gridView" class="products-grid" th:if="${not #lists.isEmpty(products)}">
+        <div class="product-card" th:each="product : ${products}">
+          <img class="product-image" th:src="${product.imageUrl}" alt="Product Image" />
+          <div class="product-details">
+            <span class="product-category" th:text="${product.category}"></span>
+            <h3 class="product-name" th:text="${product.name}"></h3>
+            <p class="product-description" th:text="${product.description}"></p>
+            <div class="product-meta">
+              <span class="product-price" th:text="${product.price}+'₹'"></span>
+              <span class="product-stock" th:text="'In Stock: ' + ${product.stock}"></span>
+            </div>
+            <div class="product-actions">
+              <a th:href="'/customer/add-cart/' + ${product.id}">
+                <button class="add-to-cart-btn">
+                  <i class="fas fa-cart-plus"></i> Add to Cart
+                </button>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- List View (Hidden by default) -->
+      <table id="listView" class="products-table" style="display: none;" th:if="${not #lists.isEmpty(products)}">
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Stock</th>
+            <th>Category</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="product : ${products}">
+            <td>
+              <img class="table-product-image" th:src="${product.imageUrl}" alt="Product Image" />
+            </td>
+            <td class="table-product-name" th:text="${product.name}"></td>
+            <td class="table-product-description" th:text="${product.description}"></td>
+            <td class="table-product-price" th:text="${product.price}+'₹'"></td>
+            <td class="table-product-stock" th:text="${product.stock}"></td>
+            <td><span class="table-product-category" th:text="${product.category}"></span></td>
+            <td>
+              <a th:href="'/customer/add-cart/' + ${product.id}">
+                <button class="table-add-to-cart-btn">
+                  <i class="fas fa-cart-plus"></i> Add to Cart
+                </button>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Pagination (if needed) -->
+      <div class="pagination" th:if="${totalPages > 1}">
+        <button class="pagination-btn" th:classappend="${currentPage == 1 ? 'disabled' : ''}"
+                th:onclick="'window.location.href=\'/customer/products?page=' + (${currentPage - 1}) + '\''">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        
+        <button th:each="i : ${#numbers.sequence(1, totalPages)}" 
+                th:text="${i}"
+                class="pagination-btn"
+                th:classappend="${currentPage == i ? 'active' : ''}"
+                th:onclick="'window.location.href=\'/customer/products?page=' + ${i} + '\''">
+        </button>
+        
+        <button class="pagination-btn" th:classappend="${currentPage == totalPages ? 'disabled' : ''}"
+                th:onclick="'window.location.href=\'/customer/products?page=' + (${currentPage + 1}) + '\''">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <div class="footer-bottom">
+        <p>&copy; 2025 ShopEase. All Rights Reserved.</p>
+      </div>
+    </footer>
+
+    <script>
+      // Script to automatically remove alerts after 2 seconds
+      document.addEventListener('DOMContentLoaded', function() {
+        const alerts = document.querySelectorAll('.alert');
+        
+        if (alerts.length > 0) {
+          setTimeout(function() {
+            alerts.forEach(alert => {
+              alert.style.display = 'none';
+            });
+          }, 2000);
+        }
+        
+        // Toggle between grid and list view
+        const gridViewBtn = document.getElementById('gridViewBtn');
+        const listViewBtn = document.getElementById('listViewBtn');
+        const gridView = document.getElementById('gridView');
+        const listView = document.getElementById('listView');
+        
+        gridViewBtn.addEventListener('click', function() {
+          gridView.style.display = 'grid';
+          listView.style.display = 'none';
+          gridViewBtn.classList.add('active');
+          listViewBtn.classList.remove('active');
+        });
+        
+        listViewBtn.addEventListener('click', function() {
+          gridView.style.display = 'none';
+          listView.style.display = 'table';
+          gridViewBtn.classList.remove('active');
+          listViewBtn.classList.add('active');
+        });
+        
+        // Category filter functionality
+        const categoryFilter = document.getElementById('categoryFilter');
+        categoryFilter.addEventListener('change', function() {
+          const category = this.value;
+          window.location.href = '/customer/products?category=' + category;
+        });
+        
+        // Sort filter functionality
+        const sortFilter = document.getElementById('sortFilter');
+        sortFilter.addEventListener('change', function() {
+          const sort = this.value;
+          window.location.href = '/customer/products?sort=' + sort;
+        });
+        
+        // Search functionality
+        const searchBtn = document.querySelector('.search-btn');
+        const searchInput = document.querySelector('.search-input');
+        
+        searchBtn.addEventListener('click', function() {
+          const query = searchInput.value.trim();
+          if (query) {
+            window.location.href = '/customer/products?search=' + encodeURIComponent(query);
+          }
+        });
+        
+        searchInput.addEventListener('keypress', function(e) {
+          if (e.key === 'Enter') {
+            const query = this.value.trim();
+            if (query) {
+              window.location.href = '/customer/products?search=' + encodeURIComponent(query);
+            }
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
+

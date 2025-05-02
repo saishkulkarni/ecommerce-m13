@@ -1,53 +1,668 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Admin Registration</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
-    <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="text-center">Admin Registration</h3>
-                    </div>
-                    <div class="card-body">
-                        <form action="/admin/register" method="post" th:object="${userDto}">
-                            <div class="mb-3">
-                                <label for="name" class="form-label">Name</label>
-                                <input type="text" class="form-control" id="name" th:field="*{name}">
-                                <span th:errors="*{name}"></span>
-                            </div>
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="email" th:field="*{email}">
-                                <span th:errors="*{email}"></span>
-                            </div>
-                            <div class="mb-3">
-                                <label for="password" class="form-label">Password</label>
-                                <input type="password" class="form-control" id="password" th:field="*{password}">
-                                <span th:errors="*{password}"></span>
-                            </div>
-                            <div class="mb-3">
-                                <label for="confirmPassword" class="form-label">Confirm Password</label>
-                                <input type="password" class="form-control" id="confirmPassword" th:field="*{confirmPassword}">
-                                <span th:errors="*{confirmPassword}"></span>
-                            </div>
-                            <div class="mb-3 form-check">
-                                <input type="checkbox" class="form-check-input" id="terms" th:field="*{terms}" value="true">
-                                <label class="form-check-label" for="terms">I accept the terms and conditions</label><br>
-                                <span th:errors="*{terms}"></span>
-                            </div>
-                            <div class="text-center">
-                                <button type="submit" class="btn btn-primary">Register</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Registration - ShopEase</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #4361ee;
+        --primary-dark: #3a56d4;
+        --secondary: #7209b7;
+        --light: #f8f9fa;
+        --dark: #212529;
+        --success: #2ecc71;
+        --danger: #e74c3c;
+        --gray: #6c757d;
+        --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        --transition: all 0.3s ease;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      body {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        background-color: var(--light);
+        color: var(--dark);
+      }
+
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 5%;
+        background-color: #ffffff;
+        box-shadow: var(--shadow);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+      }
+
+      .logo a {
+        text-decoration: none;
+        color: var(--dark);
+      }
+
+      .logo img {
+        height: 40px;
+        margin-right: 10px;
+      }
+
+      .logo h1 {
+        font-size: 1.8rem;
+        color: var(--primary);
+        font-weight: 700;
+      }
+
+      .nav-buttons {
+        display: flex;
+        gap: 15px;
+      }
+
+      .nav-btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition);
+      }
+
+      .login-btn {
+        background-color: transparent;
+        color: var(--primary);
+        border: 2px solid var(--primary);
+      }
+
+      .login-btn:hover {
+        background-color: var(--primary);
+        color: white;
+      }
+
+      .register-btn {
+        background-color: var(--primary);
+        color: white;
+        position: relative;
+      }
+
+      .register-btn:hover {
+        background-color: var(--primary-dark);
+      }
+
+      .dropdown {
+        position: relative;
+        display: inline-block;
+      }
+
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        right: 0;
+        background-color: #ffffff;
+        min-width: 220px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        z-index: 1;
+        overflow: hidden;
+        transition: var(--transition);
+      }
+
+      .dropdown:hover .dropdown-content {
+        display: block;
+        animation: fadeIn 0.3s;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .dropdown-option {
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+        color: var(--dark);
+        transition: var(--transition);
+      }
+
+      .dropdown-option:hover {
+        background-color: #f1f5ff;
+        color: var(--primary);
+      }
+
+      .alert {
+        position: fixed;
+        top: 80px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 15px 25px;
+        border-radius: 8px;
+        box-shadow: var(--shadow);
+        z-index: 1001;
+        display: flex;
+        align-items: center;
+        min-width: 300px;
+        max-width: 500px;
+        animation: slideDown 0.3s, fadeOut 0.5s 1.5s forwards;
+      }
+
+      .alert-success {
+        background-color: #d4edda;
+        color: #155724;
+        border-left: 4px solid var(--success);
+      }
+
+      .alert-danger {
+        background-color: #f8d7da;
+        color: #721c24;
+        border-left: 4px solid var(--danger);
+      }
+
+      .alert-icon {
+        margin-right: 10px;
+        font-size: 1.2rem;
+      }
+
+      @keyframes slideDown {
+        from {
+          transform: translate(-50%, -20px);
+          opacity: 0;
+        }
+        to {
+          transform: translate(-50%, 0);
+          opacity: 1;
+        }
+      }
+
+      @keyframes fadeOut {
+        from {
+          opacity: 1;
+        }
+        to {
+          opacity: 0;
+          visibility: hidden;
+        }
+      }
+
+      .register-container {
+        max-width: 550px;
+        width: 90%;
+        margin: 50px auto;
+        padding: 40px;
+        background-color: white;
+        border-radius: 12px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        animation: fadeIn 0.5s;
+      }
+
+      .register-header {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      .register-header h2 {
+        font-size: 2rem;
+        color: var(--dark);
+        margin-bottom: 10px;
+      }
+
+      .register-header p {
+        color: var(--gray);
+        font-size: 1rem;
+      }
+
+      .register-header .admin-badge {
+        display: inline-block;
+        background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        color: white;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        margin-top: 10px;
+      }
+
+      .form-group {
+        margin-bottom: 25px;
+        position: relative;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: var(--dark);
+      }
+
+      .form-group .input-with-icon {
+        position: relative;
+      }
+
+      .form-group .input-icon {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--gray);
+      }
+
+      .form-group input {
+        width: 100%;
+        padding: 12px 15px 12px 45px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: var(--transition);
+      }
+
+      .form-group input:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+        outline: none;
+      }
+
+      .error-message {
+        color: var(--danger);
+        font-size: 0.85rem;
+        margin-top: 5px;
+        display: block;
+      }
+
+      .checkbox-group {
+        display: flex;
+        align-items: center;
+        margin-bottom: 25px;
+      }
+
+      .checkbox-group input {
+        margin-right: 10px;
+        width: 18px;
+        height: 18px;
+        accent-color: var(--primary);
+      }
+
+      .checkbox-group label {
+        color: var(--dark);
+        font-size: 0.95rem;
+      }
+
+      .checkbox-group a {
+        color: var(--primary);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .checkbox-group a:hover {
+        text-decoration: underline;
+      }
+
+      .submit-button {
+        width: 100%;
+        padding: 14px;
+        background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .submit-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      .login-link {
+        text-align: center;
+        margin-top: 25px;
+        color: var(--gray);
+      }
+
+      .login-link a {
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: 600;
+        transition: var(--transition);
+      }
+
+      .login-link a:hover {
+        color: var(--primary-dark);
+        text-decoration: underline;
+      }
+
+      .footer {
+        background-color: #1a1a1a;
+        color: white;
+        padding: 3rem 5% 1.5rem;
+        margin-top: auto;
+      }
+
+      .footer-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .footer-logo {
+        display: flex;
+        align-items: center;
+      }
+
+      .footer-logo img {
+        height: 35px;
+        margin-right: 10px;
+      }
+
+      .footer-logo h2 {
+        font-size: 1.5rem;
+        color: white;
+      }
+
+      .social-icons {
+        display: flex;
+        gap: 15px;
+      }
+
+      .social-icons a {
+        color: white;
+        background-color: rgba(255, 255, 255, 0.1);
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: var(--transition);
+      }
+
+      .social-icons a:hover {
+        background-color: var(--primary);
+        transform: translateY(-3px);
+      }
+
+      .footer-bottom {
+        text-align: center;
+        padding-top: 1.5rem;
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.9rem;
+      }
+
+      @media (max-width: 768px) {
+        .register-container {
+          padding: 30px 20px;
+        }
+
+        .register-header h2 {
+          font-size: 1.8rem;
+        }
+
+        .footer-content {
+          flex-direction: column;
+          gap: 20px;
+          text-align: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="logo">
+        <a href="/">
+          <img src="/images/logo.png" alt="ShopEase Logo" />
+        </a>
+        <a href="/"><h1>ShopEase</h1></a>
+      </div>
+      <div class="nav-buttons">
+        <a href="/login"><button class="nav-btn login-btn">Login</button></a>
+        <div class="dropdown">
+          <button class="nav-btn register-btn">Register</button>
+          <div class="dropdown-content">
+            <a href="/admin/register" class="dropdown-option">
+              <i class="fas fa-user-shield"></i> Admin Register
+            </a>
+            <a href="/merchant/register" class="dropdown-option">
+              <i class="fas fa-store"></i> Merchant Register
+            </a>
+            <a href="/customer/register" class="dropdown-option">
+              <i class="fas fa-user"></i> Customer Register
+            </a>
+          </div>
         </div>
+      </div>
+    </nav>
+
+    <!-- Alert messages that will disappear after 2 seconds -->
+    <div th:if="${session.pass}" class="alert alert-success">
+      <i class="fas fa-check-circle alert-icon"></i>
+      <span th:text="${session.pass}"></span>
     </div>
-</body>
+    <div th:if="${session.fail}" class="alert alert-danger">
+      <i class="fas fa-exclamation-circle alert-icon"></i>
+      <span th:text="${session.fail}"></span>
+    </div>
+    <th:block th:text="${@messageRemover.remove()}"></th:block>
+
+    <div class="register-container">
+      <div class="register-header">
+        <h2>Admin Registration</h2>
+        <p>Create your administrator account</p>
+        <span class="admin-badge"><i class="fas fa-user-shield"></i> Admin Access</span>
+      </div>
+      
+      <form action="/admin/register" method="post" th:object="${userDto}">
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <div class="input-with-icon">
+            <i class="fas fa-user input-icon"></i>
+            <input type="text" id="name" name="name" th:field="*{name}" placeholder="Enter your full name" />
+            <span class="error-message" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <div class="input-with-icon">
+            <i class="fas fa-envelope input-icon"></i>
+            <input type="email" id="email" name="email" th:field="*{email}" placeholder="Enter your email" />
+                        <span class="error-message" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="password">Password</label>
+          <div class="input-with-icon">
+            <i class="fas fa-lock input-icon"></i>
+            <input type="password" id="password" name="password" th:field="*{password}" placeholder="Create a strong password" />
+            <span class="error-message" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Password</label>
+          <div class="input-with-icon">
+            <i class="fas fa-lock input-icon"></i>
+            <input type="password" id="confirmPassword" name="confirmPassword" th:field="*{confirmPassword}" placeholder="Confirm your password" />
+            <span class="error-message" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></span>
+          </div>
+        </div>
+        
+        <div class="checkbox-group">
+          <input type="checkbox" id="terms" name="terms" th:field="*{terms}" value="true" />
+          <label for="terms">I agree to the <a href="/terms">Terms and Conditions</a> and <a href="/privacy">Privacy Policy</a></label>
+          <span class="error-message" th:if="${#fields.hasErrors('terms')}" th:errors="*{terms}"></span>
+        </div>
+        
+        <button type="submit" class="submit-button">
+          <i class="fas fa-user-shield"></i> Register as Admin
+        </button>
+        
+        <div class="login-link">
+          Already have an account? <a href="/login">Login here</a>
+        </div>
+      </form>
+    </div>
+
+    <footer class="footer">
+      <div class="footer-bottom">
+        <p>&copy; 2025 ShopEase. All Rights Reserved.</p>
+      </div>
+    </footer>
+
+    <script>
+      // Script to automatically remove alerts after 2 seconds
+      document.addEventListener('DOMContentLoaded', function() {
+        const alerts = document.querySelectorAll('.alert');
+        
+        if (alerts.length > 0) {
+          setTimeout(function() {
+            alerts.forEach(alert => {
+              alert.style.display = 'none';
+            });
+          }, 2000);
+        }
+        
+        // Password visibility toggle for both password fields
+        const passwordFields = document.querySelectorAll('input[type="password"]');
+        
+        passwordFields.forEach(field => {
+          const togglePassword = document.createElement('i');
+          togglePassword.className = 'fas fa-eye';
+          togglePassword.style.position = 'absolute';
+          togglePassword.style.right = '15px';
+          togglePassword.style.top = '50%';
+          togglePassword.style.transform = 'translateY(-50%)';
+          togglePassword.style.cursor = 'pointer';
+          togglePassword.style.color = 'var(--gray)';
+          
+          field.parentElement.appendChild(togglePassword);
+          
+          togglePassword.addEventListener('click', function() {
+            if (field.type === 'password') {
+              field.type = 'text';
+              togglePassword.className = 'fas fa-eye-slash';
+            } else {
+              field.type = 'password';
+              togglePassword.className = 'fas fa-eye';
+            }
+          });
+        });
+        
+        // Password strength indicator
+        const passwordInput = document.getElementById('password');
+        if (passwordInput) {
+          const strengthIndicator = document.createElement('div');
+          strengthIndicator.style.height = '4px';
+          strengthIndicator.style.marginTop = '8px';
+          strengthIndicator.style.borderRadius = '2px';
+          strengthIndicator.style.transition = 'all 0.3s ease';
+          
+          passwordInput.parentElement.appendChild(strengthIndicator);
+          
+          passwordInput.addEventListener('input', function() {
+            const value = passwordInput.value;
+            let strength = 0;
+            
+            if (value.length >= 8) strength += 1;
+            if (value.match(/[A-Z]/)) strength += 1;
+            if (value.match(/[0-9]/)) strength += 1;
+            if (value.match(/[^A-Za-z0-9]/)) strength += 1;
+            
+            switch (strength) {
+              case 0:
+                strengthIndicator.style.width = '0%';
+                strengthIndicator.style.backgroundColor = 'transparent';
+                break;
+              case 1:
+                strengthIndicator.style.width = '25%';
+                strengthIndicator.style.backgroundColor = '#e74c3c';
+                break;
+              case 2:
+                strengthIndicator.style.width = '50%';
+                strengthIndicator.style.backgroundColor = '#f39c12';
+                break;
+              case 3:
+                strengthIndicator.style.width = '75%';
+                strengthIndicator.style.backgroundColor = '#3498db';
+                break;
+              case 4:
+                strengthIndicator.style.width = '100%';
+                strengthIndicator.style.backgroundColor = '#2ecc71';
+                break;
+            }
+          });
+        }
+        
+        // Password match validation
+        const confirmPasswordInput = document.getElementById('confirmPassword');
+        if (confirmPasswordInput && passwordInput) {
+          const matchIndicator = document.createElement('div');
+          matchIndicator.style.fontSize = '0.85rem';
+          matchIndicator.style.marginTop = '5px';
+          matchIndicator.style.display = 'none';
+          
+          confirmPasswordInput.parentElement.appendChild(matchIndicator);
+          
+          function checkPasswordMatch() {
+            if (confirmPasswordInput.value === '') {
+              matchIndicator.style.display = 'none';
+              return;
+            }
+            
+            if (passwordInput.value === confirmPasswordInput.value) {
+              matchIndicator.style.display = 'block';
+              matchIndicator.style.color = 'var(--success)';
+              matchIndicator.innerHTML = '<i class="fas fa-check-circle"></i> Passwords match';
+            } else {
+              matchIndicator.style.display = 'block';
+              matchIndicator.style.color = 'var(--danger)';
+              matchIndicator.innerHTML = '<i class="fas fa-times-circle"></i> Passwords do not match';
+            }
+          }
+          
+          confirmPasswordInput.addEventListener('input', checkPasswordMatch);
+          passwordInput.addEventListener('input', function() {
+            if (confirmPasswordInput.value !== '') {
+              checkPasswordMatch();
+            }
+          });
+        }
+      });
+    </script>
+  </body>
 </html>

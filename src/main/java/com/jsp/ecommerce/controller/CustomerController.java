@@ -46,5 +46,10 @@ public class CustomerController {
 	public String loadHome(HttpSession session) {
 		return customerService.loadHome(session);
 	}
+	
+	@GetMapping("/products")
+	public String viewProducts(HttpSession session, Model model) {
+		return customerService.viewProducts(session, model);
+	}
 
 }

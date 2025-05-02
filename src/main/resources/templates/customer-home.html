@@ -1,22 +1,456 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <div class="message">
-        <h2 style="color: green" th:text="${session.pass}"></h2>
-        <h2 style="color: red" th:text="${session.fail}"></h2>
-        <th:block th:text="${@messageRemover.remove()}"></th:block>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Customer Dashboard | ShopEase</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #4361ee;
+        --primary-dark: #3a56d4;
+        --secondary: #7209b7;
+        --light: #f8f9fa;
+        --dark: #212529;
+        --success: #2ecc71;
+        --danger: #e74c3c;
+        --gray: #6c757d;
+        --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        --transition: all 0.3s ease;
+        --customer: #7209b7;
+        --customer-dark: #6008a0;
+        --customer-gradient: linear-gradient(135deg, #7209b7 0%, #6008a0 100%);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      body {
+        min-height: 100vh;
+        background-color: #f5f7fa;
+        color: var(--dark);
+        display: flex;
+        flex-direction: column;
+      }
+
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 5%;
+        background-color: #ffffff;
+        box-shadow: var(--shadow);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+      }
+
+      .logo a {
+        text-decoration: none;
+        color: var(--dark);
+      }
+
+      .logo img {
+        height: 40px;
+        margin-right: 10px;
+      }
+
+      .logo h1 {
+        font-size: 1.8rem;
+        color: var(--primary);
+        font-weight: 700;
+      }
+
+      .customer-badge {
+        background: var(--customer-gradient);
+        color: white;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        margin-left: 10px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .logout-btn {
+        background-color: #f1f1f1;
+        color: var(--dark);
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 500;
+        transition: var(--transition);
+        text-decoration: none;
+      }
+
+      .logout-btn:hover {
+        background-color: #e9e9e9;
+      }
+
+      .alert {
+        position: fixed;
+        top: 80px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 15px 25px;
+        border-radius: 8px;
+        box-shadow: var(--shadow);
+        z-index: 1001;
+        display: flex;
+        align-items: center;
+        min-width: 300px;
+        max-width: 500px;
+        animation: slideDown 0.3s, fadeOut 0.5s 1.5s forwards;
+      }
+
+      .alert-success {
+        background-color: #d4edda;
+        color: #155724;
+        border-left: 4px solid var(--success);
+      }
+
+      .alert-danger {
+        background-color: #f8d7da;
+        color: #721c24;
+        border-left: 4px solid var(--danger);
+      }
+
+      .alert-icon {
+        margin-right: 10px;
+        font-size: 1.2rem;
+      }
+
+      @keyframes slideDown {
+        from {
+          transform: translate(-50%, -20px);
+          opacity: 0;
+        }
+        to {
+          transform: translate(-50%, 0);
+          opacity: 1;
+        }
+      }
+
+      @keyframes fadeOut {
+        from {
+          opacity: 1;
+        }
+        to {
+          opacity: 0;
+          visibility: hidden;
+        }
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+        flex: 1;
+      }
+
+      .welcome-section {
+        background: var(--customer-gradient);
+        color: white;
+        padding: 2.5rem;
+        border-radius: 15px;
+        margin-bottom: 2.5rem;
+        box-shadow: 0 5px 15px rgba(114, 9, 183, 0.2);
+      }
+
+      .welcome-title {
+        font-size: 2.2rem;
+        margin-bottom: 1rem;
+        font-weight: 600;
+      }
+
+      .welcome-text {
+        font-size: 1.1rem;
+        opacity: 0.9;
+        max-width: 700px;
+        line-height: 1.6;
+      }
+
+      .dashboard-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 25px;
+      }
+
+      .dashboard-card {
+        background-color: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        transition: var(--transition);
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+
+      .dashboard-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+      }
+
+      .card-header {
+        background: linear-gradient(45deg, rgba(114, 9, 183, 0.8) 0%, rgba(114, 9, 183, 0.6) 100%);
+        color: white;
+        padding: 1.5rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .card-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        display: block;
+      }
+
+      .card-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+      }
+
+      .card-description {
+        opacity: 0.9;
+        font-size: 0.95rem;
+        line-height: 1.5;
+      }
+
+      .card-body {
+        padding: 1.5rem;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .card-action {
+        margin-top: 1.5rem;
+        text-align: right;
+      }
+
+      .card-btn {
+        background-color: var(--customer);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: var(--transition);
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+      }
+
+      .card-btn:hover {
+        background-color: var(--customer-dark);
+      }
+
+      .footer {
+        background-color: #1a1a1a;
+        color: white;
+        padding: 3rem 5% 1.5rem;
+        margin-top: auto;
+      }
+
+      .footer-bottom {
+        text-align: center;
+        padding-top: 1.5rem;
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.9rem;
+      }
+
+      @media (max-width: 768px) {
+        .dashboard-grid {
+          grid-template-columns: 1fr;
+        }
+        
+        .welcome-section {
+          padding: 2rem;
+        }
+        
+        .welcome-title {
+          font-size: 1.8rem;
+        }
+      }
+
+      @media (max-width: 576px) {
+        .container {
+          padding: 1.5rem;
+        }
+        
+        .alert {
+          min-width: 90%;
+        }
+        
+        .welcome-section {
+          padding: 1.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="logo">
+        <a href="/customer/home">
+          <img src="/images/logo.png" alt="ShopEase Logo" />
+        </a>
+        <a href="/customer/home"><h1>ShopEase</h1></a>
+        <span class="customer-badge">
+          <i class="fas fa-user"></i> Customer
+        </span>
       </div>
-    <h1>Customer Home</h1>
-    <a href=""><button>Manage Profile</button></a>
-    <a href=""><button>view Products</button></a>
-    <a href=""><button>View Cart</button></a>
-    <a href=""><button>Track Order</button></a>
-    <a href=""><button>View Previous Orders</button></a> 
-    <a href="/logout"><button>Logout</button></a>
-</body>
+      <a href="/logout" class="logout-btn">
+        <i class="fas fa-sign-out-alt"></i> Logout
+      </a>
+    </nav>
+
+    <!-- Alert messages that will disappear after 2 seconds -->
+    <div th:if="${session.pass}" class="alert alert-success">
+      <i class="fas fa-check-circle alert-icon"></i>
+      <span th:text="${session.pass}"></span>
+    </div>
+    <div th:if="${session.fail}" class="alert alert-danger">
+      <i class="fas fa-exclamation-circle alert-icon"></i>
+      <span th:text="${session.fail}"></span>
+    </div>
+    <th:block th:text="${@messageRemover.remove()}"></th:block>
+
+    <div class="container">
+      <section class="welcome-section">
+        <h1 class="welcome-title">Welcome to Your Dashboard</h1>
+        <p class="welcome-text">
+          Explore our wide range of products, manage your profile, track your orders, and enjoy a seamless shopping experience with ShopEase.
+        </p>
+      </section>
+
+      <div class="dashboard-grid">
+        <div class="dashboard-card">
+          <div class="card-header">
+            <i class="fas fa-user-circle card-icon"></i>
+            <h2 class="card-title">Manage Profile</h2>
+            <p class="card-description">Update your personal information and preferences</p>
+          </div>
+          <div class="card-body">
+            <p>Keep your profile information up to date to ensure smooth delivery and communication.</p>
+            <div class="card-action">
+              <a href="/customer/profile" class="card-btn">
+                <i class="fas fa-user-edit"></i> Manage Profile
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="dashboard-card">
+          <div class="card-header">
+            <i class="fas fa-shopping-bag card-icon"></i>
+            <h2 class="card-title">Browse Products</h2>
+            <p class="card-description">Explore our extensive collection of products</p>
+          </div>
+          <div class="card-body">
+            <p>Discover high-quality products across various categories at competitive prices.</p>
+            <div class="card-action">
+              <a href="/customer/products" class="card-btn">
+                <i class="fas fa-search"></i> View Products
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="dashboard-card">
+          <div class="card-header">
+            <i class="fas fa-shopping-cart card-icon"></i>
+            <h2 class="card-title">Your Cart</h2>
+            <p class="card-description">Review and manage items in your shopping cart</p>
+          </div>
+          <div class="card-body">
+            <p>Check your selected items, update quantities, and proceed to checkout.</p>
+            <div class="card-action">
+              <a href="/customer/cart" class="card-btn">
+                <i class="fas fa-shopping-cart"></i> View Cart
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="dashboard-card">
+          <div class="card-header">
+            <i class="fas fa-truck card-icon"></i>
+            <h2 class="card-title">Track Orders</h2>
+            <p class="card-description">Monitor the status of your current orders</p>
+          </div>
+          <div class="card-body">
+            <p>Get real-time updates on your order status, from processing to delivery.</p>
+            <div class="card-action">
+              <a href="/customer/track-orders" class="card-btn">
+                <i class="fas fa-map-marker-alt"></i> Track Orders
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="dashboard-card">
+          <div class="card-header">
+            <i class="fas fa-history card-icon"></i>
+            <h2 class="card-title">Order History</h2>
+            <p class="card-description">View details of your previous purchases</p>
+          </div>
+          <div class="card-body">
+            <p>Access information about your past orders, including invoices and delivery details.</p>
+            <div class="card-action">
+              <a href="/customer/order-history" class="card-btn">
+                <i class="fas fa-clipboard-list"></i> View History
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <div class="footer-bottom">
+        <p>&copy; 2025 ShopEase. All Rights Reserved.</p>
+      </div>
+    </footer>
+
+    <script>
+      // Script to automatically remove alerts after 2 seconds
+      document.addEventListener('DOMContentLoaded', function() {
+        const alerts = document.querySelectorAll('.alert');
+        
+        if (alerts.length > 0) {
+          setTimeout(function() {
+            alerts.forEach(alert => {
+              alert.style.display = 'none';
+            });
+          }, 2000);
+        }
+      });
+    </script>
+  </body>
 </html>

@@ -1,21 +1,574 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OTP Verification | ShopEase</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #4361ee;
+        --primary-dark: #3a56d4;
+        --secondary: #7209b7;
+        --light: #f8f9fa;
+        --dark: #212529;
+        --success: #2ecc71;
+        --danger: #e74c3c;
+        --gray: #6c757d;
+        --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        --transition: all 0.3s ease;
+      }
 
-	
-    <div class="message">
-        <h2 style="color: green" th:text="${session.pass}"></h2>
-        <h2 style="color: red" th:text="${session.fail}"></h2>
-        <th:block th:text="${@messageRemover.remove()}"></th:block>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      body {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        background-color: var(--light);
+        color: var(--dark);
+      }
+
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 5%;
+        background-color: #ffffff;
+        box-shadow: var(--shadow);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+      }
+
+      .logo a {
+        text-decoration: none;
+        color: var(--dark);
+      }
+
+      .logo img {
+        height: 40px;
+        margin-right: 10px;
+      }
+
+      .logo h1 {
+        font-size: 1.8rem;
+        color: var(--primary);
+        font-weight: 700;
+      }
+
+      .nav-buttons {
+        display: flex;
+        gap: 15px;
+      }
+
+      .nav-btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition);
+      }
+
+      .login-btn {
+        background-color: transparent;
+        color: var(--primary);
+        border: 2px solid var(--primary);
+      }
+
+      .login-btn:hover {
+        background-color: var(--primary);
+        color: white;
+      }
+
+      .register-btn {
+        background-color: var(--primary);
+        color: white;
+        position: relative;
+      }
+
+      .register-btn:hover {
+        background-color: var(--primary-dark);
+      }
+
+      .alert {
+        position: fixed;
+        top: 80px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 15px 25px;
+        border-radius: 8px;
+        box-shadow: var(--shadow);
+        z-index: 1001;
+        display: flex;
+        align-items: center;
+        min-width: 300px;
+        max-width: 500px;
+        animation: slideDown 0.3s, fadeOut 0.5s 1.5s forwards;
+      }
+
+      .alert-success {
+        background-color: #d4edda;
+        color: #155724;
+        border-left: 4px solid var(--success);
+      }
+
+      .alert-danger {
+        background-color: #f8d7da;
+        color: #721c24;
+        border-left: 4px solid var(--danger);
+      }
+
+      .alert-icon {
+        margin-right: 10px;
+        font-size: 1.2rem;
+      }
+
+      @keyframes slideDown {
+        from {
+          transform: translate(-50%, -20px);
+          opacity: 0;
+        }
+        to {
+          transform: translate(-50%, 0);
+          opacity: 1;
+        }
+      }
+
+      @keyframes fadeOut {
+        from {
+          opacity: 1;
+        }
+        to {
+          opacity: 0;
+          visibility: hidden;
+        }
+      }
+
+      .otp-container {
+        max-width: 450px;
+        width: 90%;
+        margin: 50px auto;
+        padding: 40px;
+        background-color: white;
+        border-radius: 12px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        animation: fadeIn 0.5s;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .otp-header {
+        margin-bottom: 30px;
+      }
+
+      .otp-header h2 {
+        font-size: 1.8rem;
+        color: var(--dark);
+        margin-bottom: 10px;
+      }
+
+      .otp-header p {
+        color: var(--gray);
+        font-size: 1rem;
+        line-height: 1.5;
+      }
+
+      .otp-icon {
+        font-size: 3rem;
+        color: var(--primary);
+        margin-bottom: 20px;
+        background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .otp-form {
+        margin-top: 20px;
+      }
+
+      .otp-input-group {
+        position: relative;
+        margin-bottom: 25px;
+      }
+
+      .otp-input {
+        width: 100%;
+        padding: 15px 20px;
+        font-size: 1.2rem;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        text-align: center;
+        letter-spacing: 8px;
+        font-weight: 600;
+        transition: var(--transition);
+      }
+
+      .otp-input:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+        outline: none;
+      }
+
+      .otp-input::placeholder {
+        letter-spacing: normal;
+        font-weight: normal;
+        color: var(--gray);
+      }
+
+      .submit-button {
+        width: 100%;
+        padding: 14px;
+        background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .submit-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      .resend-link {
+        display: block;
+        margin-top: 20px;
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: 500;
+        transition: var(--transition);
+      }
+
+      .resend-link:hover {
+        color: var(--secondary);
+        text-decoration: underline;
+      }
+
+      .timer {
+        display: block;
+        margin-top: 15px;
+        color: var(--gray);
+        font-size: 0.9rem;
+      }
+
+      .timer span {
+        font-weight: 600;
+        color: var(--primary);
+      }
+
+      .otp-digits {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 25px;
+      }
+
+      .digit-input {
+        width: 50px;
+        height: 60px;
+        font-size: 1.5rem;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        text-align: center;
+        font-weight: 600;
+        transition: var(--transition);
+      }
+
+      .digit-input:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+        outline: none;
+      }
+
+      .footer {
+        background-color: #1a1a1a;
+        color: white;
+        padding: 3rem 5% 1.5rem;
+        margin-top: auto;
+      }
+
+      .footer-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .footer-logo {
+        display: flex;
+        align-items: center;
+      }
+
+      .footer-logo img {
+        height: 35px;
+        margin-right: 10px;
+      }
+
+      .footer-logo h2 {
+        font-size: 1.5rem;
+        color: white;
+      }
+
+      .social-icons {
+        display: flex;
+        gap: 15px;
+      }
+
+      .social-icons a {
+        color: white;
+        background-color: rgba(255, 255, 255, 0.1);
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: var(--transition);
+      }
+
+      .social-icons a:hover {
+        background-color: var(--primary);
+        transform: translateY(-3px);
+      }
+
+      .footer-bottom {
+        text-align: center;
+        padding-top: 1.5rem;
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.9rem;
+      }
+
+      @media (max-width: 768px) {
+        .otp-container {
+          padding: 30px 20px;
+        }
+
+        .otp-header h2 {
+          font-size: 1.5rem;
+        }
+
+        .otp-digits {
+          gap: 5px;
+        }
+
+        .digit-input {
+          width: 40px;
+          height: 50px;
+          font-size: 1.2rem;
+        }
+
+        .footer-content {
+          flex-direction: column;
+          gap: 20px;
+          text-align: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="logo">
+        <a href="/">
+          <img src="/images/logo.png" alt="ShopEase Logo" />
+        </a>
+        <a href="/"><h1>ShopEase</h1></a>
       </div>
-    <form action="/admin/otp" method="post">
-        <input type="text" name="otp" placeholder="Enter OTP Received">
-        <button>Submit</button>
-    </form>
-</body>
+      <div class="nav-buttons">
+        <a href="/login"><button class="nav-btn login-btn">Login</button></a>
+        <a href="/register"><button class="nav-btn register-btn">Register</button></a>
+      </div>
+    </nav>
+
+    <!-- Alert messages that will disappear after 2 seconds -->
+    <div th:if="${session.pass}" class="alert alert-success">
+      <i class="fas fa-check-circle alert-icon"></i>
+      <span th:text="${session.pass}"></span>
+    </div>
+    <div th:if="${session.fail}" class="alert alert-danger">
+      <i class="fas fa-exclamation-circle alert-icon"></i>
+      <span th:text="${session.fail}"></span>
+    </div>
+    <th:block th:text="${@messageRemover.remove()}"></th:block>
+
+    <div class="otp-container">
+      <div class="otp-icon">
+        <i class="fas fa-shield-alt"></i>
+      </div>
+      <div class="otp-header">
+        <h2>OTP Verification</h2>
+        <p>We've sent a verification code to your email address. Please enter the code below to verify your account.</p>
+      </div>
+      
+      <form action="/admin/otp" method="post" class="otp-form">
+        <!-- Single input field for OTP -->
+        <div class="otp-input-group">
+          <input 
+            type="text" 
+            name="otp" 
+            class="otp-input" 
+            placeholder="Enter OTP" 
+            maxlength="6" 
+            autocomplete="off"
+            required
+          />
+        </div>
+        
+        <button type="submit" class="submit-button">
+          <i class="fas fa-check-circle"></i> Verify OTP
+        </button>
+      </form>
+      
+      <div class="timer">
+        Time remaining: <span id="countdown">02:00</span>
+      </div>
+      
+      <a href="#" class="resend-link" id="resendLink" style="display: none;">
+        <i class="fas fa-redo-alt"></i> Resend OTP
+      </a>
+    </div>
+
+    <footer class="footer">
+      
+      <div class="footer-bottom">
+        <p>&copy; 2025 ShopEase. All Rights Reserved.</p>
+      </div>
+    </footer>
+
+    <script>
+      // Script to automatically remove alerts after 2 seconds
+      document.addEventListener('DOMContentLoaded', function() {
+        const alerts = document.querySelectorAll('.alert');
+        
+        if (alerts.length > 0) {
+          setTimeout(function() {
+            alerts.forEach(alert => {
+              alert.style.display = 'none';
+            });
+          }, 2000);
+        }
+        // Countdown timer for OTP expiration
+        const countdownEl = document.getElementById('countdown');
+        const resendLink = document.getElementById('resendLink');
+        let timeLeft = 120; // 2 minutes in seconds
+        
+        function updateCountdown() {
+          const minutes = Math.floor(timeLeft / 60);
+          let seconds = timeLeft % 60;
+          seconds = seconds < 10 ? '0' + seconds : seconds;
+          
+          countdownEl.textContent = `${minutes}:${seconds}`;
+          
+          if (timeLeft <= 0) {
+            clearInterval(countdownTimer);
+            countdownEl.textContent = '00:00';
+            countdownEl.style.color = 'var(--danger)';
+            resendLink.style.display = 'block';
+          } else {
+            timeLeft--;
+          }
+        }
+        
+        const countdownTimer = setInterval(updateCountdown, 1000);
+        updateCountdown();
+        
+        // Focus handling for OTP input
+        const otpInput = document.querySelector('.otp-input');
+        
+        otpInput.addEventListener('input', function() {
+          // Only allow numbers
+          this.value = this.value.replace(/[^0-9]/g, '');
+          
+          // Limit to 6 digits
+          if (this.value.length > 6) {
+            this.value = this.value.slice(0, 6);
+          }
+        });
+        
+        // Auto-submit when 6 digits are entered
+        otpInput.addEventListener('keyup', function() {
+          if (this.value.length === 6) {
+            // Optional: auto-submit after a short delay
+            // setTimeout(() => this.form.submit(), 500);
+          }
+        });
+        
+        // Resend OTP functionality
+        resendLink.addEventListener('click', function(e) {
+          e.preventDefault();
+          
+          // Show loading state
+          this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+          this.style.pointerEvents = 'none';
+          
+          // Simulate API call to resend OTP
+          setTimeout(() => {
+            // Reset timer
+            timeLeft = 120;
+            countdownEl.style.color = 'var(--primary)';
+            resendLink.style.display = 'none';
+            
+            // Reset the resend link text
+            resendLink.innerHTML = '<i class="fas fa-redo-alt"></i> Resend OTP';
+            resendLink.style.pointerEvents = 'auto';
+            
+            // Restart countdown
+            clearInterval(countdownTimer);
+            countdownTimer = setInterval(updateCountdown, 1000);
+            
+            // Show success message
+            const alertContainer = document.createElement('div');
+            alertContainer.className = 'alert alert-success';
+            alertContainer.innerHTML = '<i class="fas fa-check-circle alert-icon"></i><span>OTP has been resent to your email</span>';
+            document.body.appendChild(alertContainer);
+            
+            setTimeout(() => {
+              alertContainer.style.opacity = '0';
+              setTimeout(() => alertContainer.remove(), 300);
+            }, 2000);
+            
+          }, 1500);
+        });
+      });
+    </script>
+  </body>
 </html>
