@@ -17,6 +17,6 @@ public interface CustomerService {
 
 	String loadHome(HttpSession session);
 
-	String viewProducts(HttpSession session, Model model);
+	String viewProducts(HttpSession session, Model model, String category, String sort, String search);
 
 }

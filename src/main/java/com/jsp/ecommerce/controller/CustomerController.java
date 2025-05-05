@@ -46,10 +46,13 @@ public class CustomerController {
 	public String loadHome(HttpSession session) {
 		return customerService.loadHome(session);
 	}
-	
+
 	@GetMapping("/products")
-	public String viewProducts(HttpSession session, Model model) {
-		return customerService.viewProducts(session, model);
+	public String viewProducts(HttpSession session, Model model,
+			@RequestParam(name = "category", required = false) String category,
+			@RequestParam(name = "sort", required = false) String sort,
+			@RequestParam(name = "search", required = false) String search) {
+		return customerService.viewProducts(session, model,category,sort,search);
 	}
 
 }
