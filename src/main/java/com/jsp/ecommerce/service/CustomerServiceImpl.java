@@ -11,13 +11,17 @@ import org.springframework.validation.BindingResult;
 
 import com.jsp.ecommerce.dto.Status;
 import com.jsp.ecommerce.dto.UserDto;
+import com.jsp.ecommerce.entity.Cart;
 import com.jsp.ecommerce.entity.Customer;
+import com.jsp.ecommerce.entity.OrderItem;
 import com.jsp.ecommerce.entity.Product;
 import com.jsp.ecommerce.helper.AES;
 import com.jsp.ecommerce.helper.EmailSender;
 import com.jsp.ecommerce.repository.AdminRepository;
+import com.jsp.ecommerce.repository.CartRepository;
 import com.jsp.ecommerce.repository.CustomerRepository;
 import com.jsp.ecommerce.repository.MerchantRepository;
+import com.jsp.ecommerce.repository.OrderItemRepository;
 import com.jsp.ecommerce.repository.ProductRepository;
 
 import jakarta.servlet.http.HttpSession;
@@ -34,6 +38,10 @@ public class CustomerServiceImpl implements CustomerService {
 	EmailSender emailSender;
 	@Autowired
 	ProductRepository productRepository;
+	@Autowired
+	CartRepository cartRepository;
+	@Autowired
+	OrderItemRepository itemRepository;
 
 	@Override
 	public String register(UserDto userDto, Model model) {
@@ -115,11 +123,13 @@ public class CustomerServiceImpl implements CustomerService {
 						products = productRepository.findByStatus(Status.APPROVED, Sort.by(split[0]).descending());
 				}
 			}
-			if(category!=null) {
-				products=productRepository.findByStatusAndCategory(Status.APPROVED,category,Sort.by("name").ascending());
+			if (category != null) {
+				products = productRepository.findByStatusAndCategory(Status.APPROVED, category,
+						Sort.by("name").ascending());
 			}
-			if(search!=null) {
-				products=productRepository.findByStatusAndNameLike(Status.APPROVED,"%"+search+"%",Sort.by("name").ascending());
+			if (search != null) {
+				products = productRepository.findByStatusAndNameLike(Status.APPROVED, "%" + search + "%",
+						Sort.by("name").ascending());
 			}
 			if (products.isEmpty()) {
 				session.setAttribute("fail", "No Products Added Yet");
@@ -128,6 +138,67 @@ public class CustomerServiceImpl implements CustomerService {
 				model.addAttribute("products", products);
 				return "view-products.html";
 			}
+		} else {
+			session.setAttribute("fail", "Invalid Session, First Login to Access");
+			return "redirect:/login";
+		}
+	}
+
+	@Override
+	public String addToCart(Long id, HttpSession session) {
+		Customer customer = (Customer) session.getAttribute("customer");
+		if (customer != null) {
+			System.err.println("***** Valid Customer ********");
+			Product product = productRepository.findById(id).orElseThrow();
+
+			Cart cart = cartRepository.findByCustomer(customer);
+			if (cart == null) {
+
+				System.err.println("***** No Cart new One Created ********");
+
+				cart = new Cart();
+				cart.setCustomer(customer);
+				cartRepository.save(cart);
+			}
+			List<OrderItem> items = itemRepository.findByCart(cart);
+			if (items.isEmpty()) {
+				System.err.println("***** No Items in Cart so directly Added ********");
+				OrderItem item = new OrderItem();
+				item.setQuantity(1L);
+				item.setPrice(product.getPrice());
+				item.setProduct(product);
+				item.setCart(cart);
+				itemRepository.save(item);
+				session.setAttribute("pass", product.getName() + " added to cart success");
+			} else {
+				System.err.println("***** Items are present in Cart ********");
+				boolean flag = true;
+				for (OrderItem item : items) {
+					if (item.getProduct() == product) {
+						item.setQuantity(item.getQuantity() + 1);
+						itemRepository.save(item);
+						session.setAttribute("pass",
+								product.getName() + " was already in cart increased quantity success");
+						flag = false;
+						System.err.println("***** Same Item was there in cart ********");
+
+						break;
+					}
+				}
+
+				if (flag) {
+					System.err.println("***** Items are there but its not the same ********");
+
+					OrderItem item = new OrderItem();
+					item.setQuantity(1L);
+					item.setPrice(product.getPrice());
+					item.setProduct(product);
+					item.setCart(cart);
+					itemRepository.save(item);
+					session.setAttribute("pass", product.getName() + " added to cart success");
+				}
+			}
+			return "redirect:/customer/products";
 		} else {
 			session.setAttribute("fail", "Invalid Session, First Login to Access");
 			return "redirect:/login";
