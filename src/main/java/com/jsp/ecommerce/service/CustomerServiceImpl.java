@@ -148,47 +148,17 @@ public class CustomerServiceImpl implements CustomerService {
 	public String addToCart(Long id, HttpSession session) {
 		Customer customer = (Customer) session.getAttribute("customer");
 		if (customer != null) {
-			System.err.println("***** Valid Customer ********");
 			Product product = productRepository.findById(id).orElseThrow();
+			if (product.getStock() > 0) {
+				Cart cart = cartRepository.findByCustomer(customer);
+				if (cart == null) {
 
-			Cart cart = cartRepository.findByCustomer(customer);
-			if (cart == null) {
-
-				System.err.println("***** No Cart new One Created ********");
-
-				cart = new Cart();
-				cart.setCustomer(customer);
-				cartRepository.save(cart);
-			}
-			List<OrderItem> items = itemRepository.findByCart(cart);
-			if (items.isEmpty()) {
-				System.err.println("***** No Items in Cart so directly Added ********");
-				OrderItem item = new OrderItem();
-				item.setQuantity(1L);
-				item.setPrice(product.getPrice());
-				item.setProduct(product);
-				item.setCart(cart);
-				itemRepository.save(item);
-				session.setAttribute("pass", product.getName() + " added to cart success");
-			} else {
-				System.err.println("***** Items are present in Cart ********");
-				boolean flag = true;
-				for (OrderItem item : items) {
-					if (item.getProduct() == product) {
-						item.setQuantity(item.getQuantity() + 1);
-						itemRepository.save(item);
-						session.setAttribute("pass",
-								product.getName() + " was already in cart increased quantity success");
-						flag = false;
-						System.err.println("***** Same Item was there in cart ********");
-
-						break;
-					}
+					cart = new Cart();
+					cart.setCustomer(customer);
+					cartRepository.save(cart);
 				}
-
-				if (flag) {
-					System.err.println("***** Items are there but its not the same ********");
-
+				List<OrderItem> items = itemRepository.findByCart(cart);
+				if (items.isEmpty()) {
 					OrderItem item = new OrderItem();
 					item.setQuantity(1L);
 					item.setPrice(product.getPrice());
@@ -196,9 +166,104 @@ public class CustomerServiceImpl implements CustomerService {
 					item.setCart(cart);
 					itemRepository.save(item);
 					session.setAttribute("pass", product.getName() + " added to cart success");
+				} else {
+					boolean flag = true;
+					for (OrderItem item : items) {
+						if (item.getProduct() == product ) {
+							if(product.getStock() > item.getQuantity()) {
+							item.setQuantity(item.getQuantity() + 1);
+							itemRepository.save(item);
+							session.setAttribute("pass",
+									product.getName() + " was already in cart increased quantity success");
+							}else {
+								session.setAttribute("fail",
+										product.getName() + " is already present and out of stock");
+							}
+							flag = false;
+							break;
+						}
+					}
+
+					if (flag) {
+
+						OrderItem item = new OrderItem();
+						item.setQuantity(1L);
+						item.setPrice(product.getPrice());
+						item.setProduct(product);
+						item.setCart(cart);
+						itemRepository.save(item);
+						session.setAttribute("pass", product.getName() + " added to cart success");
+					}
 				}
 			}
 			return "redirect:/customer/products";
+		} else {
+			session.setAttribute("fail", "Invalid Session, First Login to Access");
+			return "redirect:/login";
+		}
+	}
+
+	@Override
+	public String viewCart(HttpSession session, Model model) {
+		Customer customer = (Customer) session.getAttribute("customer");
+		if (customer != null) {
+			Cart cart = cartRepository.findByCustomer(customer);
+			if (cart == null) {
+				session.setAttribute("fail", "No Items in Cart");
+				return "redirect:/customer/home";
+			} else {
+				List<OrderItem> items = itemRepository.findByCart(cart);
+				if (items.isEmpty()) {
+					session.setAttribute("fail", "No Items in Cart");
+					return "redirect:/customer/home";
+				} else {
+					model.addAttribute("items", items);
+					model.addAttribute("total", items.stream().mapToDouble(x -> x.getPrice() * x.getQuantity()).sum());
+					return "view-cart.html";
+				}
+			}
+		} else {
+			session.setAttribute("fail", "Invalid Session, First Login to Access");
+			return "redirect:/login";
+		}
+	}
+
+	@Override
+	public String increaseQuantity(Long id, HttpSession session) {
+		Customer customer = (Customer) session.getAttribute("customer");
+		if (customer != null) {
+			OrderItem item = itemRepository.findById(id).orElseThrow();
+			if (item.getQuantity() < item.getProduct().getStock()) {
+				item.setQuantity(item.getQuantity()+1);
+				itemRepository.save(item);
+				session.setAttribute("pass", "Quantity Increased Success");
+				return "redirect:/customer/cart";
+			} else {
+				session.setAttribute("fail", "Out of Stock");
+				return "redirect:/customer/cart";
+			}
+		} else {
+			session.setAttribute("fail", "Invalid Session, First Login to Access");
+			return "redirect:/login";
+		}
+	}
+
+	@Override
+	public String decreaseQuantity(Long id, HttpSession session) {
+		Customer customer = (Customer) session.getAttribute("customer");
+		if (customer != null) {
+			OrderItem item = itemRepository.findById(id).orElseThrow();
+			
+			if (item.getQuantity() > 1) {
+				item.setQuantity(item.getQuantity()-1);
+				itemRepository.save(item);
+				session.setAttribute("pass", "Quantity decreased Success");
+				return "redirect:/customer/cart";
+			} else {
+				itemRepository.delete(item);
+				session.setAttribute("pass", "Quantity decreased Success");
+				return "redirect:/customer/cart";
+			}
 		} else {
 			session.setAttribute("fail", "Invalid Session, First Login to Access");
 			return "redirect:/login";

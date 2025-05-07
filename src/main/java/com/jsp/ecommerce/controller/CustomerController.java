@@ -61,4 +61,18 @@ public class CustomerController {
 		return customerService.addToCart(id, session);
 	}
 
+	@GetMapping("/cart")
+	public String viewCart(HttpSession session, Model model) {
+		return customerService.viewCart(session, model);
+	}
+
+	@GetMapping("/increase/{id}")
+	public String increase(@PathVariable("id") Long id, HttpSession session) {
+		return customerService.increaseQuantity(id, session);
+	}
+	
+	@GetMapping("/decrease/{id}")
+	public String decrease(@PathVariable("id") Long id, HttpSession session) {
+		return customerService.decreaseQuantity(id, session);
+	}
 }
