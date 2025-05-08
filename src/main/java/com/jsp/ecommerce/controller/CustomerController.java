@@ -70,9 +70,19 @@ public class CustomerController {
 	public String increase(@PathVariable("id") Long id, HttpSession session) {
 		return customerService.increaseQuantity(id, session);
 	}
-	
+
 	@GetMapping("/decrease/{id}")
 	public String decrease(@PathVariable("id") Long id, HttpSession session) {
 		return customerService.decreaseQuantity(id, session);
+	}
+
+	@GetMapping("/payment")
+	public String proceedPayment(HttpSession session, Model model) {
+		return customerService.proceedPayment(session, model);
+	}
+
+	@PostMapping("/payment/{id}")
+	public String confirmPayment(@PathVariable("id") Long id, @RequestParam("razorpay_payment_id") String paymentId,HttpSession session) {
+		return customerService.confirmPament(id,paymentId,session);
 	}
 }
