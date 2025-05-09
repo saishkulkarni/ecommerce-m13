@@ -6,6 +6,11 @@
     <title>Document</title>
 </head>
 <body>
+    <h1>Confirm Once</h1>
+    <h2>Mobile: <span th:text="${mobile}"></span></h2>
+    <h2>Address: <span th:text="${address}"></span></h2>
+    <h1>If Not Correct update in <a href="/customer/manage-profile"><button> Manage - Profile</button></a></h1>
+
     <button id="rzp-button1">Pay with Razorpay</button>
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script th:inline="javascript">

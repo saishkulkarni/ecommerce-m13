@@ -290,32 +290,41 @@ public class CustomerServiceImpl implements CustomerService {
 	public String proceedPayment(HttpSession session, Model model) {
 		Customer customer = (Customer) session.getAttribute("customer");
 		if (customer != null) {
-			Cart cart = cartRepository.findByCustomer(customer);
-			if (cart == null) {
-				session.setAttribute("fail", "No Items in Cart");
-				return "redirect:/customer/home";
+			if (customer.getAddress() == null || customer.getMobile() == null) {
+				session.setAttribute("fail", "First add Address and Mobile Number in manage profile");
+				return "redirect:/customer/manage-profile";
 			} else {
-				List<OrderItem> items = itemRepository.findByCart(cart);
-				if (items.isEmpty()) {
+				Cart cart = cartRepository.findByCustomer(customer);
+				if (cart == null) {
 					session.setAttribute("fail", "No Items in Cart");
 					return "redirect:/customer/home";
 				} else {
-					double amount = items.stream().mapToDouble(x -> x.getPrice() * x.getQuantity()).sum();
-					String orderId = payHelper.createPayment(amount);
+					List<OrderItem> items = itemRepository.findByCart(cart);
+					if (items.isEmpty()) {
+						session.setAttribute("fail", "No Items in Cart");
+						return "redirect:/customer/home";
+					} else {
+						double amount = items.stream().mapToDouble(x -> x.getPrice() * x.getQuantity()).sum();
+						String orderId = payHelper.createPayment(amount);
 
-					Orders order = new Orders();
-					order.setCustomer(customer);
-					order.setOrderStatus(OrderStatus.PLACED);
-					order.setPaymentStatus(PaymentStatus.PENDING);
-					order.setTotalAmount(amount);
-					orderRepository.save(order);
+						Orders order = new Orders();
+						order.setCustomer(customer);
+						order.setOrderStatus(OrderStatus.PLACED);
+						order.setPaymentStatus(PaymentStatus.PENDING);
+						order.setTotalAmount(amount);
+						order.setAddress(customer.getAddress());
+						order.setMobile(customer.getMobile());
+						orderRepository.save(order);
 
-					model.addAttribute("key", key);
-					model.addAttribute("amount", amount * 100);
-					model.addAttribute("orderId", orderId);
-					model.addAttribute("url", "/customer/payment/" + order.getId());
+						model.addAttribute("address", customer.getAddress());
+						model.addAttribute("mobile", customer.getMobile());
+						model.addAttribute("key", key);
+						model.addAttribute("amount", amount * 100);
+						model.addAttribute("orderId", orderId);
+						model.addAttribute("url", "/customer/payment/" + order.getId());
 
-					return "payment.html";
+						return "payment.html";
+					}
 				}
 			}
 		} else {
@@ -355,6 +364,44 @@ public class CustomerServiceImpl implements CustomerService {
 
 			session.setAttribute("pass", "Payment Success and Order Placed");
 			return "redirect:/customer/home";
+		} else {
+			session.setAttribute("fail", "Invalid Session, First Login to Access");
+			return "redirect:/login";
+		}
+	}
+
+	@Override
+	public String manageProfile(HttpSession session, Model model) {
+		Customer customer = (Customer) session.getAttribute("customer");
+		if (customer != null) {
+			model.addAttribute("name", customer.getName());
+			model.addAttribute("address", customer.getAddress());
+			model.addAttribute("mobile", customer.getMobile());
+			return "customer-manage-profile";
+		} else {
+			session.setAttribute("fail", "Invalid Session, First Login to Access");
+			return "redirect:/login";
+		}
+	}
+
+	@Override
+	public String manageProfile(HttpSession session, UserDto dto, Long mobile, String address) {
+		Customer customer = (Customer) session.getAttribute("customer");
+		if (customer != null) {
+			if (dto.getPassword().length()>0 && !dto.getPassword().matches("^.*(?=.{8,})(?=..*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$")) {
+				session.setAttribute("fail",
+						"Password is Not Strong Enough Should be 8 char with one upper , lower , special char and digit");
+				return "redirect:/customer/manage-profile";
+			} else {
+				customer.setMobile(mobile);
+				customer.setAddress(address);
+				customer.setName(dto.getName());
+				if(dto.getPassword().length()>0)
+				customer.setPassword(AES.encrypt(dto.getPassword()));
+				customerRepository.save(customer);
+				session.setAttribute("pass", "Profile Updated Success");
+				return "redirect:/customer/home";
+			}
 		} else {
 			session.setAttribute("fail", "Invalid Session, First Login to Access");
 			return "redirect:/login";

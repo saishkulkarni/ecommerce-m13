@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Manage - Profile</h1>
+<div th:if="${session.pass}" class="alert alert-success">
+      <i class="fas fa-check-circle alert-icon"></i>
+      <span th:text="${session.pass}"></span>
+    </div>
+    <div th:if="${session.fail}" class="alert alert-danger">
+      <i class="fas fa-exclamation-circle alert-icon"></i>
+      <span th:text="${session.fail}"></span>
+    </div>
+    <th:block th:text="${@messageRemover.remove()}"></th:block>
+
+    <form action="/customer/manage-profile" method="post">
+        Name: <input type="text" name="name" th:value="${name}"><br><br>
+        Mobile: <input type="number" name="mobile" th:value="${mobile}"><br><br>
+        Address: <textarea name="address" rows="5" cols="30">
+			<th:block th:text="${address}"></th:block>
+		</textarea>
+		<br><br>
+        Password: <input type="password" name="password"><br><br>(Leave Blank if DOnt want to update)
+        <button>Update</button>
+    </form>
+    <br><br>
+    <a href="/customer/home"><button>Back</button></a>
+</body>
+</html>
