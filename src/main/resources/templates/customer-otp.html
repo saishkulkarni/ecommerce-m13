@@ -41,6 +41,27 @@
         flex-direction: column;
         background-color: var(--light);
         color: var(--dark);
+        background-image: radial-gradient(
+          rgba(52, 152, 219, 0.05) 2px,
+          transparent 2px
+        );
+        background-size: 30px 30px;
+      }
+
+      /* Skip link for accessibility */
+      .skip-link {
+        position: absolute;
+        top: -40px;
+        left: 0;
+        background: var(--primary);
+        color: white;
+        padding: 8px;
+        z-index: 1001;
+        transition: top 0.3s;
+      }
+
+      .skip-link:focus {
+        top: 0;
       }
 
       .navbar {
@@ -63,10 +84,13 @@
       .logo a {
         text-decoration: none;
         color: var(--dark);
+        display: flex;
+        align-items: center;
       }
 
-      .logo img {
-        height: 40px;
+      .logo i {
+        font-size: 1.8rem;
+        color: var(--primary);
         margin-right: 10px;
       }
 
@@ -105,6 +129,9 @@
         background-color: var(--primary);
         color: white;
         position: relative;
+        display: flex;
+        align-items: center;
+        gap: 5px;
       }
 
       .register-btn:hover {
@@ -156,6 +183,49 @@
       .dropdown-option:hover {
         background-color: #f1f5ff;
         color: var(--primary);
+      }
+
+      /* Mobile menu styles */
+      .mobile-menu-btn {
+        display: none;
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        color: var(--primary);
+        cursor: pointer;
+      }
+
+      .mobile-menu {
+        display: none;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        right: 0;
+        background-color: white;
+        padding: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        z-index: 999;
+      }
+
+      .mobile-menu .nav-buttons {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .mobile-menu .dropdown {
+        width: 100%;
+      }
+
+      .mobile-menu .dropdown-content {
+        position: static;
+        display: none;
+        width: 100%;
+        box-shadow: none;
+        margin-top: 10px;
+      }
+
+      .mobile-menu .dropdown.active .dropdown-content {
+        display: block;
       }
 
       .alert {
@@ -222,6 +292,26 @@
         box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
         text-align: center;
         animation: fadeIn 0.5s;
+        border-top: 5px solid;
+        border-image: linear-gradient(to right, #3498db, #2c3e50) 1;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .otp-container::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: radial-gradient(
+          rgba(52, 152, 219, 0.05) 2px,
+          transparent 2px
+        );
+        background-size: 20px 20px;
+        pointer-events: none;
+        z-index: 0;
       }
 
       @keyframes fadeIn {
@@ -237,6 +327,8 @@
 
       .otp-header {
         margin-bottom: 30px;
+        position: relative;
+        z-index: 1;
       }
 
       .otp-header h2 {
@@ -258,6 +350,21 @@
         background: linear-gradient(135deg, #3498db 0%, #2c3e50 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
+        animation: float 3s ease-in-out infinite;
+        position: relative;
+        z-index: 1;
+      }
+
+      @keyframes float {
+        0% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+        100% {
+          transform: translateY(0px);
+        }
       }
 
       .customer-badge {
@@ -268,39 +375,59 @@
         border-radius: 20px;
         font-size: 0.9rem;
         margin-top: 10px;
+        box-shadow: 0 2px 5px rgba(52, 152, 219, 0.3);
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
+        100% {
+          transform: scale(1);
+        }
       }
 
       .otp-form {
         margin-top: 20px;
+        position: relative;
+        z-index: 1;
       }
 
-      .otp-input-group {
-        position: relative;
+      /* Individual digit inputs for better UX */
+      .otp-digits {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
         margin-bottom: 25px;
       }
 
-      .otp-input {
-        width: 100%;
-        padding: 15px 20px;
-        font-size: 1.2rem;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        text-align: center;
-        letter-spacing: 8px;
+      .digit-input {
+        width: 50px;
+        height: 60px;
+        font-size: 1.5rem;
         font-weight: 600;
-        transition: var(--transition);
+        text-align: center;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        background-color: white;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
       }
 
-      .otp-input:focus {
+      .digit-input:focus {
         border-color: var(--customer);
-        box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
         outline: none;
       }
 
-      .otp-input::placeholder {
-        letter-spacing: normal;
-        font-weight: normal;
-        color: var(--gray);
+      .digit-input.filled {
+        background-color: rgba(52, 152, 219, 0.1);
+        border-color: var(--customer);
+        color: var(--customer-dark);
       }
 
       .submit-button {
@@ -319,11 +446,52 @@
         justify-content: center;
         align-items: center;
         gap: 10px;
+        position: relative;
+        overflow: hidden;
       }
 
-      .submit-button:hover {
+      .submit-button:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+      }
+
+      .submit-button.ready {
+        animation: readyPulse 1.5s infinite;
+      }
+
+      @keyframes readyPulse {
+        0% {
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        50% {
+          box-shadow: 0 4px 15px rgba(52, 152, 219, 0.4);
+        }
+        100% {
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+      }
+
+      .submit-button:hover:not(:disabled) {
         transform: translateY(-2px);
         box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      .submit-button::after {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: rgba(255, 255, 255, 0.1);
+        transform: rotate(45deg);
+        transition: all 0.3s ease;
+        opacity: 0;
+      }
+
+      .submit-button:hover::after {
+        opacity: 1;
+        transform: rotate(45deg) translate(10%, 10%);
       }
 
       .resend-link {
@@ -333,6 +501,8 @@
         text-decoration: none;
         font-weight: 500;
         transition: var(--transition);
+        position: relative;
+        z-index: 1;
       }
 
       .resend-link:hover {
@@ -345,6 +515,8 @@
         margin-top: 15px;
         color: var(--gray);
         font-size: 0.9rem;
+        position: relative;
+        z-index: 1;
       }
 
       .timer span {
@@ -352,10 +524,29 @@
         color: var(--customer);
       }
 
+      .timer.expiring span {
+        color: var(--danger);
+        animation: blink 1s infinite;
+      }
+
+      @keyframes blink {
+        0% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.5;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+
       .benefits {
         margin-top: 30px;
         padding-top: 20px;
         border-top: 1px dashed #ddd;
+        position: relative;
+        z-index: 1;
       }
 
       .benefits h3 {
@@ -375,23 +566,215 @@
         align-items: center;
         gap: 10px;
         text-align: left;
+        transition: var(--transition);
+        padding: 8px;
+        border-radius: 8px;
+      }
+
+      .benefit-item:hover {
+        background-color: rgba(52, 152, 219, 0.05);
+        transform: translateX(5px);
       }
 
       .benefit-icon {
-        min-width: 30px;
-        height: 30px;
+        min-width: 36px;
+        height: 36px;
         background: linear-gradient(135deg, #3498db 0%, #2c3e50 100%);
         color: white;
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 0.8rem;
+        font-size: 0.9rem;
+        box-shadow: 0 2px 5px rgba(52, 152, 219, 0.3);
       }
 
       .benefit-text {
         font-size: 0.9rem;
         color: var(--gray);
+      }
+
+      .next-steps {
+        margin-top: 25px;
+        background-color: rgba(52, 152, 219, 0.1);
+        padding: 15px;
+        border-radius: 8px;
+        text-align: left;
+        position: relative;
+        z-index: 1;
+        border-left: 3px solid var(--customer);
+      }
+
+      .next-steps h4 {
+        color: var(--customer);
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .next-steps p {
+        font-size: 0.9rem;
+        color: var(--gray);
+        line-height: 1.5;
+      }
+
+      /* Success animation */
+      .success-checkmark {
+        display: none;
+        width: 80px;
+        height: 80px;
+        margin: 0 auto;
+        margin-bottom: 20px;
+      }
+
+      .check-icon {
+        width: 80px;
+        height: 80px;
+        position: relative;
+        border-radius: 50%;
+        box-sizing: content-box;
+        border: 4px solid var(--success);
+      }
+
+      .check-icon::before {
+        top: 3px;
+        left: -2px;
+        width: 30px;
+        transform-origin: 100% 50%;
+        border-radius: 100px 0 0 100px;
+      }
+
+      .check-icon::after {
+        top: 0;
+        left: 30px;
+        width: 60px;
+        transform-origin: 0 50%;
+        border-radius: 0 100px 100px 0;
+        animation: rotate-circle 4.25s ease-in;
+      }
+
+      .check-icon::before,
+      .check-icon::after {
+        content: "";
+        height: 100px;
+        position: absolute;
+        background: #ffffff;
+        transform: rotate(-45deg);
+      }
+
+      .check-icon .icon-line {
+        height: 5px;
+        background-color: var(--success);
+        display: block;
+        border-radius: 2px;
+        position: absolute;
+        z-index: 10;
+      }
+
+      .check-icon .icon-line.line-tip {
+        top: 46px;
+        left: 14px;
+        width: 25px;
+        transform: rotate(45deg);
+        animation: icon-line-tip 0.75s;
+      }
+
+      .check-icon .icon-line.line-long {
+        top: 38px;
+        right: 8px;
+        width: 47px;
+        transform: rotate(-45deg);
+        animation: icon-line-long 0.75s;
+      }
+
+      .check-icon .icon-circle {
+        top: -4px;
+        left: -4px;
+        z-index: 10;
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        position: absolute;
+        box-sizing: content-box;
+        border: 4px solid rgba(46, 204, 113, 0.3);
+      }
+
+      .check-icon .icon-fix {
+        top: 8px;
+        width: 5px;
+        left: 26px;
+        z-index: 1;
+        height: 85px;
+        position: absolute;
+        transform: rotate(-45deg);
+        background-color: #ffffff;
+      }
+
+      @keyframes rotate-circle {
+        0% {
+          transform: rotate(-45deg);
+        }
+        5% {
+          transform: rotate(-45deg);
+        }
+        12% {
+          transform: rotate(-405deg);
+        }
+        100% {
+          transform: rotate(-405deg);
+        }
+      }
+
+      @keyframes icon-line-tip {
+        0% {
+          width: 0;
+          left: 1px;
+          top: 19px;
+        }
+        54% {
+          width: 0;
+          left: 1px;
+          top: 19px;
+        }
+        70% {
+          width: 50px;
+          left: -8px;
+          top: 37px;
+        }
+        84% {
+          width: 17px;
+          left: 21px;
+          top: 48px;
+        }
+        100% {
+          width: 25px;
+          left: 14px;
+          top: 45px;
+        }
+      }
+
+      @keyframes icon-line-long {
+        0% {
+          width: 0;
+          right: 46px;
+          top: 54px;
+        }
+        65% {
+          width: 0;
+          right: 46px;
+          top: 54px;
+        }
+        84% {
+          width: 55px;
+          right: 0px;
+          top: 35px;
+        }
+        100% {
+          width: 47px;
+          right: 8px;
+          top: 38px;
+        }
       }
 
       .footer {
@@ -416,8 +799,9 @@
         align-items: center;
       }
 
-      .footer-logo img {
-        height: 35px;
+      .footer-logo i {
+        font-size: 1.8rem;
+        color: var(--primary);
         margin-right: 10px;
       }
 
@@ -426,12 +810,12 @@
         color: white;
       }
 
-      .social-icons {
+      .social-icons-footer {
         display: flex;
         gap: 15px;
       }
 
-      .social-icons a {
+      .social-icons-footer a {
         color: white;
         background-color: rgba(255, 255, 255, 0.1);
         width: 40px;
@@ -443,7 +827,7 @@
         transition: var(--transition);
       }
 
-      .social-icons a:hover {
+      .social-icons-footer a:hover {
         background-color: var(--customer);
         transform: translateY(-3px);
       }
@@ -455,9 +839,23 @@
         font-size: 0.9rem;
       }
 
+      /* Responsive styles */
       @media (max-width: 768px) {
+        .navbar {
+          padding: 1rem 3%;
+        }
+
+        .nav-buttons {
+          display: none;
+        }
+
+        .mobile-menu-btn {
+          display: block;
+        }
+
         .otp-container {
           padding: 30px 20px;
+          margin: 30px auto;
         }
 
         .otp-header h2 {
@@ -469,21 +867,45 @@
           gap: 20px;
           text-align: center;
         }
+
+        .otp-digits {
+          gap: 6px;
+        }
+
+        .digit-input {
+          width: 40px;
+          height: 50px;
+          font-size: 1.2rem;
+        }
       }
     </style>
   </head>
+
   <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
     <nav class="navbar">
       <div class="logo">
         <a href="/">
-          <img src="/images/logo.png" alt="ShopEase Logo" />
+          <i class="fas fa-shopping-bag"></i>
+          <h1>ShopEase</h1>
         </a>
-        <a href="/"><h1>ShopEase</h1></a>
       </div>
+
+      <button
+        class="mobile-menu-btn"
+        aria-label="Toggle menu"
+        aria-expanded="false"
+      >
+        <i class="fas fa-bars"></i>
+      </button>
+
       <div class="nav-buttons">
         <a href="/login"><button class="nav-btn login-btn">Login</button></a>
         <div class="dropdown">
-          <button class="nav-btn register-btn">Register</button>
+          <button class="nav-btn register-btn">
+            Register <i class="fas fa-chevron-down"></i>
+          </button>
           <div class="dropdown-content">
             <a href="/admin/register" class="dropdown-option">
               <i class="fas fa-user-shield"></i> Admin Register
@@ -499,207 +921,519 @@
       </div>
     </nav>
 
+    <!-- Mobile menu (hidden by default) -->
+    <div class="mobile-menu">
+      <div class="nav-buttons">
+        <a href="/login"><button class="nav-btn login-btn">Login</button></a>
+        <div class="dropdown">
+          <button class="nav-btn register-btn mobile-dropdown-toggle">
+            Register <i class="fas fa-chevron-down"></i>
+          </button>
+          <div class="dropdown-content">
+            <a href="/admin/register" class="dropdown-option">
+              <i class="fas fa-user-shield"></i> Admin Register
+            </a>
+            <a href="/merchant/register" class="dropdown-option">
+              <i class="fas fa-store"></i> Merchant Register
+            </a>
+            <a href="/customer/register" class="dropdown-option">
+              <i class="fas fa-user"></i> Customer Register
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Alert messages that will disappear after 2 seconds -->
     <div th:if="${session.pass}" class="alert alert-success">
       <i class="fas fa-check-circle alert-icon"></i>
       <span th:text="${session.pass}"></span>
     </div>
+
     <div th:if="${session.fail}" class="alert alert-danger">
       <i class="fas fa-exclamation-circle alert-icon"></i>
       <span th:text="${session.fail}"></span>
     </div>
+
     <th:block th:text="${@messageRemover.remove()}"></th:block>
 
-    <div class="otp-container">
-      <div class="otp-icon">
-        <i class="fas fa-user-check"></i>
-      </div>
-            <div class="otp-header">
-        <h2>Customer Verification</h2>
-        <p>We've sent a verification code to your email address. Please enter the code below to verify your account.</p>
-        <span class="customer-badge"><i class="fas fa-user"></i> Customer Account</span>
-      </div>
-      
-      <form action="/customer/otp" method="post" class="otp-form">
-        <div class="otp-input-group">
-          <input 
-            type="text" 
-            name="otp" 
-            class="otp-input" 
-            placeholder="Enter OTP" 
-            maxlength="6" 
-            autocomplete="off"
-            required
-          />
+    <main id="main-content">
+      <div class="otp-container">
+        <div class="otp-icon">
+          <i class="fas fa-user-check"></i>
         </div>
-        
-        <button type="submit" class="submit-button">
-          <i class="fas fa-check-circle"></i> Verify Account
-        </button>
-      </form>
-      
-      <div class="timer">
-        Time remaining: <span id="countdown">02:00</span>
-      </div>
-      
-      <a href="#" class="resend-link" id="resendLink" style="display: none;">
-        <i class="fas fa-redo-alt"></i> Resend Verification Code
-      </a>
-      
-      <div class="benefits">
-        <h3>Benefits of Verifying Your Account</h3>
-        <div class="benefits-list">
-          <div class="benefit-item">
-            <div class="benefit-icon">
-              <i class="fas fa-shopping-cart"></i>
-            </div>
-            <div class="benefit-text">
-              Access to exclusive deals and discounts
-            </div>
-          </div>
-          <div class="benefit-item">
-            <div class="benefit-icon">
-              <i class="fas fa-truck"></i>
-            </div>
-            <div class="benefit-text">
-              Track your orders and delivery status
-            </div>
-          </div>
-          <div class="benefit-item">
-            <div class="benefit-icon">
-              <i class="fas fa-heart"></i>
-            </div>
-            <div class="benefit-text">
-              Save favorite items to your wishlist
-            </div>
-          </div>
-          <div class="benefit-item">
-            <div class="benefit-icon">
-              <i class="fas fa-shield-alt"></i>
-            </div>
-            <div class="benefit-text">
-              Enhanced security for your shopping experience
-            </div>
+
+        <!-- Success animation (hidden initially) -->
+        <div id="successCheckmark" class="success-checkmark">
+          <div class="check-icon">
+            <span class="icon-line line-tip"></span>
+            <span class="icon-line line-long"></span>
+            <div class="icon-circle"></div>
+            <div class="icon-fix"></div>
           </div>
         </div>
+
+        <div class="otp-header">
+          <h2>Customer Verification</h2>
+          <p>
+            We've sent a verification code to your email address. Please enter
+            the code below to verify your account.
+          </p>
+          <span class="customer-badge">
+            <i class="fas fa-user"></i> Customer Account
+          </span>
+        </div>
+
+        <form
+          action="/customer/otp"
+          method="post"
+          class="otp-form"
+          id="otpForm"
+        >
+          <div class="otp-digits">
+            <input
+              type="text"
+              class="digit-input"
+              maxlength="1"
+              pattern="[0-9]"
+              inputmode="numeric"
+              required
+              aria-label="First digit"
+            />
+            <input
+              type="text"
+              class="digit-input"
+              maxlength="1"
+              pattern="[0-9]"
+              inputmode="numeric"
+              required
+              aria-label="Second digit"
+            />
+            <input
+              type="text"
+              class="digit-input"
+              maxlength="1"
+              pattern="[0-9]"
+              inputmode="numeric"
+              required
+              aria-label="Third digit"
+            />
+            <input
+              type="text"
+              class="digit-input"
+              maxlength="1"
+              pattern="[0-9]"
+              inputmode="numeric"
+              required
+              aria-label="Fourth digit"
+            />
+            <input
+              type="text"
+              class="digit-input"
+              maxlength="1"
+              pattern="[0-9]"
+              inputmode="numeric"
+              required
+              aria-label="Fifth digit"
+            />
+            <input
+              type="text"
+              class="digit-input"
+              maxlength="1"
+              pattern="[0-9]"
+              inputmode="numeric"
+              required
+              aria-label="Sixth digit"
+            />
+          </div>
+
+          <!-- Hidden input to store the combined OTP value -->
+          <input type="hidden" name="otp" id="otpValue" />
+
+          <button
+            type="submit"
+            class="submit-button"
+            id="verifyButton"
+            disabled
+          >
+            <i class="fas fa-check-circle"></i> Verify Account
+          </button>
+        </form>
+
+        <div class="timer" id="timerContainer">
+          Time remaining: <span id="countdown">02:00</span>
+        </div>
+
+        <a
+          href="#"
+          class="resend-link"
+          id="resendLink"
+          style="display: none"
+          aria-label="Resend verification code"
+        >
+          <i class="fas fa-redo-alt"></i> Resend Verification Code
+        </a>
+
+        <div class="benefits">
+          <h3>Benefits of Verifying Your Account</h3>
+          <div class="benefits-list">
+            <div class="benefit-item">
+              <div class="benefit-icon">
+                <i class="fas fa-shopping-cart"></i>
+              </div>
+              <div class="benefit-text">
+                Access to exclusive deals and discounts
+              </div>
+            </div>
+            <div class="benefit-item">
+              <div class="benefit-icon">
+                <i class="fas fa-truck"></i>
+              </div>
+              <div class="benefit-text">
+                Track your orders and delivery status
+              </div>
+            </div>
+            <div class="benefit-item">
+              <div class="benefit-icon">
+                <i class="fas fa-heart"></i>
+              </div>
+              <div class="benefit-text">
+                Save favorite items to your wishlist
+              </div>
+            </div>
+            <div class="benefit-item">
+              <div class="benefit-icon">
+                <i class="fas fa-shield-alt"></i>
+              </div>
+              <div class="benefit-text">
+                Enhanced security for your shopping experience
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="next-steps">
+          <h4><i class="fas fa-info-circle"></i> What's Next?</h4>
+          <p>
+            After verification, you'll be able to browse products, make
+            purchases, and enjoy all the benefits of being a ShopEase customer.
+            Your shopping journey begins here!
+          </p>
+        </div>
       </div>
-    </div>
+    </main>
 
     <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-logo">
+          <i class="fas fa-shopping-bag"></i>
+          <h2>ShopEase</h2>
+        </div>
+        <div class="social-icons-footer">
+          <a href="#" aria-label="Facebook"
+            ><i class="fab fa-facebook-f"></i
+          ></a>
+          <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+          <a href="#" aria-label="Instagram"
+            ><i class="fab fa-instagram"></i
+          ></a>
+          <a href="#" aria-label="LinkedIn"
+            ><i class="fab fa-linkedin-in"></i
+          ></a>
+        </div>
+      </div>
       <div class="footer-bottom">
         <p>&copy; 2025 ShopEase. All Rights Reserved.</p>
       </div>
     </footer>
 
     <script>
-      // Script to automatically remove alerts after 2 seconds
-      document.addEventListener('DOMContentLoaded', function() {
-        const alerts = document.querySelectorAll('.alert');
-        
-        if (alerts.length > 0) {
-          setTimeout(function() {
-            alerts.forEach(alert => {
-              alert.style.display = 'none';
-            });
-          }, 2000);
+      document.addEventListener("DOMContentLoaded", function () {
+        // Handle alerts
+        const removeAlerts = () => {
+          const alerts = document.querySelectorAll(".alert");
+          if (alerts.length > 0) {
+            setTimeout(function () {
+              alerts.forEach((alert) => {
+                alert.style.display = "none";
+              });
+            }, 2000);
+          }
+        };
+        removeAlerts();
+
+        // Mobile menu functionality
+        const mobileMenuBtn = document.querySelector(".mobile-menu-btn");
+        const mobileMenu = document.querySelector(".mobile-menu");
+        if (mobileMenuBtn && mobileMenu) {
+          mobileMenuBtn.addEventListener("click", function () {
+            if (mobileMenu.style.display === "block") {
+              mobileMenu.style.display = "none";
+              mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+              mobileMenuBtn.setAttribute("aria-expanded", "false");
+            } else {
+              mobileMenu.style.display = "block";
+              mobileMenuBtn.innerHTML = '<i class="fas fa-times"></i>';
+              mobileMenuBtn.setAttribute("aria-expanded", "true");
+            }
+          });
         }
-        
+
+        // Mobile dropdown toggle
+        const mobileDropdownToggles = document.querySelectorAll(
+          ".mobile-dropdown-toggle"
+        );
+        mobileDropdownToggles.forEach((toggle) => {
+          toggle.addEventListener("click", function (e) {
+            e.preventDefault();
+            const parent = this.parentElement;
+            if (parent.classList.contains("active")) {
+              parent.classList.remove("active");
+              this.querySelector("i").classList.remove("fa-chevron-up");
+              this.querySelector("i").classList.add("fa-chevron-down");
+            } else {
+              parent.classList.add("active");
+              this.querySelector("i").classList.remove("fa-chevron-down");
+              this.querySelector("i").classList.add("fa-chevron-up");
+            }
+          });
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener("click", function (event) {
+          if (mobileMenu && mobileMenu.style.display === "block") {
+            const isClickInsideMenu = mobileMenu.contains(event.target);
+            const isClickOnMenuBtn = mobileMenuBtn.contains(event.target);
+            if (!isClickInsideMenu && !isClickOnMenuBtn) {
+              mobileMenu.style.display = "none";
+              mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+              mobileMenuBtn.setAttribute("aria-expanded", "false");
+            }
+          }
+        });
+
+        // OTP input handling
+        const digitInputs = document.querySelectorAll(".digit-input");
+        const otpForm = document.getElementById("otpForm");
+        const otpValue = document.getElementById("otpValue");
+        const verifyButton = document.getElementById("verifyButton");
+
+        // Function to check if all digits are filled
+        function checkOtpComplete() {
+          let isComplete = true;
+          let otp = "";
+
+          digitInputs.forEach((input) => {
+            if (!input.value) {
+              isComplete = false;
+            }
+            otp += input.value;
+          });
+
+          // Update hidden input with combined OTP value
+          otpValue.value = otp;
+
+          // Enable/disable submit button
+          if (isComplete) {
+            verifyButton.disabled = false;
+            verifyButton.classList.add("ready");
+          } else {
+            verifyButton.disabled = true;
+            verifyButton.classList.remove("ready");
+          }
+
+          return isComplete;
+        }
+
+        // Add event listeners to each digit input
+        digitInputs.forEach((input, index) => {
+          // Only allow numbers
+          input.addEventListener("input", function (e) {
+            this.value = this.value.replace(/[^0-9]/g, "");
+
+            if (this.value) {
+              this.classList.add("filled");
+              // Move to next input if available
+              if (index < digitInputs.length - 1) {
+                digitInputs[index + 1].focus();
+              }
+            } else {
+              this.classList.remove("filled");
+            }
+
+            checkOtpComplete();
+          });
+
+          // Handle backspace
+          input.addEventListener("keydown", function (e) {
+            if (e.key === "Backspace") {
+              if (this.value === "") {
+                // Move to previous input if current is empty
+                if (index > 0) {
+                  digitInputs[index - 1].focus();
+                  digitInputs[index - 1].value = "";
+                  digitInputs[index - 1].classList.remove("filled");
+                  e.preventDefault();
+                }
+              } else {
+                this.value = "";
+                this.classList.remove("filled");
+                e.preventDefault();
+              }
+              checkOtpComplete();
+            }
+          });
+
+          // Handle paste event for the entire OTP
+          input.addEventListener("paste", function (e) {
+            e.preventDefault();
+            const pasteData = e.clipboardData.getData("text").trim();
+
+            // Check if pasted data is a 6-digit number
+            if (/^\d{6}$/.test(pasteData)) {
+              // Distribute digits to inputs
+              digitInputs.forEach((input, i) => {
+                input.value = pasteData.charAt(i);
+                if (input.value) {
+                  input.classList.add("filled");
+                }
+              });
+              checkOtpComplete();
+            }
+          });
+        });
+
+        // Form submission with success animation
+        otpForm.addEventListener("submit", function (e) {
+          // In a real implementation, you would validate the OTP server-side
+          // This is just for demonstration purposes
+
+          // Uncomment this line for actual form submission
+          // return true;
+
+          // For demo: show success animation
+          e.preventDefault();
+
+          // Disable inputs and button during "verification"
+          digitInputs.forEach((input) => {
+            input.disabled = true;
+          });
+          verifyButton.disabled = true;
+          verifyButton.innerHTML =
+            '<i class="fas fa-spinner fa-spin"></i> Verifying...';
+
+          // Simulate verification process
+          setTimeout(() => {
+            // Hide form elements
+            otpForm.style.opacity = "0";
+            document.getElementById("timerContainer").style.display = "none";
+
+            // Show success animation
+            setTimeout(() => {
+              otpForm.style.display = "none";
+              document.querySelector(".otp-header p").textContent =
+                "Your account has been successfully verified! You will be redirected to the login page.";
+              document.getElementById("successCheckmark").style.display =
+                "block";
+
+              // Redirect after showing success (in a real app)
+              setTimeout(() => {
+                window.location.href = "/login";
+              }, 3000);
+            }, 300);
+          }, 1500);
+        });
+
         // Countdown timer for OTP expiration
-        const countdownEl = document.getElementById('countdown');
-        const resendLink = document.getElementById('resendLink');
+        const countdownEl = document.getElementById("countdown");
+        const timerContainer = document.getElementById("timerContainer");
+        const resendLink = document.getElementById("resendLink");
         let timeLeft = 120; // 2 minutes in seconds
-        
+        let countdownTimer;
+
         function updateCountdown() {
           const minutes = Math.floor(timeLeft / 60);
           let seconds = timeLeft % 60;
-          seconds = seconds < 10 ? '0' + seconds : seconds;
-          
+          seconds = seconds < 10 ? "0" + seconds : seconds;
           countdownEl.textContent = `${minutes}:${seconds}`;
-          
+
+          // Add warning class when less than 30 seconds remain
+          if (timeLeft <= 30) {
+            timerContainer.classList.add("expiring");
+          }
+
           if (timeLeft <= 0) {
             clearInterval(countdownTimer);
-            countdownEl.textContent = '00:00';
-            countdownEl.style.color = 'var(--danger)';
-            resendLink.style.display = 'block';
+            countdownEl.textContent = "00:00";
+            timerContainer.classList.add("expiring");
+            resendLink.style.display = "block";
+
+            // Disable inputs when OTP expires
+            digitInputs.forEach((input) => {
+              input.disabled = true;
+            });
+            verifyButton.disabled = true;
           } else {
             timeLeft--;
           }
         }
-        
-        const countdownTimer = setInterval(updateCountdown, 1000);
+
+        countdownTimer = setInterval(updateCountdown, 1000);
         updateCountdown();
-        
-        // Focus handling for OTP input
-        const otpInput = document.querySelector('.otp-input');
-        
-        otpInput.addEventListener('input', function() {
-          // Only allow numbers
-          this.value = this.value.replace(/[^0-9]/g, '');
-          
-          // Limit to 6 digits
-          if (this.value.length > 6) {
-            this.value = this.value.slice(0, 6);
-          }
-        });
-        
-        // Auto-submit when 6 digits are entered
-        otpInput.addEventListener('keyup', function() {
-          if (this.value.length === 6) {
-            // Optional: auto-submit after a short delay
-            // setTimeout(() => this.form.submit(), 500);
-          }
-        });
-        
+
         // Resend OTP functionality
-        resendLink.addEventListener('click', function(e) {
+        resendLink.addEventListener("click", function (e) {
           e.preventDefault();
-          
+
           // Show loading state
           this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
-          this.style.pointerEvents = 'none';
-          
+          this.style.pointerEvents = "none";
+
           // Simulate API call to resend OTP
           setTimeout(() => {
             // Reset timer
             timeLeft = 120;
-            countdownEl.style.color = 'var(--customer)';
-            resendLink.style.display = 'none';
-            
+            timerContainer.classList.remove("expiring");
+            resendLink.style.display = "none";
+
             // Reset the resend link text
-            resendLink.innerHTML = '<i class="fas fa-redo-alt"></i> Resend Verification Code';
-            resendLink.style.pointerEvents = 'auto';
-            
+            resendLink.innerHTML =
+              '<i class="fas fa-redo-alt"></i> Resend Verification Code';
+            resendLink.style.pointerEvents = "auto";
+
+            // Re-enable inputs
+            digitInputs.forEach((input) => {
+              input.disabled = false;
+              input.value = "";
+              input.classList.remove("filled");
+            });
+            verifyButton.disabled = true;
+            verifyButton.classList.remove("ready");
+
+            // Clear the combined OTP value
+            otpValue.value = "";
+
+            // Focus on first input
+            digitInputs[0].focus();
+
             // Restart countdown
             clearInterval(countdownTimer);
             countdownTimer = setInterval(updateCountdown, 1000);
-            
+
             // Show success message
-            const alertContainer = document.createElement('div');
-            alertContainer.className = 'alert alert-success';
-            alertContainer.innerHTML = '<i class="fas fa-check-circle alert-icon"></i><span>Verification code has been resent to your email</span>';
+            const alertContainer = document.createElement("div");
+            alertContainer.className = "alert alert-success";
+            alertContainer.innerHTML =
+              '<i class="fas fa-check-circle alert-icon"></i><span>Verification code has been resent to your email</span>';
             document.body.appendChild(alertContainer);
-            
+
             setTimeout(() => {
-              alertContainer.style.opacity = '0';
+              alertContainer.style.opacity = "0";
               setTimeout(() => alertContainer.remove(), 300);
             }, 2000);
-            
           }, 1500);
-        });
-        
-        // Add hover effects to benefit items
-        const benefitItems = document.querySelectorAll('.benefit-item');
-        benefitItems.forEach(item => {
-          item.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateX(5px)';
-          });
-          
-          item.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateX(0)';
-          });
         });
       });
     </script>
   </body>
 </html>
-

@@ -9,74 +9,71 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
     <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <style>
       :root {
-        --primary: #4361ee;
-        --primary-dark: #3a56d4;
-        --secondary: #7209b7;
-        --light: #f8f9fa;
-        --dark: #212529;
-        --success: #2ecc71;
-        --danger: #e74c3c;
-        --gray: #6c757d;
-        --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        --primary: #2563eb;
+        --primary-dark: #1d4ed8;
+        --secondary: #7c3aed;
+        --accent: #f59e0b;
+        --light: #f9fafb;
+        --dark: #111827;
+        --success: #10b981;
+        --danger: #ef4444;
+        --gray: #6b7280;
+        --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+          0 4px 6px -2px rgba(0, 0, 0, 0.05);
         --transition: all 0.3s ease;
-        --admin: #7209b7;
-        --admin-dark: #6008a0;
-        --admin-gradient: linear-gradient(135deg, #7209b7 0%, #3a0ca3 100%);
+        --admin: #7c3aed;
+        --admin-dark: #6d28d9;
+        --admin-gradient: linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%);
       }
-
       * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        font-family: "Poppins", sans-serif;
+        font-family: "Montserrat", sans-serif;
       }
-
       body {
         min-height: 100vh;
-        background-color: #f5f7fa;
+        background-color: var(--light);
         color: var(--dark);
         display: flex;
         flex-direction: column;
       }
-
       .navbar {
         display: flex;
         justify-content: space-between;
         align-items: center;
         padding: 1rem 5%;
         background-color: #ffffff;
-        box-shadow: var(--shadow);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         position: sticky;
         top: 0;
         z-index: 1000;
       }
-
       .logo {
         display: flex;
         align-items: center;
       }
-
       .logo a {
         text-decoration: none;
         color: var(--dark);
+        display: flex;
+        align-items: center;
       }
-
-      .logo img {
-        height: 40px;
+      .logo i {
+        font-size: 2rem;
+        color: var(--primary);
         margin-right: 10px;
       }
-
       .logo h1 {
         font-size: 1.8rem;
         color: var(--primary);
         font-weight: 700;
       }
-
       .admin-badge {
         background: var(--admin-gradient);
         color: white;
@@ -88,33 +85,31 @@
         align-items: center;
         gap: 5px;
       }
-
       .logout-btn {
-        background-color: #f1f1f1;
-        color: var(--dark);
+        padding: 10px 20px;
         border: none;
-        padding: 8px 15px;
-        border-radius: 5px;
+        border-radius: 8px;
+        font-weight: 600;
         cursor: pointer;
+        transition: var(--transition);
+        background-color: transparent;
+        color: var(--primary);
+        border: 2px solid var(--primary);
+        text-decoration: none;
         display: flex;
         align-items: center;
         gap: 8px;
-        font-weight: 500;
-        transition: var(--transition);
-        text-decoration: none;
       }
-
       .logout-btn:hover {
-        background-color: #e9e9e9;
+        background-color: rgba(37, 99, 235, 0.1);
       }
-
       .alert {
         position: fixed;
         top: 80px;
         left: 50%;
         transform: translateX(-50%);
         padding: 15px 25px;
-        border-radius: 8px;
+        border-radius: 10px;
         box-shadow: var(--shadow);
         z-index: 1001;
         display: flex;
@@ -123,24 +118,20 @@
         max-width: 500px;
         animation: slideDown 0.3s, fadeOut 0.5s 1.5s forwards;
       }
-
       .alert-success {
-        background-color: #d4edda;
-        color: #155724;
+        background-color: #ecfdf5;
+        color: #065f46;
         border-left: 4px solid var(--success);
       }
-
       .alert-danger {
-        background-color: #f8d7da;
-        color: #721c24;
+        background-color: #fef2f2;
+        color: #991b1b;
         border-left: 4px solid var(--danger);
       }
-
       .alert-icon {
         margin-right: 10px;
         font-size: 1.2rem;
       }
-
       @keyframes slideDown {
         from {
           transform: translate(-50%, -20px);
@@ -151,7 +142,6 @@
           opacity: 1;
         }
       }
-
       @keyframes fadeOut {
         from {
           opacity: 1;
@@ -161,7 +151,6 @@
           visibility: hidden;
         }
       }
-
       .container {
         max-width: 1200px;
         margin: 0 auto;
@@ -172,30 +161,44 @@
         align-items: center;
         justify-content: center;
       }
-
       .page-title {
         font-size: 2.5rem;
         color: var(--dark);
         margin-bottom: 2rem;
         font-weight: 600;
         text-align: center;
+        position: relative;
+        padding-bottom: 15px;
       }
-
+      .page-title:after {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 4px;
+        background: linear-gradient(
+          90deg,
+          var(--primary) 0%,
+          var(--secondary) 100%
+        );
+        border-radius: 2px;
+      }
       .admin-actions {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
-        gap: 1.5rem;
+        gap: 2rem;
         margin-bottom: 2rem;
         width: 100%;
         max-width: 1000px;
       }
-
       .admin-action {
         background: white;
-        border-radius: 10px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-        padding: 1.5rem;
+        border-radius: 16px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+        padding: 2rem;
         text-align: center;
         transition: var(--transition);
         text-decoration: none;
@@ -204,127 +207,117 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        border: 2px solid transparent;
-        width: 220px;
-        height: 220px;
+        border: 1px solid #f3f4f6;
+        width: 250px;
+        height: 250px;
+        position: relative;
+        overflow: hidden;
       }
-
       .admin-action:hover {
-        transform: translateY(-5px);
-        border-color: var(--admin);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        transform: translateY(-10px);
+        box-shadow: 0 20px 30px rgba(0, 0, 0, 0.1);
+        border-color: #e5e7eb;
       }
-
       .action-icon {
-        width: 70px;
-        height: 70px;
+        width: 80px;
+        height: 80px;
         border-radius: 50%;
         background: var(--admin-gradient);
         display: flex;
         align-items: center;
         justify-content: center;
-        margin-bottom: 1rem;
+        margin-bottom: 1.5rem;
+        position: relative;
       }
-
       .action-icon i {
-        font-size: 1.8rem;
+        font-size: 2rem;
         color: white;
+        position: relative;
+        z-index: 1;
       }
-
       .action-title {
-        font-size: 1.2rem;
+        font-size: 1.3rem;
         font-weight: 600;
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.8rem;
       }
-
       .action-description {
         color: var(--gray);
-        font-size: 0.9rem;
+        font-size: 0.95rem;
+        line-height: 1.6;
       }
-
       .footer {
-        background-color: #1a1a1a;
+        background-color: #1e293b;
         color: white;
-        padding: 3rem 5% 1.5rem;
+        padding: 4rem 5% 2rem;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
         margin-top: auto;
       }
-
+      .footer::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('data:image/svg+xml;charset=utf8,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"%3E%3Cpath fill="%23ffffff" fill-opacity="0.05" d="M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,202.7C672,203,768,181,864,186.7C960,192,1056,224,1152,218.7C1248,213,1344,171,1392,149.3L1440,128L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"%3E%3C/path%3E%3C/svg%3E');
+        background-size: cover;
+        background-position: center;
+        opacity: 0.5;
+      }
       .footer-content {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
         max-width: 1200px;
         margin: 0 auto;
-        padding-bottom: 1.5rem;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      }
-
-      .footer-logo {
         display: flex;
+        flex-direction: column;
         align-items: center;
+        position: relative;
+        z-index: 1;
       }
-
-      .footer-logo img {
-        height: 35px;
-        margin-right: 10px;
-      }
-
-      .footer-logo h2 {
-        font-size: 1.5rem;
-        color: white;
-      }
-
-      .social-icons {
-        display: flex;
-        gap: 15px;
-      }
-
-      .social-icons a {
-        color: white;
-        background-color: rgba(255, 255, 255, 0.1);
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: var(--transition);
-      }
-
-      .social-icons a:hover {
-        background-color: var(--primary);
-        transform: translateY(-3px);
-      }
-
       .footer-bottom {
-        text-align: center;
-        padding-top: 1.5rem;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        width: 100%;
+        position: relative;
+        z-index: 1;
+      }
+      .footer-bottom p {
         color: rgba(255, 255, 255, 0.7);
         font-size: 0.9rem;
       }
-
       @media (max-width: 768px) {
         .admin-actions {
           justify-content: center;
+          gap: 1.5rem;
         }
-        
-        .footer-content {
-          flex-direction: column;
-          gap: 20px;
-          text-align: center;
+        .admin-action {
+          width: 220px;
+          height: 220px;
+          padding: 1.5rem;
+        }
+        .action-icon {
+          width: 70px;
+          height: 70px;
+        }
+        .action-title {
+          font-size: 1.2rem;
+        }
+        .action-description {
+          font-size: 0.9rem;
         }
       }
-
       @media (max-width: 576px) {
         .alert {
           min-width: 90%;
         }
-        
+        .page-title {
+          font-size: 2rem;
+        }
         .admin-actions {
           flex-direction: column;
           align-items: center;
         }
-        
         .admin-action {
           width: 100%;
           max-width: 280px;
@@ -336,9 +329,9 @@
     <nav class="navbar">
       <div class="logo">
         <a href="/admin/home">
-          <img src="/images/logo.png" alt="ShopEase Logo" />
+          <i class="fas fa-shopping-bag"></i>
+          <h1>ShopEase</h1>
         </a>
-        <a href="/admin/home"><h1>ShopEase</h1></a>
         <span class="admin-badge">
           <i class="fas fa-user-shield"></i> Admin
         </span>
@@ -361,7 +354,6 @@
 
     <div class="container">
       <h1 class="page-title">Admin Dashboard</h1>
-
       <div class="admin-actions">
         <a href="/admin/products" class="admin-action">
           <div class="action-icon">
@@ -372,18 +364,14 @@
             Review and approve merchant product listings
           </div>
         </a>
-
-        <a href="#" class="admin-action">
+        <a href="/admin/manage-orders" class="admin-action">
           <div class="action-icon">
             <i class="fas fa-shopping-cart"></i>
           </div>
           <div class="action-title">Manage Orders</div>
-          <div class="action-description">
-            View and manage customer orders
-          </div>
+          <div class="action-description">View and manage customer orders</div>
         </a>
-
-        <a href="#" class="admin-action">
+        <a href="/admin/overview" class="admin-action">
           <div class="action-icon">
             <i class="fas fa-chart-line"></i>
           </div>
@@ -392,26 +380,26 @@
             See platform analytics and statistics
           </div>
         </a>
-
       </div>
     </div>
 
     <footer class="footer">
-      
-      <div class="footer-bottom">
-        <p>&copy; 2025 ShopEase. All Rights Reserved.</p>
+      <div class="footer-content">
+        <div class="footer-bottom">
+          <p>&copy; 2025 ShopEase. All Rights Reserved.</p>
+        </div>
       </div>
     </footer>
 
     <script>
       // Script to automatically remove alerts after 2 seconds
-      document.addEventListener('DOMContentLoaded', function() {
-        const alerts = document.querySelectorAll('.alert');
-        
+      document.addEventListener("DOMContentLoaded", function () {
+        const alerts = document.querySelectorAll(".alert");
+
         if (alerts.length > 0) {
-          setTimeout(function() {
-            alerts.forEach(alert => {
-              alert.style.display = 'none';
+          setTimeout(function () {
+            alerts.forEach((alert) => {
+              alert.style.display = "none";
             });
           }, 2000);
         }

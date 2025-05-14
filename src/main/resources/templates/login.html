@@ -39,6 +39,7 @@
         flex-direction: column;
         background-color: var(--light);
         color: var(--dark);
+        background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%234361ee' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
       }
 
       .navbar {
@@ -61,10 +62,13 @@
       .logo a {
         text-decoration: none;
         color: var(--dark);
+        display: flex;
+        align-items: center;
       }
 
-      .logo img {
-        height: 40px;
+      .logo i {
+        font-size: 2rem;
+        color: var(--primary);
         margin-right: 10px;
       }
 
@@ -103,6 +107,9 @@
         background-color: var(--primary);
         color: white;
         position: relative;
+        display: flex;
+        align-items: center;
+        gap: 5px;
       }
 
       .register-btn:hover {
@@ -146,7 +153,9 @@
       .dropdown-option {
         padding: 12px 16px;
         text-decoration: none;
-        display: block;
+        display: flex;
+        align-items: center;
+        gap: 10px;
         color: var(--dark);
         transition: var(--transition);
       }
@@ -219,6 +228,18 @@
         border-radius: 12px;
         box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
         animation: fadeIn 0.5s;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .login-container::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 5px;
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
       }
 
       .login-header {
@@ -230,6 +251,24 @@
         font-size: 2rem;
         color: var(--dark);
         margin-bottom: 10px;
+        position: relative;
+        display: inline-block;
+      }
+
+      .login-header h2::after {
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 50px;
+        height: 3px;
+        background: linear-gradient(
+          90deg,
+          var(--primary) 0%,
+          var(--secondary) 100%
+        );
+        border-radius: 3px;
       }
 
       .login-header p {
@@ -240,6 +279,7 @@
       .form-group {
         margin-bottom: 25px;
         position: relative;
+        transition: var(--transition);
       }
 
       .form-group label {
@@ -259,6 +299,7 @@
         top: 50%;
         transform: translateY(-50%);
         color: var(--gray);
+        transition: var(--transition);
       }
 
       .form-group input {
@@ -276,6 +317,14 @@
         outline: none;
       }
 
+      .form-group input:focus + .input-icon {
+        color: var(--primary);
+      }
+
+      .input-focused {
+        transform: translateY(-5px);
+      }
+
       .forgot-password {
         text-align: right;
         margin-bottom: 20px;
@@ -286,17 +335,22 @@
         text-decoration: none;
         font-size: 0.9rem;
         transition: var(--transition);
+        display: inline-block;
       }
 
       .forgot-password a:hover {
         color: var(--primary-dark);
-        text-decoration: underline;
+        transform: translateX(3px);
       }
 
       .submit-button {
         width: 100%;
         padding: 14px;
-        background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        background: linear-gradient(
+          135deg,
+          var(--primary) 0%,
+          var(--secondary) 100%
+        );
         color: white;
         border: none;
         border-radius: 8px;
@@ -305,11 +359,37 @@
         cursor: pointer;
         transition: var(--transition);
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .submit-button::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        transition: 0.5s;
       }
 
       .submit-button:hover {
         transform: translateY(-2px);
         box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      .submit-button:hover::before {
+        left: 100%;
       }
 
       .register-link {
@@ -417,9 +497,10 @@
         align-items: center;
       }
 
-      .footer-logo img {
-        height: 35px;
+      .footer-logo i {
+        font-size: 1.8rem;
         margin-right: 10px;
+        color: white;
       }
 
       .footer-logo h2 {
@@ -456,9 +537,47 @@
         font-size: 0.9rem;
       }
 
+      /* Accessibility improvements */
+      .skip-link {
+        position: absolute;
+        top: -40px;
+        left: 0;
+        background: var(--primary);
+        color: white;
+        padding: 8px;
+        z-index: 1001;
+        transition: top 0.3s;
+      }
+
+      .skip-link:focus {
+        top: 0;
+      }
+
+      button:focus,
+      a:focus {
+        outline: 2px solid var(--primary);
+        outline-offset: 2px;
+      }
+
+      .password-toggle {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--gray);
+        cursor: pointer;
+        transition: var(--transition);
+      }
+
+      .password-toggle:hover {
+        color: var(--primary);
+      }
+
+      /* Responsive styles */
       @media (max-width: 768px) {
         .login-container {
           padding: 30px 20px;
+          margin: 30px auto;
         }
 
         .login-header h2 {
@@ -475,21 +594,122 @@
           gap: 20px;
           text-align: center;
         }
+
+        .mobile-menu-btn {
+          display: block;
+        }
+
+        .navbar .nav-buttons {
+          display: none;
+        }
+      }
+
+      .mobile-menu-btn {
+        display: none;
+        background: none;
+        border: none;
+        color: var(--dark);
+        font-size: 1.5rem;
+        cursor: pointer;
+      }
+
+      .mobile-menu {
+        display: none;
+        position: fixed;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        background-color: white;
+        padding: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        z-index: 999;
+      }
+
+      .mobile-menu .nav-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .mobile-menu .dropdown {
+        position: static;
+      }
+
+      .mobile-menu .dropdown-content {
+        position: static;
+        display: none;
+        box-shadow: none;
+        margin-top: 10px;
+        margin-left: 15px;
+      }
+
+      .mobile-menu .dropdown.active .dropdown-content {
+        display: block;
+      }
+
+      /* Added animation for login container */
+      @keyframes floatUp {
+        0% {
+          transform: translateY(10px);
+          opacity: 0;
+        }
+        100% {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      .login-container {
+        animation: floatUp 0.5s ease-out forwards;
+      }
+
+      /* Remember me checkbox styling */
+      .remember-me {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .remember-me input[type="checkbox"] {
+        margin-right: 10px;
+        width: 18px;
+        height: 18px;
+        accent-color: var(--primary);
+      }
+
+      .remember-me label {
+        color: var(--gray);
+        font-size: 0.9rem;
       }
     </style>
   </head>
+
   <body>
+    <!-- Accessibility skip link -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
     <nav class="navbar">
       <div class="logo">
         <a href="/">
-          <img src="/images/logo.png" alt="ShopEase Logo" />
+          <i class="fas fa-shopping-bag"></i>
+          <h1>ShopEase</h1>
         </a>
-        <a href="/"><h1>ShopEase</h1></a>
       </div>
+
+      <button
+        class="mobile-menu-btn"
+        aria-label="Toggle mobile menu"
+        aria-expanded="false"
+      >
+        <i class="fas fa-bars"></i>
+      </button>
+
       <div class="nav-buttons">
         <a href="/login"><button class="nav-btn login-btn">Login</button></a>
         <div class="dropdown">
-          <button class="nav-btn register-btn">Register</button>
+          <button class="nav-btn register-btn">
+            Register <i class="fas fa-chevron-down"></i>
+          </button>
           <div class="dropdown-content">
             <a href="/admin/register" class="dropdown-option">
               <i class="fas fa-user-shield"></i> Admin Register
@@ -505,100 +725,228 @@
       </div>
     </nav>
 
+    <!-- Mobile menu (hidden by default) -->
+    <div class="mobile-menu">
+      <div class="nav-buttons">
+        <a href="/login"><button class="nav-btn login-btn">Login</button></a>
+        <div class="dropdown">
+          <button class="nav-btn register-btn mobile-dropdown-toggle">
+            Register <i class="fas fa-chevron-down"></i>
+          </button>
+          <div class="dropdown-content">
+            <a href="/admin/register" class="dropdown-option">
+              <i class="fas fa-user-shield"></i> Admin Register
+            </a>
+            <a href="/merchant/register" class="dropdown-option">
+              <i class="fas fa-store"></i> Merchant Register
+            </a>
+            <a href="/customer/register" class="dropdown-option">
+              <i class="fas fa-user"></i> Customer Register
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Alert messages that will disappear after 2 seconds -->
     <div th:if="${session.pass}" class="alert alert-success">
       <i class="fas fa-check-circle alert-icon"></i>
       <span th:text="${session.pass}"></span>
     </div>
+
     <div th:if="${session.fail}" class="alert alert-danger">
       <i class="fas fa-exclamation-circle alert-icon"></i>
       <span th:text="${session.fail}"></span>
     </div>
+
     <th:block th:text="${@messageRemover.remove()}"></th:block>
 
-    <div class="login-container">
-      <div class="login-header">
-        <h2>Welcome Back</h2>
-        <p>Please login to your account</p>
-      </div>
-      
-      <form action="/login" method="post">
-        <div class="form-group">
-          <label for="email">Email Address</label>
-                   <div class="input-with-icon">
-            <i class="fas fa-envelope input-icon"></i>
-            <input type="email" id="email" name="email" placeholder="Enter your email" required />
+    <main id="main-content">
+      <div class="login-container">
+        <div class="login-header">
+          <h2>Welcome Back</h2>
+          <p>Please login to your account</p>
+        </div>
+
+        <form action="/login" method="post">
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <div class="input-with-icon">
+              <i class="fas fa-envelope input-icon"></i>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="Enter your email"
+                required
+                autocomplete="email"
+              />
+            </div>
           </div>
-        </div>
-        
-        <div class="form-group">
-          <label for="password">Password</label>
-          <div class="input-with-icon">
-            <i class="fas fa-lock input-icon"></i>
-            <input type="password" id="password" name="password" placeholder="Enter your password" required />
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <div class="input-with-icon">
+              <i class="fas fa-lock input-icon"></i>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Enter your password"
+                required
+                autocomplete="current-password"
+              />
+              <i class="fas fa-eye password-toggle" id="passwordToggle"></i>
+            </div>
           </div>
-        </div>
-        
-        <div class="forgot-password">
-          <a href="/forgot-password">Forgot password?</a>
-        </div>
-        
-        <button type="submit" class="submit-button">
-          Login <i class="fas fa-sign-in-alt" style="margin-left: 5px;"></i>
-        </button>
-        
-        <div class="register-link">
-          Don't have an account? <a href="/customer/register">Register now</a>
-        </div>
+
+          <div class="remember-me">
+            <input type="checkbox" id="remember" name="remember" />
+            <label for="remember">Remember me</label>
+          </div>
+
+          <div class="forgot-password">
+            <a href="/forgot-password">Forgot password?</a>
+          </div>
+
+          <button type="submit" class="submit-button">
+            Login <i class="fas fa-sign-in-alt"></i>
+          </button>
+
+          <div class="register-link">
+            Don't have an account? <a href="/customer/register">Register now</a>
+          </div>
+        </form>
+
        
-      </form>
-    </div>
+      </div>
+    </main>
 
     <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-logo">
+          <i class="fas fa-shopping-bag"></i>
+          <h2>ShopEase</h2>
+        </div>
+        <div class="social-icons-footer">
+          <a href="#" aria-label="Facebook">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="#" aria-label="Twitter">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="#" aria-label="Instagram">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="#" aria-label="LinkedIn">
+            <i class="fab fa-linkedin-in"></i>
+          </a>
+        </div>
+      </div>
       <div class="footer-bottom">
         <p>&copy; 2025 ShopEase. All Rights Reserved.</p>
       </div>
     </footer>
 
     <script>
-      // Script to automatically remove alerts after 2 seconds
-      document.addEventListener('DOMContentLoaded', function() {
-        const alerts = document.querySelectorAll('.alert');
-        
-        if (alerts.length > 0) {
-          setTimeout(function() {
-            alerts.forEach(alert => {
-              alert.style.display = 'none';
-            });
-          }, 2000);
-        }
-        
+      document.addEventListener("DOMContentLoaded", function () {
+        // Handle alerts
+        const removeAlerts = () => {
+          const alerts = document.querySelectorAll(".alert");
+          if (alerts.length > 0) {
+            setTimeout(function () {
+              alerts.forEach((alert) => {
+                alert.style.display = "none";
+              });
+            }, 2000);
+          }
+        };
+        removeAlerts();
+
         // Password visibility toggle
-        const passwordField = document.getElementById('password');
-        if (passwordField) {
-          const togglePassword = document.createElement('i');
-          togglePassword.className = 'fas fa-eye';
-          togglePassword.style.position = 'absolute';
-          togglePassword.style.right = '15px';
-          togglePassword.style.top = '50%';
-          togglePassword.style.transform = 'translateY(-50%)';
-          togglePassword.style.cursor = 'pointer';
-          togglePassword.style.color = 'var(--gray)';
-          
-          passwordField.parentElement.appendChild(togglePassword);
-          
-          togglePassword.addEventListener('click', function() {
-            if (passwordField.type === 'password') {
-              passwordField.type = 'text';
-              togglePassword.className = 'fas fa-eye-slash';
+        const passwordToggle = document.getElementById("passwordToggle");
+        const passwordField = document.getElementById("password");
+
+        if (passwordToggle && passwordField) {
+          passwordToggle.addEventListener("click", function () {
+            if (passwordField.type === "password") {
+              passwordField.type = "text";
+              passwordToggle.classList.remove("fa-eye");
+              passwordToggle.classList.add("fa-eye-slash");
             } else {
-              passwordField.type = 'password';
-              togglePassword.className = 'fas fa-eye';
+              passwordField.type = "password";
+              passwordToggle.classList.remove("fa-eye-slash");
+              passwordToggle.classList.add("fa-eye");
             }
           });
         }
+
+        // Input focus animation
+        const formInputs = document.querySelectorAll(".form-group input");
+        formInputs.forEach((input) => {
+          input.addEventListener("focus", function () {
+            this.parentElement.parentElement.classList.add("input-focused");
+          });
+
+          input.addEventListener("blur", function () {
+            this.parentElement.parentElement.classList.remove("input-focused");
+          });
+        });
+
+        // Mobile menu functionality
+        const mobileMenuBtn = document.querySelector(".mobile-menu-btn");
+        const mobileMenu = document.querySelector(".mobile-menu");
+
+        if (mobileMenuBtn && mobileMenu) {
+          mobileMenuBtn.addEventListener("click", function () {
+            if (mobileMenu.style.display === "block") {
+              mobileMenu.style.display = "none";
+              mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+              mobileMenuBtn.setAttribute("aria-expanded", "false");
+            } else {
+              mobileMenu.style.display = "block";
+              mobileMenuBtn.innerHTML = '<i class="fas fa-times"></i>';
+              mobileMenuBtn.setAttribute("aria-expanded", "true");
+            }
+          });
+        }
+
+        // Mobile dropdown toggle
+        const mobileDropdownToggles = document.querySelectorAll(
+          ".mobile-dropdown-toggle"
+        );
+
+        mobileDropdownToggles.forEach((toggle) => {
+          toggle.addEventListener("click", function (e) {
+            e.preventDefault();
+            const parent = this.parentElement;
+
+            if (parent.classList.contains("active")) {
+              parent.classList.remove("active");
+              this.querySelector("i").classList.remove("fa-chevron-up");
+              this.querySelector("i").classList.add("fa-chevron-down");
+            } else {
+              parent.classList.add("active");
+              this.querySelector("i").classList.remove("fa-chevron-down");
+              this.querySelector("i").classList.add("fa-chevron-up");
+            }
+          });
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener("click", function (event) {
+          if (mobileMenu && mobileMenu.style.display === "block") {
+            const isClickInsideMenu = mobileMenu.contains(event.target);
+            const isClickOnMenuBtn = mobileMenuBtn.contains(event.target);
+
+            if (!isClickInsideMenu && !isClickOnMenuBtn) {
+              mobileMenu.style.display = "none";
+              mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+              mobileMenuBtn.setAttribute("aria-expanded", "false");
+            }
+          }
+        });
       });
     </script>
   </body>
 </html>
-

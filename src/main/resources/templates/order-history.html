@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Payment Confirmation | ShopEase</title>
+    <title>Order History | ShopEase</title>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -115,7 +115,7 @@
       }
 
       .container {
-        max-width: 800px;
+        max-width: 1200px;
         margin: 0 auto;
         padding: 2rem;
         flex: 1;
@@ -163,67 +163,149 @@
         z-index: 1;
       }
 
-      .confirmation-card {
+      .orders-container {
         background-color: white;
         border-radius: 16px;
         padding: 2rem;
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-        margin-bottom: 2rem;
         border: 1px solid #f3f4f6;
         transition: var(--transition);
+        overflow-x: auto;
       }
 
-      .confirmation-card:hover {
+      .orders-container:hover {
         transform: translateY(-5px);
         box-shadow: 0 20px 30px rgba(0, 0, 0, 0.1);
       }
 
-      .confirmation-section {
-        margin-bottom: 1.5rem;
-      }
-
-      .confirmation-section h2 {
-        font-size: 1.3rem;
-        color: var(--dark);
-        margin-bottom: 0.5rem;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
-
-      .confirmation-section h2 i {
-        color: var(--secondary);
-      }
-
-      .confirmation-section p {
-        background-color: #f8f9fa;
-        padding: 12px 15px;
+      .empty-orders {
+        background-color: #eff6ff;
+        color: #1e40af;
+        padding: 2rem;
         border-radius: 8px;
-        color: var(--dark);
-        font-size: 1.1rem;
+        text-align: center;
+        border-left: 4px solid var(--primary);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
       }
 
-      .warning-message {
+      .empty-orders i {
+        font-size: 3rem;
+        color: var(--primary);
+      }
+
+      .empty-orders p {
+        font-size: 1.2rem;
+        font-weight: 500;
+      }
+
+      .orders-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      .orders-table th {
+        background-color: #f9fafb;
+        color: var(--dark);
+        font-weight: 600;
+        text-align: left;
+        padding: 1rem;
+        border-bottom: 2px solid #e5e7eb;
+      }
+
+      .orders-table td {
+        padding: 1rem;
+        border-bottom: 1px solid #e5e7eb;
+        color: var(--gray);
+      }
+
+      .orders-table tr:last-child td {
+        border-bottom: none;
+      }
+
+      .orders-table tr:hover td {
+        background-color: #f9fafb;
+      }
+
+      .order-id {
+        font-weight: 600;
+        color: var(--primary);
+      }
+
+      .order-date {
+        white-space: nowrap;
+      }
+
+      .order-amount {
+        font-weight: 600;
+        color: var(--dark);
+      }
+
+      .order-status {
+        display: inline-block;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-weight: 500;
+        font-size: 0.9rem;
+        white-space: nowrap;
+      }
+
+      .status-pending {
         background-color: #fff7ed;
         color: #9a3412;
-        padding: 15px;
-        border-radius: 8px;
-        margin-bottom: 1.5rem;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        border-left: 4px solid var(--accent);
       }
 
-      .warning-message i {
-        font-size: 1.5rem;
-        color: var(--accent);
+      .status-processing {
+        background-color: #ecfdf5;
+        color: #065f46;
       }
 
-      .action-buttons {
-        display: flex;
-        gap: 15px;
-        margin-top: 2rem;
+      .status-shipped {
+        background-color: #eff6ff;
+        color: #1e40af;
+      }
+
+      .status-delivered {
+        background-color: #f0fdf4;
+        color: #166534;
+      }
+
+      .status-cancelled {
+        background-color: #fef2f2;
+        color: #991b1b;
+      }
+
+      .order-address,
+      .order-mobile {
+        max-width: 200px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .order-products {
+        max-width: 300px;
+      }
+
+      .product-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .product-item {
+        background-color: #f9fafb;
+        padding: 8px 12px;
+        border-radius: 6px;
+        margin-bottom: 8px;
+        font-size: 0.9rem;
+        border-left: 3px solid var(--secondary);
+      }
+
+      .product-item:last-child {
+        margin-bottom: 0;
       }
 
       .btn {
@@ -238,16 +320,7 @@
         align-items: center;
         gap: 8px;
         text-decoration: none;
-      }
-
-      .btn-primary {
-        background-color: var(--primary);
-        color: white;
-      }
-
-      .btn-primary:hover {
-        background-color: var(--primary-dark);
-        transform: translateY(-2px);
+        margin-top: 1.5rem;
       }
 
       .btn-secondary {
@@ -258,22 +331,6 @@
 
       .btn-secondary:hover {
         background-color: rgba(37, 99, 235, 0.1);
-      }
-
-      .btn-payment {
-        background-color: var(--secondary);
-        color: white;
-        font-size: 1.1rem;
-        padding: 15px 30px;
-        width: 100%;
-        justify-content: center;
-        box-shadow: 0 4px 6px rgba(124, 58, 237, 0.2);
-      }
-
-      .btn-payment:hover {
-        background-color: var(--customer-dark);
-        transform: translateY(-2px);
-        box-shadow: 0 6px 10px rgba(124, 58, 237, 0.3);
       }
 
       .footer {
@@ -305,15 +362,6 @@
         font-size: 0.9rem;
         position: relative;
         z-index: 1;
-      }
-
-      .mobile-menu-btn {
-        display: none;
-        background: none;
-        border: none;
-        color: var(--dark);
-        font-size: 1.5rem;
-        cursor: pointer;
       }
 
       /* Accessibility improvements */
@@ -354,15 +402,18 @@
         animation: fadeInUp 0.6s forwards;
       }
 
+      @media (max-width: 1024px) {
+        .orders-table {
+          min-width: 900px;
+        }
+      }
+
       @media (max-width: 768px) {
         .navbar {
           padding: 1rem 3%;
         }
         .logo h1 {
           font-size: 1.5rem;
-        }
-        .mobile-menu-btn {
-          display: block;
         }
         .container {
           padding: 1.5rem;
@@ -373,27 +424,14 @@
         .page-title h1 {
           font-size: 2rem;
         }
-        .confirmation-card {
+        .orders-container {
           padding: 1.5rem;
-        }
-        .action-buttons {
-          flex-direction: column;
-        }
-        .btn {
-          width: 100%;
-          justify-content: center;
         }
       }
 
       @media (max-width: 576px) {
         .page-title h1 {
           font-size: 1.8rem;
-        }
-        .confirmation-section h2 {
-          font-size: 1.2rem;
-        }
-        .confirmation-section p {
-          font-size: 1rem;
         }
       }
     </style>
@@ -420,36 +458,90 @@
 
     <main id="main-content" class="container">
       <div class="page-title">
-        <h1>Confirm Your Order</h1>
-        <p>Please verify your delivery details before proceeding to payment</p>
+        <h1>Your Order History</h1>
+        <p>View and track all your previous orders</p>
       </div>
 
-      <div class="confirmation-card animate-fadeInUp">
-        <div class="confirmation-section">
-          <h2><i class="fas fa-mobile-alt"></i> Contact Number</h2>
-          <p th:text="${mobile}"></p>
-        </div>
-
-        <div class="confirmation-section">
-          <h2><i class="fas fa-map-marker-alt"></i> Delivery Address</h2>
-          <p th:text="${address}"></p>
-        </div>
-
-        <div class="warning-message">
-          <i class="fas fa-exclamation-triangle"></i>
-          <div>
-            <strong>Please verify your details.</strong> If the information
-            above is incorrect, please update it before proceeding.
-          </div>
-        </div>
-
-        <div class="action-buttons">
-          <a href="/customer/manage-profile" class="btn btn-secondary">
-            <i class="fas fa-user-edit"></i> Update Profile
+      <div class="orders-container animate-fadeInUp">
+        <div th:if="${orders.empty}" class="empty-orders">
+          <i class="fas fa-shopping-cart"></i>
+          <p>You haven't placed any orders yet.</p>
+          <a href="/customer/home" class="btn btn-secondary">
+            <i class="fas fa-shopping-bag"></i> Start Shopping
           </a>
-          <button id="rzp-button1" class="btn btn-payment">
-            <i class="fas fa-credit-card"></i> Pay with Razorpay
-          </button>
+        </div>
+
+        <div th:unless="${orders.empty}">
+          <div class="table-responsive">
+            <table class="orders-table">
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Date</th>
+                  <th>Total Amount</th>
+                  <th>Status</th>
+                  <th>Location</th>
+                  <th>Mobile</th>
+                  <th>Products</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr th:each="order : ${orders}">
+                  <td class="order-id" th:text="${order.id}"></td>
+                  <td
+                    class="order-date"
+                    th:text="${#temporals.format(order.creationTime, 'dd-MM-yyyy HH:mm')}"
+                  ></td>
+                  <td class="order-amount">
+                    ₹<span
+                      th:text="${#numbers.formatDecimal(order.totalAmount, 0, 2)}"
+                    ></span>
+                  </td>
+                  <td>
+                    <span
+                      class="order-status"
+                      th:classappend="${
+                        order.orderStatus == 'PENDING' ? 'status-pending' : 
+                        order.orderStatus == 'PROCESSING' ? 'status-processing' : 
+                        order.orderStatus == 'SHIPPED' ? 'status-shipped' : 
+                        order.orderStatus == 'DELIVERED' ? 'status-delivered' : 
+                        'status-cancelled'
+                      }"
+                      th:text="${order.orderStatus}"
+                    ></span>
+                  </td>
+                  <td
+                    class="order-address"
+                    th:text="${order.address}"
+                    th:title="${order.address}"
+                  ></td>
+                  <td class="order-mobile" th:text="${order.mobile}"></td>
+                  <td class="order-products">
+                    <ul class="product-list">
+                      <li
+                        class="product-item"
+                        th:each="orderItem : ${@orderItemRepository.findByOrdersId(order.id)}"
+                      >
+                        <strong th:text="${orderItem.product.name}"></strong>
+                        <div>
+                          Quantity:
+                          <span th:text="${orderItem.quantity}"></span>
+                        </div>
+                        <div>
+                          Price: ₹<span
+                            th:text="${#numbers.formatDecimal(orderItem.price, 0, 2)}"
+                          ></span>
+                        </div>
+                      </li>
+                    </ul>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <a href="/customer/home" class="btn btn-secondary">
+            <i class="fas fa-home"></i> Back to Home
+          </a>
         </div>
       </div>
     </main>
@@ -460,8 +552,7 @@
       </div>
     </footer>
 
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-    <script th:inline="javascript">
+    <script>
       document.addEventListener("DOMContentLoaded", function () {
         // Add animation to elements
         const observeElements = (elements, className) => {
@@ -484,57 +575,14 @@
 
         // Apply animations if supported
         if ("IntersectionObserver" in window) {
-          const confirmationSections = document.querySelectorAll(".confirmation-section");
-          const warningMessage = document.querySelector(".warning-message");
-          const actionButtons = document.querySelector(".action-buttons");
+          const ordersContainer = document.querySelector(".orders-container");
 
-          if (confirmationSections.length > 0) {
-            confirmationSections.forEach((section) => {
-              section.style.opacity = "0";
-            });
-            observeElements(confirmationSections, "animate-fadeInUp");
-          }
-
-          if (warningMessage) {
-            warningMessage.style.opacity = "0";
-            observeElements([warningMessage], "animate-fadeInUp");
-          }
-
-          if (actionButtons) {
-            actionButtons.style.opacity = "0";
-            observeElements([actionButtons], "animate-fadeInUp");
+          if (ordersContainer) {
+            ordersContainer.style.opacity = "0";
+            observeElements([ordersContainer], "animate-fadeInUp");
           }
         }
       });
-
-      var options = {
-        "key": [[${key}]],
-        "amount": "[[${amount}]]",
-        "currency": "INR",
-        "name": "ShopEase",
-        "description": "Payment for Order",
-        "image": "/images/logo.png",
-        "order_id": [[${orderId}]],
-        "callback_url": [[${url}]],
-        "prefill": {
-          "name": [[${session.customer.name}]],
-          "email": [[${session.customer.email}]],
-          "contact": ""
-        },
-        "notes": {
-          "address": "Razorpay Corporate Office"
-        },
-        "theme": {
-          "color": "#7c3aed"
-        }
-      };
-
-      var rzp1 = new Razorpay(options);
-
-      document.getElementById('rzp-button1').onclick = function(e) {
-        rzp1.open();
-        e.preventDefault();
-      }
     </script>
   </body>
 </html>

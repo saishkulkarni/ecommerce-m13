@@ -407,4 +407,56 @@ public class CustomerServiceImpl implements CustomerService {
 			return "redirect:/login";
 		}
 	}
+
+	@Override
+	public String orderHistory(HttpSession session, Model model) {
+		Customer customer = (Customer) session.getAttribute("customer");
+		if (customer != null) {
+			List<Orders> orders = orderRepository.findByCustomer(customer);
+			if (orders.isEmpty()) {
+				session.setAttribute("fail", "No Orders Yet");
+				return "redirect:/customer/home";
+			} else {
+				model.addAttribute("orders", orders);
+				return "order-history.html";
+			}
+		} else {
+			session.setAttribute("fail", "Invalid Session, First Login to Access");
+			return "redirect:/login";
+		}
+	}
+
+	@Override
+	public String loadTrackOrder(HttpSession session) {
+		Customer customer = (Customer) session.getAttribute("customer");
+		if (customer != null) {
+			return "track-order.html";
+		} else {
+			session.setAttribute("fail", "Invalid Session, First Login to Access");
+			return "redirect:/login";
+		}
+	}
+
+	@Override
+	public String trackOrders(Long orderId, HttpSession session, Model model) {
+		Customer customer = (Customer) session.getAttribute("customer");
+		if (customer != null) {
+			System.out.println("Order Id : " + orderId);
+			Orders order = orderRepository.findById(orderId).orElse(null);
+			if (order == null) {
+				session.setAttribute("fail", "Invalid Order Id");
+				return "redirect:/customer/track-orders";
+			}
+			if (order.getCustomer().getId() == customer.getId()) {
+				model.addAttribute("order", order);
+				return "track-order.html";
+			} else {
+				session.setAttribute("fail", "Invalid Order Id");
+				return "redirect:/customer/track-orders";
+			}
+		} else {
+			session.setAttribute("fail", "Invalid Session, First Login to Access");
+			return "redirect:/login";
+		}
+	}
 }

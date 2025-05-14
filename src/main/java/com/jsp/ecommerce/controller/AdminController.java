@@ -67,4 +67,19 @@ public class AdminController {
 	public String rejectProduct(@PathVariable("id") Long id,@RequestParam("reason") String reason, HttpSession session) {
 		return adminService.rejectProduct(id,reason, session);
 	}
+
+	@GetMapping("/manage-orders")
+	public String loadOrders(HttpSession session, Model model) {
+		return adminService.loadOrders(session, model);
+	}
+
+	@PostMapping("/update-status")
+	public String updateStatus(@RequestParam Long orderId,@RequestParam String status, HttpSession session) {
+		return adminService.updateStatus(orderId, status, session);
+	}
+
+	@GetMapping("/overview")
+	public String loadOverview(HttpSession session,Model model) {
+		return adminService.loadOverView(session,model);
+	}
 }

@@ -14,13 +14,13 @@
     />
     <style>
       :root {
-        --primary: #4361ee;
-        --primary-dark: #3a56d4;
-        --secondary: #7209b7;
+        --primary: #f2994a;
+        --primary-dark: #e67e22;
+        --secondary: #f2c94c;
         --light: #f8f9fa;
         --dark: #212529;
-        --success: #2ecc71;
-        --danger: #e74c3c;
+        --success: #10b981;
+        --danger: #ef4444;
         --gray: #6c757d;
         --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         --transition: all 0.3s ease;
@@ -37,8 +37,25 @@
         min-height: 100vh;
         display: flex;
         flex-direction: column;
-        background-color: var(--light);
+        background-color: #f9fafb;
         color: var(--dark);
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23f2994a' fill-opacity='0.05'%3E%3Cpath opacity='.5' d='M96 95h4v1h-4v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9zm-1 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      }
+
+      /* Skip link for accessibility */
+      .skip-link {
+        position: absolute;
+        top: -40px;
+        left: 0;
+        background: var(--primary);
+        color: white;
+        padding: 8px;
+        z-index: 1001;
+        transition: top 0.3s;
+      }
+
+      .skip-link:focus {
+        top: 0;
       }
 
       .navbar {
@@ -61,10 +78,13 @@
       .logo a {
         text-decoration: none;
         color: var(--dark);
+        display: flex;
+        align-items: center;
       }
 
-      .logo img {
-        height: 40px;
+      .logo i {
+        font-size: 1.8rem;
+        color: var(--primary);
         margin-right: 10px;
       }
 
@@ -152,8 +172,52 @@
       }
 
       .dropdown-option:hover {
-        background-color: #f1f5ff;
+        background-color: #fff8ee;
         color: var(--primary);
+      }
+
+      /* Mobile menu button */
+      .mobile-menu-btn {
+        display: none;
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        color: var(--primary);
+        cursor: pointer;
+      }
+
+      /* Mobile menu */
+      .mobile-menu {
+        display: none;
+        position: fixed;
+        top: 70px;
+        left: 0;
+        right: 0;
+        background-color: white;
+        padding: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        z-index: 999;
+      }
+
+      .mobile-menu .nav-buttons {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .mobile-menu .dropdown {
+        width: 100%;
+      }
+
+      .mobile-menu .dropdown-content {
+        position: static;
+        display: none;
+        width: 100%;
+        box-shadow: none;
+        padding-left: 20px;
+      }
+
+      .mobile-menu .dropdown.active .dropdown-content {
+        display: block;
       }
 
       .alert {
@@ -217,13 +281,30 @@
         padding: 40px;
         background-color: white;
         border-radius: 12px;
-        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
         animation: fadeIn 0.5s;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .register-container::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 5px;
+        background: linear-gradient(
+          90deg,
+          var(--primary) 0%,
+          var(--secondary) 100%
+        );
       }
 
       .register-header {
         text-align: center;
         margin-bottom: 30px;
+        position: relative;
       }
 
       .register-header h2 {
@@ -239,12 +320,17 @@
 
       .register-header .merchant-badge {
         display: inline-block;
-        background: linear-gradient(135deg, #f2994a 0%, #f2c94c 100%);
+        background: linear-gradient(
+          135deg,
+          var(--primary) 0%,
+          var(--secondary) 100%
+        );
         color: white;
-        padding: 5px 15px;
+        padding: 8px 18px;
         border-radius: 20px;
         font-size: 0.9rem;
-        margin-top: 10px;
+        margin-top: 15px;
+        box-shadow: 0 3px 10px rgba(242, 153, 74, 0.2);
       }
 
       .form-group {
@@ -257,6 +343,8 @@
         margin-bottom: 8px;
         font-weight: 500;
         color: var(--dark);
+        font-size: 0.95rem;
+        transition: var(--transition);
       }
 
       .form-group .input-with-icon {
@@ -269,21 +357,32 @@
         top: 50%;
         transform: translateY(-50%);
         color: var(--gray);
+        transition: var(--transition);
       }
 
       .form-group input {
         width: 100%;
-        padding: 12px 15px 12px 45px;
-        border: 1px solid #ddd;
+        padding: 14px 15px 14px 45px;
+        border: 1px solid #e5e7eb;
         border-radius: 8px;
         font-size: 1rem;
         transition: var(--transition);
+        background-color: #f9fafb;
       }
 
       .form-group input:focus {
         border-color: var(--primary);
-        box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+        box-shadow: 0 0 0 3px rgba(242, 153, 74, 0.15);
         outline: none;
+        background-color: #fff;
+      }
+
+      .form-group.input-focused label {
+        color: var(--primary);
+      }
+
+      .form-group.input-focused .input-icon {
+        color: var(--primary);
       }
 
       .error-message {
@@ -293,28 +392,84 @@
         display: block;
       }
 
+      .password-toggle {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--gray);
+        cursor: pointer;
+        transition: var(--transition);
+        z-index: 2;
+      }
+
+      .password-toggle:hover {
+        color: var(--primary);
+      }
+
+      .password-strength-container {
+        margin-top: 8px;
+        height: 4px;
+        background-color: #e5e7eb;
+        border-radius: 2px;
+        overflow: hidden;
+      }
+
+      .password-strength-bar {
+        height: 100%;
+        width: 0;
+        transition: width 0.3s ease, background-color 0.3s ease;
+      }
+
+      .password-strength-text {
+        font-size: 0.8rem;
+        margin-top: 5px;
+        text-align: right;
+        transition: color 0.3s ease;
+      }
+
+      .password-match {
+        display: none;
+        align-items: center;
+        font-size: 0.85rem;
+        margin-top: 5px;
+        gap: 5px;
+      }
+
+      .match-success {
+        color: var(--success);
+      }
+
+      .match-error {
+        color: var(--danger);
+      }
+
       .checkbox-group {
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         margin-bottom: 25px;
+        gap: 10px;
       }
 
       .checkbox-group input {
-        margin-right: 10px;
+        margin-top: 3px;
         width: 18px;
         height: 18px;
         accent-color: var(--primary);
+        cursor: pointer;
       }
 
       .checkbox-group label {
         color: var(--dark);
         font-size: 0.95rem;
+        line-height: 1.4;
       }
 
       .checkbox-group a {
         color: var(--primary);
         text-decoration: none;
         transition: var(--transition);
+        font-weight: 500;
       }
 
       .checkbox-group a:hover {
@@ -324,7 +479,11 @@
       .submit-button {
         width: 100%;
         padding: 14px;
-        background: linear-gradient(135deg, #f2994a 0%, #f2c94c 100%);
+        background: linear-gradient(
+          135deg,
+          var(--primary) 0%,
+          var(--secondary) 100%
+        );
         color: white;
         border: none;
         border-radius: 8px;
@@ -332,7 +491,7 @@
         font-weight: 600;
         cursor: pointer;
         transition: var(--transition);
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 10px rgba(242, 153, 74, 0.2);
         display: flex;
         justify-content: center;
         align-items: center;
@@ -341,7 +500,11 @@
 
       .submit-button:hover {
         transform: translateY(-2px);
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 6px 15px rgba(242, 153, 74, 0.25);
+      }
+
+      .submit-button:active {
+        transform: translateY(0);
       }
 
       .login-link {
@@ -363,45 +526,79 @@
       }
 
       .benefits-section {
-        margin-top: 30px;
-        padding-top: 20px;
-        border-top: 1px dashed #ddd;
+        margin-top: 35px;
+        padding-top: 25px;
+        border-top: 1px dashed #e5e7eb;
       }
 
       .benefits-section h3 {
         font-size: 1.2rem;
         color: var(--dark);
-        margin-bottom: 15px;
+        margin-bottom: 20px;
         text-align: center;
+        position: relative;
+        display: inline-block;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      .benefits-section h3::after {
+        content: "";
+        position: absolute;
+        bottom: -8px;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(
+          90deg,
+          var(--primary) 0%,
+          var(--secondary) 100%
+        );
+        border-radius: 3px;
       }
 
       .benefits-list {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        gap: 15px;
+        gap: 20px;
       }
 
       .benefit-item {
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 15px;
+        transition: var(--transition);
+        padding: 10px;
+        border-radius: 8px;
+      }
+
+      .benefit-item:hover {
+        background-color: #fff8ee;
+        transform: translateY(-2px);
       }
 
       .benefit-icon {
-        width: 30px;
-        height: 30px;
-        background: linear-gradient(135deg, #f2994a 0%, #f2c94c 100%);
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(
+          135deg,
+          var(--primary) 0%,
+          var(--secondary) 100%
+        );
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
         color: white;
-        font-size: 0.9rem;
+        font-size: 1rem;
+        box-shadow: 0 3px 8px rgba(242, 153, 74, 0.2);
+        flex-shrink: 0;
       }
 
       .benefit-text {
-        font-size: 0.9rem;
+        font-size: 0.95rem;
         color: var(--dark);
+        font-weight: 500;
       }
 
       .footer {
@@ -409,6 +606,22 @@
         color: white;
         padding: 3rem 5% 1.5rem;
         margin-top: auto;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .footer::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 5px;
+        background: linear-gradient(
+          90deg,
+          var(--primary) 0%,
+          var(--secondary) 100%
+        );
       }
 
       .footer-content {
@@ -419,6 +632,8 @@
         margin: 0 auto;
         padding-bottom: 1.5rem;
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        position: relative;
+        z-index: 1;
       }
 
       .footer-logo {
@@ -426,9 +641,10 @@
         align-items: center;
       }
 
-      .footer-logo img {
-        height: 35px;
+      .footer-logo i {
+        font-size: 1.5rem;
         margin-right: 10px;
+        color: var(--primary);
       }
 
       .footer-logo h2 {
@@ -436,12 +652,12 @@
         color: white;
       }
 
-      .social-icons {
+      .social-icons-footer {
         display: flex;
         gap: 15px;
       }
 
-      .social-icons a {
+      .social-icons-footer a {
         color: white;
         background-color: rgba(255, 255, 255, 0.1);
         width: 40px;
@@ -453,8 +669,12 @@
         transition: var(--transition);
       }
 
-      .social-icons a:hover {
-        background-color: var(--primary);
+      .social-icons-footer a:hover {
+        background: linear-gradient(
+          135deg,
+          var(--primary) 0%,
+          var(--secondary) 100%
+        );
         transform: translateY(-3px);
       }
 
@@ -463,11 +683,43 @@
         padding-top: 1.5rem;
         color: rgba(255, 255, 255, 0.7);
         font-size: 0.9rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      /* Wave pattern for footer */
+      .footer::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 50px;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z' fill='%23f2994a' opacity='0.05'%3E%3C/path%3E%3C/svg%3E");
+        background-size: cover;
+        z-index: 0;
       }
 
       @media (max-width: 768px) {
+        .navbar {
+          padding: 1rem 4%;
+        }
+
+        .logo h1 {
+          font-size: 1.5rem;
+        }
+
+        .nav-buttons {
+          display: none;
+        }
+
+        .mobile-menu-btn {
+          display: block;
+        }
+
         .register-container {
           padding: 30px 20px;
+          margin: 30px auto;
         }
 
         .register-header h2 {
@@ -487,17 +739,31 @@
     </style>
   </head>
   <body>
+    <!-- Accessibility skip link -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
     <nav class="navbar">
       <div class="logo">
         <a href="/">
-          <img src="/images/logo.png" alt="ShopEase Logo" />
+          <i class="fas fa-shopping-bag"></i>
+          <h1>ShopEase</h1>
         </a>
-        <a href="/"><h1>ShopEase</h1></a>
       </div>
+
+      <button
+        class="mobile-menu-btn"
+        aria-label="Toggle menu"
+        aria-expanded="false"
+      >
+        <i class="fas fa-bars"></i>
+      </button>
+
       <div class="nav-buttons">
         <a href="/login"><button class="nav-btn login-btn">Login</button></a>
         <div class="dropdown">
-          <button class="nav-btn register-btn">Register</button>
+          <button class="nav-btn register-btn">
+            Register <i class="fas fa-chevron-down"></i>
+          </button>
           <div class="dropdown-content">
             <a href="/admin/register" class="dropdown-option">
               <i class="fas fa-user-shield"></i> Admin Register
@@ -513,233 +779,424 @@
       </div>
     </nav>
 
+    <!-- Mobile menu (hidden by default) -->
+    <div class="mobile-menu">
+      <div class="nav-buttons">
+        <a href="/login"><button class="nav-btn login-btn">Login</button></a>
+        <div class="dropdown">
+          <button class="nav-btn register-btn mobile-dropdown-toggle">
+            Register <i class="fas fa-chevron-down"></i>
+          </button>
+          <div class="dropdown-content">
+            <a href="/admin/register" class="dropdown-option">
+              <i class="fas fa-user-shield"></i> Admin Register
+            </a>
+            <a href="/merchant/register" class="dropdown-option">
+              <i class="fas fa-store"></i> Merchant Register
+            </a>
+            <a href="/customer/register" class="dropdown-option">
+              <i class="fas fa-user"></i> Customer Register
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Alert messages that will disappear after 2 seconds -->
     <div th:if="${session.pass}" class="alert alert-success">
       <i class="fas fa-check-circle alert-icon"></i>
       <span th:text="${session.pass}"></span>
     </div>
+
     <div th:if="${session.fail}" class="alert alert-danger">
       <i class="fas fa-exclamation-circle alert-icon"></i>
       <span th:text="${session.fail}"></span>
     </div>
-        <th:block th:text="${@messageRemover.remove()}"></th:block>
 
-    <div class="register-container">
-      <div class="register-header">
-        <h2>Merchant Registration</h2>
-        <p>Start selling your products on our platform</p>
-        <span class="merchant-badge"><i class="fas fa-store"></i> Merchant Account</span>
+    <th:block th:text="${@messageRemover.remove()}"></th:block>
+
+    <main id="main-content">
+      <div class="register-container">
+        <div class="register-header">
+          <h2>Merchant Registration</h2>
+          <p>Start selling your products on our platform</p>
+          <span class="merchant-badge">
+            <i class="fas fa-store"></i> Merchant Account
+          </span>
+        </div>
+
+        <form action="/merchant/register" method="post" th:object="${userDto}">
+          <div class="form-group">
+            <label for="name">Business Name</label>
+            <div class="input-with-icon">
+              <i class="fas fa-store input-icon"></i>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                th:field="*{name}"
+                placeholder="Enter your business name"
+              />
+            </div>
+            <span
+              class="error-message"
+              th:if="${#fields.hasErrors('name')}"
+              th:errors="*{name}"
+            ></span>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Business Email</label>
+            <div class="input-with-icon">
+              <i class="fas fa-envelope input-icon"></i>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                th:field="*{email}"
+                placeholder="Enter your business email"
+              />
+            </div>
+            <span
+              class="error-message"
+              th:if="${#fields.hasErrors('email')}"
+              th:errors="*{email}"
+            ></span>
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <div class="input-with-icon">
+              <i class="fas fa-lock input-icon"></i>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                th:field="*{password}"
+                placeholder="Create a strong password"
+              />
+              <i class="fas fa-eye password-toggle" id="passwordToggle"></i>
+            </div>
+            <div class="password-strength-container">
+              <div class="password-strength-bar" id="passwordStrengthBar"></div>
+            </div>
+            <div class="password-strength-text" id="passwordStrengthText"></div>
+            <span
+              class="error-message"
+              th:if="${#fields.hasErrors('password')}"
+              th:errors="*{password}"
+            ></span>
+          </div>
+
+          <div class="form-group">
+            <label for="confirmPassword">Confirm Password</label>
+            <div class="input-with-icon">
+              <i class="fas fa-lock input-icon"></i>
+              <input
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                th:field="*{confirmPassword}"
+                placeholder="Confirm your password"
+              />
+              <i
+                class="fas fa-eye password-toggle"
+                id="confirmPasswordToggle"
+              ></i>
+            </div>
+            <div class="password-match" id="passwordMatch"></div>
+            <span
+              class="error-message"
+              th:if="${#fields.hasErrors('confirmPassword')}"
+              th:errors="*{confirmPassword}"
+            ></span>
+          </div>
+
+          <div class="checkbox-group">
+            <input
+              type="checkbox"
+              id="terms"
+              name="terms"
+              th:field="*{terms}"
+              value="true"
+            />
+            <label for="terms">
+              I agree to the <a href="/terms">Terms and Conditions</a> and
+              <a href="/privacy">Privacy Policy</a>
+            </label>
+          </div>
+          <span
+            class="error-message"
+            th:if="${#fields.hasErrors('terms')}"
+            th:errors="*{terms}"
+          ></span>
+
+          <button type="submit" class="submit-button">
+            <i class="fas fa-store"></i> Register as Merchant
+          </button>
+
+          <div class="login-link">
+            Already have an account? <a href="/login">Login here</a>
+          </div>
+
+          <div class="benefits-section">
+            <h3>Benefits of being a Merchant</h3>
+            <div class="benefits-list">
+              <div class="benefit-item">
+                <div class="benefit-icon">
+                  <i class="fas fa-globe"></i>
+                </div>
+                <div class="benefit-text">Reach customers worldwide</div>
+              </div>
+              <div class="benefit-item">
+                <div class="benefit-icon">
+                  <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="benefit-text">Track sales analytics</div>
+              </div>
+              <div class="benefit-item">
+                <div class="benefit-icon">
+                  <i class="fas fa-money-bill-wave"></i>
+                </div>
+                <div class="benefit-text">Secure payment processing</div>
+              </div>
+              <div class="benefit-item">
+                <div class="benefit-icon">
+                  <i class="fas fa-truck"></i>
+                </div>
+                <div class="benefit-text">Shipping integration</div>
+              </div>
+            </div>
+          </div>
+        </form>
       </div>
-      
-      <form action="/merchant/register" method="post" th:object="${userDto}">
-        <div class="form-group">
-          <label for="name">Business Name</label>
-          <div class="input-with-icon">
-            <i class="fas fa-store input-icon"></i>
-            <input type="text" id="name" name="name" th:field="*{name}" placeholder="Enter your business name" />
-            <span class="error-message" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
-          </div>
-        </div>
-        
-        <div class="form-group">
-          <label for="email">Business Email</label>
-          <div class="input-with-icon">
-            <i class="fas fa-envelope input-icon"></i>
-            <input type="email" id="email" name="email" th:field="*{email}" placeholder="Enter your business email" />
-            <span class="error-message" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
-          </div>
-        </div>
-        
-        <div class="form-group">
-          <label for="password">Password</label>
-          <div class="input-with-icon">
-            <i class="fas fa-lock input-icon"></i>
-            <input type="password" id="password" name="password" th:field="*{password}" placeholder="Create a strong password" />
-            <span class="error-message" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
-          </div>
-        </div>
-        
-        <div class="form-group">
-          <label for="confirmPassword">Confirm Password</label>
-          <div class="input-with-icon">
-            <i class="fas fa-lock input-icon"></i>
-            <input type="password" id="confirmPassword" name="confirmPassword" th:field="*{confirmPassword}" placeholder="Confirm your password" />
-            <span class="error-message" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></span>
-          </div>
-        </div>
-        
-        <div class="checkbox-group">
-          <input type="checkbox" id="terms" name="terms" th:field="*{terms}" value="true" />
-          <label for="terms">I agree to the <a href="/terms">Terms and Conditions</a> and <a href="/privacy">Privacy Policy</a></label>
-          <span class="error-message" th:if="${#fields.hasErrors('terms')}" th:errors="*{terms}"></span>
-        </div>
-        
-        <button type="submit" class="submit-button">
-          <i class="fas fa-store"></i> Register as Merchant
-        </button>
-        
-        <div class="login-link">
-          Already have an account? <a href="/login">Login here</a>
-        </div>
-        
-        <div class="benefits-section">
-          <h3>Benefits of being a Merchant</h3>
-          <div class="benefits-list">
-            <div class="benefit-item">
-              <div class="benefit-icon">
-                <i class="fas fa-globe"></i>
-              </div>
-              <div class="benefit-text">Reach customers worldwide</div>
-            </div>
-            <div class="benefit-item">
-              <div class="benefit-icon">
-                <i class="fas fa-chart-line"></i>
-              </div>
-              <div class="benefit-text">Track sales analytics</div>
-            </div>
-            <div class="benefit-item">
-              <div class="benefit-icon">
-                <i class="fas fa-money-bill-wave"></i>
-              </div>
-              <div class="benefit-text">Secure payment processing</div>
-            </div>
-            <div class="benefit-item">
-              <div class="benefit-icon">
-                <i class="fas fa-truck"></i>
-              </div>
-              <div class="benefit-text">Shipping integration</div>
-            </div>
-          </div>
-        </div>
-      </form>
-    </div>
+    </main>
 
     <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-logo">
+          <i class="fas fa-shopping-bag"></i>
+          <h2>ShopEase</h2>
+        </div>
+        <div class="social-icons-footer">
+          <a href="#" aria-label="Facebook">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="#" aria-label="Twitter">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="#" aria-label="Instagram">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="#" aria-label="LinkedIn">
+            <i class="fab fa-linkedin-in"></i>
+          </a>
+        </div>
+      </div>
       <div class="footer-bottom">
         <p>&copy; 2025 ShopEase. All Rights Reserved.</p>
       </div>
     </footer>
 
     <script>
-      // Script to automatically remove alerts after 2 seconds
-      document.addEventListener('DOMContentLoaded', function() {
-        const alerts = document.querySelectorAll('.alert');
-        
-        if (alerts.length > 0) {
-          setTimeout(function() {
-            alerts.forEach(alert => {
-              alert.style.display = 'none';
-            });
-          }, 2000);
+      document.addEventListener("DOMContentLoaded", function () {
+        // Form input focus effects
+        const formInputs = document.querySelectorAll(".form-group input");
+        formInputs.forEach((input) => {
+          input.addEventListener("focus", function () {
+            this.parentElement.parentElement.classList.add("input-focused");
+          });
+
+          input.addEventListener("blur", function () {
+            this.parentElement.parentElement.classList.remove("input-focused");
+          });
+        });
+
+        // Handle alerts
+        const removeAlerts = () => {
+          const alerts = document.querySelectorAll(".alert");
+          if (alerts.length > 0) {
+            setTimeout(function () {
+              alerts.forEach((alert) => {
+                alert.style.display = "none";
+              });
+            }, 2000);
+          }
+        };
+        removeAlerts();
+
+        // Password visibility toggle
+        const passwordToggle = document.getElementById("passwordToggle");
+        const passwordInput = document.getElementById("password");
+
+        passwordToggle.addEventListener("click", function () {
+          if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            passwordToggle.classList.remove("fa-eye");
+            passwordToggle.classList.add("fa-eye-slash");
+          } else {
+            passwordInput.type = "password";
+            passwordToggle.classList.remove("fa-eye-slash");
+            passwordToggle.classList.add("fa-eye");
+          }
+        });
+
+        const confirmPasswordToggle = document.getElementById(
+          "confirmPasswordToggle"
+        );
+        const confirmPasswordInput = document.getElementById("confirmPassword");
+
+        confirmPasswordToggle.addEventListener("click", function () {
+          if (confirmPasswordInput.type === "password") {
+            confirmPasswordInput.type = "text";
+            confirmPasswordToggle.classList.remove("fa-eye");
+            confirmPasswordToggle.classList.add("fa-eye-slash");
+          } else {
+            confirmPasswordInput.type = "password";
+            confirmPasswordToggle.classList.remove("fa-eye-slash");
+            confirmPasswordToggle.classList.add("fa-eye");
+          }
+        });
+
+        // Password strength indicator
+        const passwordStrengthBar = document.getElementById(
+          "passwordStrengthBar"
+        );
+        const passwordStrengthText = document.getElementById(
+          "passwordStrengthText"
+        );
+
+        passwordInput.addEventListener("input", function () {
+          const value = passwordInput.value;
+          let strength = 0;
+          let status = "";
+
+          if (value.length >= 8) strength += 1;
+          if (value.match(/[A-Z]/)) strength += 1;
+          if (value.match(/[0-9]/)) strength += 1;
+          if (value.match(/[^A-Za-z0-9]/)) strength += 1;
+
+          switch (strength) {
+            case 0:
+              passwordStrengthBar.style.width = "0%";
+              passwordStrengthBar.style.backgroundColor = "transparent";
+              passwordStrengthText.textContent = "";
+              break;
+            case 1:
+              passwordStrengthBar.style.width = "25%";
+              passwordStrengthBar.style.backgroundColor = "#ef4444";
+              status = "Weak";
+              passwordStrengthText.style.color = "#ef4444";
+              break;
+            case 2:
+              passwordStrengthBar.style.width = "50%";
+              passwordStrengthBar.style.backgroundColor = "#f59e0b";
+              status = "Fair";
+              passwordStrengthText.style.color = "#f59e0b";
+              break;
+            case 3:
+              passwordStrengthBar.style.width = "75%";
+              passwordStrengthBar.style.backgroundColor = "#3b82f6";
+              status = "Good";
+              passwordStrengthText.style.color = "#3b82f6";
+              break;
+            case 4:
+              passwordStrengthBar.style.width = "100%";
+              passwordStrengthBar.style.backgroundColor = "#10b981";
+              status = "Strong";
+              passwordStrengthText.style.color = "#10b981";
+              break;
+          }
+
+          if (value.length > 0) {
+            passwordStrengthText.textContent = status;
+          } else {
+            passwordStrengthText.textContent = "";
+          }
+        });
+
+        // Password match validation
+        const passwordMatch = document.getElementById("passwordMatch");
+
+        function checkPasswordMatch() {
+          if (confirmPasswordInput.value === "") {
+            passwordMatch.style.display = "none";
+            return;
+          }
+
+          passwordMatch.style.display = "flex";
+
+          if (passwordInput.value === confirmPasswordInput.value) {
+            passwordMatch.innerHTML =
+              '<i class="fas fa-check-circle"></i> Passwords match';
+            passwordMatch.classList.add("match-success");
+            passwordMatch.classList.remove("match-error");
+          } else {
+            passwordMatch.innerHTML =
+              '<i class="fas fa-times-circle"></i> Passwords do not match';
+            passwordMatch.classList.add("match-error");
+            passwordMatch.classList.remove("match-success");
+          }
         }
-        
-        // Password visibility toggle for both password fields
-        const passwordFields = document.querySelectorAll('input[type="password"]');
-        
-        passwordFields.forEach(field => {
-          const togglePassword = document.createElement('i');
-          togglePassword.className = 'fas fa-eye';
-          togglePassword.style.position = 'absolute';
-          togglePassword.style.right = '15px';
-          togglePassword.style.top = '50%';
-          togglePassword.style.transform = 'translateY(-50%)';
-          togglePassword.style.cursor = 'pointer';
-          togglePassword.style.color = 'var(--gray)';
-          
-          field.parentElement.appendChild(togglePassword);
-          
-          togglePassword.addEventListener('click', function() {
-            if (field.type === 'password') {
-              field.type = 'text';
-              togglePassword.className = 'fas fa-eye-slash';
+
+        confirmPasswordInput.addEventListener("input", checkPasswordMatch);
+        passwordInput.addEventListener("input", function () {
+          if (confirmPasswordInput.value !== "") {
+            checkPasswordMatch();
+          }
+        });
+
+        // Mobile menu functionality
+        const mobileMenuBtn = document.querySelector(".mobile-menu-btn");
+        const mobileMenu = document.querySelector(".mobile-menu");
+
+        if (mobileMenuBtn && mobileMenu) {
+          mobileMenuBtn.addEventListener("click", function () {
+            if (mobileMenu.style.display === "block") {
+              mobileMenu.style.display = "none";
+              mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+              mobileMenuBtn.setAttribute("aria-expanded", "false");
             } else {
-              field.type = 'password';
-              togglePassword.className = 'fas fa-eye';
+              mobileMenu.style.display = "block";
+              mobileMenuBtn.innerHTML = '<i class="fas fa-times"></i>';
+              mobileMenuBtn.setAttribute("aria-expanded", "true");
+            }
+          });
+        }
+
+        // Mobile dropdown toggle
+        const mobileDropdownToggles = document.querySelectorAll(
+          ".mobile-dropdown-toggle"
+        );
+        mobileDropdownToggles.forEach((toggle) => {
+          toggle.addEventListener("click", function (e) {
+            e.preventDefault();
+            const parent = this.parentElement;
+            if (parent.classList.contains("active")) {
+              parent.classList.remove("active");
+              this.querySelector("i").classList.remove("fa-chevron-up");
+              this.querySelector("i").classList.add("fa-chevron-down");
+            } else {
+              parent.classList.add("active");
+              this.querySelector("i").classList.remove("fa-chevron-down");
+              this.querySelector("i").classList.add("fa-chevron-up");
             }
           });
         });
-        
-        // Password strength indicator
-        const passwordInput = document.getElementById('password');
-        if (passwordInput) {
-          const strengthIndicator = document.createElement('div');
-          strengthIndicator.style.height = '4px';
-          strengthIndicator.style.marginTop = '8px';
-          strengthIndicator.style.borderRadius = '2px';
-          strengthIndicator.style.transition = 'all 0.3s ease';
-          
-          passwordInput.parentElement.appendChild(strengthIndicator);
-          
-          passwordInput.addEventListener('input', function() {
-            const value = passwordInput.value;
-            let strength = 0;
-            
-            if (value.length >= 8) strength += 1;
-            if (value.match(/[A-Z]/)) strength += 1;
-            if (value.match(/[0-9]/)) strength += 1;
-            if (value.match(/[^A-Za-z0-9]/)) strength += 1;
-            
-            switch (strength) {
-              case 0:
-                strengthIndicator.style.width = '0%';
-                strengthIndicator.style.backgroundColor = 'transparent';
-                break;
-              case 1:
-                strengthIndicator.style.width = '25%';
-                strengthIndicator.style.backgroundColor = '#e74c3c';
-                break;
-              case 2:
-                strengthIndicator.style.width = '50%';
-                strengthIndicator.style.backgroundColor = '#f39c12';
-                break;
-              case 3:
-                strengthIndicator.style.width = '75%';
-                strengthIndicator.style.backgroundColor = '#3498db';
-                break;
-              case 4:
-                strengthIndicator.style.width = '100%';
-                strengthIndicator.style.backgroundColor = '#2ecc71';
-                break;
-            }
-          });
-        }
-        
-        // Password match validation
-        const confirmPasswordInput = document.getElementById('confirmPassword');
-        if (confirmPasswordInput && passwordInput) {
-          const matchIndicator = document.createElement('div');
-          matchIndicator.style.fontSize = '0.85rem';
-          matchIndicator.style.marginTop = '5px';
-          matchIndicator.style.display = 'none';
-          
-          confirmPasswordInput.parentElement.appendChild(matchIndicator);
-          
-          function checkPasswordMatch() {
-            if (confirmPasswordInput.value === '') {
-              matchIndicator.style.display = 'none';
-              return;
-            }
-            
-            if (passwordInput.value === confirmPasswordInput.value) {
-              matchIndicator.style.display = 'block';
-              matchIndicator.style.color = 'var(--success)';
-              matchIndicator.innerHTML = '<i class="fas fa-check-circle"></i> Passwords match';
-            } else {
-              matchIndicator.style.display = 'block';
-              matchIndicator.style.color = 'var(--danger)';
-              matchIndicator.innerHTML = '<i class="fas fa-times-circle"></i> Passwords do not match';
+
+        // Close mobile menu when clicking outside
+        document.addEventListener("click", function (event) {
+          if (mobileMenu && mobileMenu.style.display === "block") {
+            const isClickInsideMenu = mobileMenu.contains(event.target);
+            const isClickOnMenuBtn = mobileMenuBtn.contains(event.target);
+            if (!isClickInsideMenu && !isClickOnMenuBtn) {
+              mobileMenu.style.display = "none";
+              mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+              mobileMenuBtn.setAttribute("aria-expanded", "false");
             }
           }
-          
-          confirmPasswordInput.addEventListener('input', checkPasswordMatch);
-          passwordInput.addEventListener('input', function() {
-            if (confirmPasswordInput.value !== '') {
-              checkPasswordMatch();
-            }
-          });
-        }
+        });
       });
     </script>
   </body>
 </html>
-

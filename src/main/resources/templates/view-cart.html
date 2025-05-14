@@ -1,52 +1,741 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <div align="center">
-        <h1>Cart Items</h1>
-<div th:if="${session.pass}" class="alert alert-success">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Your Cart | ShopEase</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #2563eb;
+        --primary-dark: #1d4ed8;
+        --secondary: #7c3aed;
+        --accent: #f59e0b;
+        --light: #f9fafb;
+        --dark: #111827;
+        --success: #10b981;
+        --danger: #ef4444;
+        --gray: #6b7280;
+        --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+          0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        --transition: all 0.3s ease;
+        --customer: #7c3aed;
+        --customer-dark: #6d28d9;
+        --customer-gradient: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Montserrat", sans-serif;
+      }
+
+      body {
+        min-height: 100vh;
+        background-color: var(--light);
+        color: var(--dark);
+        display: flex;
+        flex-direction: column;
+      }
+
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 5%;
+        background-color: #ffffff;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+      }
+
+      .logo a {
+        text-decoration: none;
+        color: var(--dark);
+        display: flex;
+        align-items: center;
+      }
+
+      .logo i {
+        font-size: 2rem;
+        color: var(--primary);
+        margin-right: 10px;
+      }
+
+      .logo h1 {
+        font-size: 1.8rem;
+        color: var(--primary);
+        font-weight: 700;
+      }
+
+      .customer-badge {
+        background: var(--customer-gradient);
+        color: white;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        margin-left: 10px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .logout-btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition);
+        background-color: transparent;
+        color: var(--primary);
+        border: 2px solid var(--primary);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .logout-btn:hover {
+        background-color: rgba(37, 99, 235, 0.1);
+      }
+
+      .alert {
+        position: fixed;
+        top: 80px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 15px 25px;
+        border-radius: 10px;
+        box-shadow: var(--shadow);
+        z-index: 1001;
+        display: flex;
+        align-items: center;
+        min-width: 300px;
+        max-width: 500px;
+        animation: slideDown 0.3s, fadeOut 0.5s 1.5s forwards;
+      }
+
+      .alert-success {
+        background-color: #ecfdf5;
+        color: #065f46;
+        border-left: 4px solid var(--success);
+      }
+
+      .alert-danger {
+        background-color: #fef2f2;
+        color: #991b1b;
+        border-left: 4px solid var(--danger);
+      }
+
+      .alert-icon {
+        margin-right: 10px;
+        font-size: 1.2rem;
+      }
+
+      @keyframes slideDown {
+        from {
+          transform: translate(-50%, -20px);
+          opacity: 0;
+        }
+        to {
+          transform: translate(-50%, 0);
+          opacity: 1;
+        }
+      }
+
+      @keyframes fadeOut {
+        from {
+          opacity: 1;
+        }
+        to {
+          opacity: 0;
+          visibility: hidden;
+        }
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+        flex: 1;
+      }
+
+      .page-title {
+        background: linear-gradient(
+          135deg,
+          var(--primary) 0%,
+          var(--secondary) 100%
+        );
+        color: white;
+        padding: 2rem;
+        border-radius: 15px;
+        margin-bottom: 2rem;
+        box-shadow: 0 5px 15px rgba(124, 58, 237, 0.2);
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .page-title::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('data:image/svg+xml;charset=utf8,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"%3E%3Cpath fill="%23ffffff" fill-opacity="0.05" d="M0,160L48,144C96,128,192,96,288,106.7C384,117,480,171,576,186.7C672,203,768,181,864,154.7C960,128,1056,96,1152,96C1248,96,1344,128,1392,144L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"%3E%3C/path%3E%3C/svg%3E');
+        background-size: cover;
+        background-position: center;
+      }
+
+      .page-title h1 {
+        font-size: 2.5rem;
+        margin-bottom: 0.5rem;
+        font-weight: 700;
+        position: relative;
+        z-index: 1;
+      }
+
+      .page-title p {
+        opacity: 0.9;
+        position: relative;
+        z-index: 1;
+      }
+
+      .cart-container {
+        background-color: white;
+        border-radius: 16px;
+        padding: 2rem;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+        overflow-x: auto;
+        border: 1px solid #f3f4f6;
+      }
+
+      .cart-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 2rem;
+      }
+
+      .cart-table th {
+        background-color: #f8f9fa;
+        padding: 15px;
+        text-align: left;
+        font-weight: 600;
+        color: var(--dark);
+        border-bottom: 2px solid #eee;
+      }
+
+      .cart-table td {
+        padding: 15px;
+        border-bottom: 1px solid #eee;
+        vertical-align: middle;
+      }
+
+      .cart-table tr:last-child td {
+        border-bottom: none;
+      }
+
+      .product-img {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .product-name {
+        font-weight: 600;
+        color: var(--dark);
+      }
+
+      .product-desc {
+        color: var(--gray);
+        font-size: 0.9rem;
+        max-width: 300px;
+      }
+
+      .quantity-control {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .quantity-control a {
+        text-decoration: none;
+        color: var(--dark);
+      }
+
+      .qty-btn {
+        background-color: #f1f1f1;
+        color: var(--dark);
+        border: none;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-weight: bold;
+        transition: var(--transition);
+      }
+
+      .qty-btn:hover {
+        background-color: var(--secondary);
+        color: white;
+      }
+
+      .qty-value {
+        font-weight: 600;
+        min-width: 30px;
+        text-align: center;
+      }
+
+      .price {
+        font-weight: 600;
+        color: var(--dark);
+      }
+
+      .total-price {
+        font-weight: 700;
+        color: var(--secondary);
+        font-size: 1.1rem;
+      }
+
+      .cart-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 2rem;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+
+      .btn {
+        padding: 12px 25px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: var(--transition);
+        font-size: 1rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+      }
+
+      .btn-primary {
+        background-color: var(--primary);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        background-color: var(--primary-dark);
+        transform: translateY(-2px);
+      }
+
+      .btn-secondary {
+        background-color: transparent;
+        color: var(--primary);
+        border: 2px solid var(--primary);
+      }
+
+      .btn-secondary:hover {
+        background-color: rgba(37, 99, 235, 0.1);
+      }
+
+      .cart-summary {
+        background-color: #f8f9fa;
+        padding: 1.5rem;
+        border-radius: 10px;
+        margin-top: 2rem;
+      }
+
+      .cart-summary-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        color: var(--dark);
+      }
+
+      .summary-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.5rem;
+      }
+
+      .summary-row.total {
+        font-weight: 700;
+        font-size: 1.1rem;
+        border-top: 1px solid #ddd;
+        padding-top: 0.5rem;
+        margin-top: 0.5rem;
+      }
+
+      .empty-cart {
+        text-align: center;
+        padding: 3rem 0;
+      }
+
+      .empty-cart-icon {
+        font-size: 4rem;
+        color: #ddd;
+        margin-bottom: 1rem;
+      }
+
+      .empty-cart-message {
+        font-size: 1.2rem;
+        color: var(--gray);
+        margin-bottom: 1.5rem;
+      }
+
+      .footer {
+        background-color: #1e293b;
+        color: white;
+        padding: 3rem 5% 1.5rem;
+        margin-top: auto;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .footer::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('data:image/svg+xml;charset=utf8,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"%3E%3Cpath fill="%23ffffff" fill-opacity="0.05" d="M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,202.7C672,203,768,181,864,186.7C960,192,1056,224,1152,218.7C1248,213,1344,171,1392,149.3L1440,128L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"%3E%3C/path%3E%3C/svg%3E');
+        background-size: cover;
+        background-position: center;
+        opacity: 0.5;
+      }
+
+      .footer-bottom {
+        text-align: center;
+        padding-top: 1.5rem;
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.9rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      .mobile-menu-btn {
+        display: none;
+        background: none;
+        border: none;
+        color: var(--dark);
+        font-size: 1.5rem;
+        cursor: pointer;
+      }
+
+      @media (max-width: 768px) {
+        .navbar {
+          padding: 1rem 3%;
+        }
+        .logo h1 {
+          font-size: 1.5rem;
+        }
+        .mobile-menu-btn {
+          display: block;
+        }
+        .container {
+          padding: 1.5rem;
+        }
+        .page-title {
+          padding: 1.5rem;
+        }
+        .page-title h1 {
+          font-size: 2rem;
+        }
+        .cart-container {
+          padding: 1.5rem;
+        }
+        .product-desc {
+          max-width: 200px;
+        }
+        .cart-footer {
+          flex-wrap: wrap;
+          gap: 15px;
+        }
+      }
+
+      @media (max-width: 576px) {
+        .cart-table {
+          font-size: 0.9rem;
+        }
+        .product-img {
+          width: 80px;
+          height: 80px;
+        }
+        .product-desc {
+          max-width: 150px;
+        }
+        .cart-footer {
+          flex-direction: column;
+          align-items: stretch;
+        }
+        .btn {
+          width: 100%;
+          justify-content: center;
+        }
+        .alert {
+          min-width: 90%;
+        }
+        .page-title h1 {
+          font-size: 1.8rem;
+        }
+      }
+
+      /* Accessibility improvements */
+      .skip-link {
+        position: absolute;
+        top: -40px;
+        left: 0;
+        background: var(--primary);
+        color: white;
+        padding: 8px;
+        z-index: 1001;
+        transition: top 0.3s;
+      }
+
+      .skip-link:focus {
+        top: 0;
+      }
+
+      button:focus,
+      a:focus {
+        outline: 2px solid var(--primary);
+        outline-offset: 2px;
+      }
+
+      /* Animation classes */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .animate-fadeInUp {
+        animation: fadeInUp 0.6s forwards;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Accessibility skip link -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <nav class="navbar">
+      <div class="logo">
+        <a href="/customer/home">
+          <i class="fas fa-shopping-bag"></i>
+          <h1>ShopEase</h1>
+        </a>
+        <span class="customer-badge">
+          <i class="fas fa-user"></i> Customer
+        </span>
+      </div>
+
+      <a href="/logout" class="logout-btn">
+        <i class="fas fa-sign-out-alt"></i> Logout
+      </a>
+    </nav>
+
+    <!-- Alert messages that will disappear after 2 seconds -->
+    <div th:if="${session.pass}" class="alert alert-success">
       <i class="fas fa-check-circle alert-icon"></i>
       <span th:text="${session.pass}"></span>
     </div>
+
     <div th:if="${session.fail}" class="alert alert-danger">
       <i class="fas fa-exclamation-circle alert-icon"></i>
       <span th:text="${session.fail}"></span>
     </div>
+
     <th:block th:text="${@messageRemover.remove()}"></th:block>
-        <table border="1">
-            <tr>
+
+    <main id="main-content" class="container">
+      <div class="page-title">
+        <h1>Your Shopping Cart</h1>
+        <p>Review and manage your selected items</p>
+      </div>
+
+      <div class="cart-container">
+        <div th:if="${items != null and !items.empty}">
+          <table class="cart-table">
+            <thead>
+              <tr>
                 <th>Image</th>
-                <th>Name</th>
-                <th>Description</th>
+                <th>Product</th>
                 <th>Price</th>
                 <th>Quantity</th>
-                <th>Total Price</th>
-            </tr>
-            <tr th:each="item:${items}">
-                <td><img height="100px" width="100px" th:src="${item.product.imageUrl}" th:alt="${item.product.name}"></td>
-                <td th:text="${item.product.name}"></td>
-                <td th:text="${item.product.description}"></td>
-                <td th:text="${item.price}"></td>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="item:${items}">
                 <td>
-                    <a th:href="'/customer/decrease/'+${item.id}"><button>-</button></a>
-                    <span th:text="${item.quantity}"></span>
-                    <a th:href="'/customer/increase/'+${item.id}"><button>+</button></a>
+                  <img
+                    class="product-img"
+                    th:src="${item.product.imageUrl}"
+                    th:alt="${item.product.name}"
+                  />
                 </td>
-                <td th:text="${item.price*item.quantity}"></td>
-            </tr>
-            <tr>
-                <th colspan="5"></th>
-                <th th:text="'Total Price: '+${total}"></th>
-            </tr>
-        </table>
-        <br>
-        <a href="/customer/payment"><button>Go to Payment Page</button></a>
-        <br>
-        <a href="/customer/home"><button>Back</button></a>
-    </div>
-</body>
+                <td>
+                  <div
+                    class="product-name"
+                    th:text="${item.product.name}"
+                  ></div>
+                  <div
+                    class="product-desc"
+                    th:text="${item.product.description}"
+                  ></div>
+                </td>
+                <td class="price" th:text="'₹' + ${item.price}"></td>
+                <td>
+                  <div class="quantity-control">
+                    <a
+                      th:href="'/customer/decrease/'+${item.id}"
+                      class="qty-btn"
+                    >
+                      <i class="fas fa-minus"></i>
+                    </a>
+                    <span class="qty-value" th:text="${item.quantity}"></span>
+                    <a
+                      th:href="'/customer/increase/'+${item.id}"
+                      class="qty-btn"
+                    >
+                      <i class="fas fa-plus"></i>
+                    </a>
+                  </div>
+                </td>
+                <td
+                  class="total-price"
+                  th:text="'₹' + ${item.price*item.quantity}"
+                ></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="cart-summary">
+            <h3 class="cart-summary-title">Order Summary</h3>
+            <div class="summary-row">
+              <span>Subtotal:</span>
+              <span th:text="'₹' + ${total}"></span>
+            </div>
+            <div class="summary-row">
+              <span>Shipping:</span>
+              <span>Free</span>
+            </div>
+            <div class="summary-row total">
+              <span>Total:</span>
+              <span th:text="'₹' + ${total}"></span>
+            </div>
+          </div>
+        </div>
+        <div th:if="${items == null or items.empty}" class="empty-cart">
+          <i class="fas fa-shopping-cart empty-cart-icon"></i>
+          <p class="empty-cart-message">Your cart is empty</p>
+          <a href="/customer/products" class="btn btn-primary">
+            <i class="fas fa-shopping-bag"></i> Continue Shopping
+          </a>
+        </div>
+        <div class="cart-footer" th:if="${items != null and !items.empty}">
+          <a href="/customer/products" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Continue Shopping
+          </a>
+          <a href="/customer/payment" class="btn btn-primary">
+            <i class="fas fa-credit-card"></i> Proceed to Payment
+          </a>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-bottom">
+        <p>&copy; 2025 ShopEase. All Rights Reserved.</p>
+      </div>
+    </footer>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Handle alerts
+        const removeAlerts = () => {
+          const alerts = document.querySelectorAll(".alert");
+          if (alerts.length > 0) {
+            setTimeout(function () {
+              alerts.forEach((alert) => {
+                alert.style.display = "none";
+              });
+            }, 2000);
+          }
+        };
+        removeAlerts();
+
+        // Add animation to cart items when they come into view
+        const observeElements = (elements, className) => {
+          const observer = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                  entry.target.classList.add(className);
+                }
+              });
+            },
+            {
+              threshold: 0.1,
+            }
+          );
+          elements.forEach((element) => {
+            observer.observe(element);
+          });
+        };
+
+        // Apply animations if supported
+        if ("IntersectionObserver" in window) {
+          const cartItems = document.querySelectorAll(".cart-table tr");
+          const cartSummary = document.querySelector(".cart-summary");
+          const cartFooter = document.querySelector(".cart-footer");
+
+          if (cartItems.length > 0) {
+            cartItems.forEach((item) => {
+              item.style.opacity = "0";
+            });
+            observeElements(cartItems, "animate-fadeInUp");
+          }
+
+          if (cartSummary) {
+            cartSummary.style.opacity = "0";
+            observeElements([cartSummary], "animate-fadeInUp");
+          }
+
+          if (cartFooter) {
+            cartFooter.style.opacity = "0";
+            observeElements([cartFooter], "animate-fadeInUp");
+          }
+        }
+      });
+    </script>
+  </body>
 </html>

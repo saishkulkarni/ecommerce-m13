@@ -35,4 +35,10 @@ public interface CustomerService {
 
 	String manageProfile(HttpSession session, UserDto dto, Long mobile, String address);
 
+    String orderHistory(HttpSession session, Model model);
+
+    String loadTrackOrder(HttpSession session);
+
+    String trackOrders(Long orderId, HttpSession session, Model model);
+
 }

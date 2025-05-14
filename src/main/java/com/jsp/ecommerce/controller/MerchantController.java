@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -78,5 +79,15 @@ public class MerchantController {
 	@GetMapping("/delete/{id}")
 	public String deleteProduct(@PathVariable("id") Long id, HttpSession session) {
 		return merchantService.deleteById(id, session);
+	}
+
+	@GetMapping("/profile")
+	public String manageProfile(HttpSession session, Model model) {
+		return merchantService.manageProfile(session, model);
+	}
+
+	@PostMapping("/manage-profile")
+	public String manageProfile(HttpSession session, @ModelAttribute UserDto dto) {
+		return merchantService.manageProfile(session, dto);
 	}
 }

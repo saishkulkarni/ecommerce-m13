@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Payment Confirmation | ShopEase</title>
+    <title>Track Order | ShopEase</title>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -115,7 +115,7 @@
       }
 
       .container {
-        max-width: 800px;
+        max-width: 1200px;
         margin: 0 auto;
         padding: 2rem;
         flex: 1;
@@ -163,67 +163,65 @@
         z-index: 1;
       }
 
-      .confirmation-card {
+      .track-order-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+      }
+
+      .form-card,
+      .order-details-card {
         background-color: white;
         border-radius: 16px;
         padding: 2rem;
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-        margin-bottom: 2rem;
         border: 1px solid #f3f4f6;
         transition: var(--transition);
       }
 
-      .confirmation-card:hover {
+      .form-card:hover,
+      .order-details-card:hover {
         transform: translateY(-5px);
         box-shadow: 0 20px 30px rgba(0, 0, 0, 0.1);
       }
 
-      .confirmation-section {
-        margin-bottom: 1.5rem;
-      }
-
-      .confirmation-section h2 {
-        font-size: 1.3rem;
+      .form-title {
+        font-size: 1.5rem;
         color: var(--dark);
-        margin-bottom: 0.5rem;
+        margin-bottom: 1.5rem;
         display: flex;
         align-items: center;
         gap: 10px;
       }
 
-      .confirmation-section h2 i {
+      .form-title i {
         color: var(--secondary);
       }
 
-      .confirmation-section p {
-        background-color: #f8f9fa;
-        padding: 12px 15px;
-        border-radius: 8px;
-        color: var(--dark);
-        font-size: 1.1rem;
-      }
-
-      .warning-message {
-        background-color: #fff7ed;
-        color: #9a3412;
-        padding: 15px;
-        border-radius: 8px;
+      .form-group {
         margin-bottom: 1.5rem;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        border-left: 4px solid var(--accent);
       }
 
-      .warning-message i {
-        font-size: 1.5rem;
-        color: var(--accent);
+      .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        color: var(--dark);
       }
 
-      .action-buttons {
-        display: flex;
-        gap: 15px;
-        margin-top: 2rem;
+      .form-control {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: var(--transition);
+      }
+
+      .form-control:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
       }
 
       .btn {
@@ -250,30 +248,147 @@
         transform: translateY(-2px);
       }
 
-      .btn-secondary {
-        background-color: transparent;
-        color: var(--primary);
-        border: 2px solid var(--primary);
+      .order-details-title {
+        font-size: 1.5rem;
+        color: var(--dark);
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
       }
 
-      .btn-secondary:hover {
-        background-color: rgba(37, 99, 235, 0.1);
+      .order-details-title i {
+        color: var(--secondary);
       }
 
-      .btn-payment {
-        background-color: var(--secondary);
-        color: white;
-        font-size: 1.1rem;
-        padding: 15px 30px;
-        width: 100%;
-        justify-content: center;
-        box-shadow: 0 4px 6px rgba(124, 58, 237, 0.2);
+      .order-info {
+        background-color: #f8f9fa;
+        padding: 1.5rem;
+        border-radius: 8px;
       }
 
-      .btn-payment:hover {
-        background-color: var(--customer-dark);
-        transform: translateY(-2px);
-        box-shadow: 0 6px 10px rgba(124, 58, 237, 0.3);
+      .order-info-item {
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: flex-start;
+      }
+
+      .order-info-item:last-child {
+        margin-bottom: 0;
+      }
+
+      .order-info-label {
+        font-weight: 600;
+        color: var(--dark);
+        min-width: 150px;
+      }
+
+      .order-info-value {
+        color: var(--gray);
+      }
+
+      .order-status {
+        display: inline-block;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-weight: 500;
+        font-size: 0.9rem;
+      }
+
+      .status-pending {
+        background-color: #fff7ed;
+        color: #9a3412;
+      }
+
+      .status-processing {
+        background-color: #ecfdf5;
+        color: #065f46;
+      }
+
+      .status-shipped {
+        background-color: #eff6ff;
+        color: #1e40af;
+      }
+
+      .status-delivered {
+        background-color: #f0fdf4;
+        color: #166534;
+      }
+
+      .status-cancelled {
+        background-color: #fef2f2;
+        color: #991b1b;
+      }
+
+      .alert {
+        position: fixed;
+        top: 80px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 15px 25px;
+        border-radius: 10px;
+        box-shadow: var(--shadow);
+        z-index: 1001;
+        display: flex;
+        align-items: center;
+        min-width: 300px;
+        max-width: 500px;
+        animation: slideDown 0.3s, fadeOut 0.5s 1.5s forwards;
+      }
+
+      .alert-success {
+        background-color: #ecfdf5;
+        color: #065f46;
+        border-left: 4px solid var(--success);
+      }
+
+      .alert-danger {
+        background-color: #fef2f2;
+        color: #991b1b;
+        border-left: 4px solid var(--danger);
+      }
+
+      .alert-icon {
+        margin-right: 10px;
+        font-size: 1.2rem;
+      }
+
+      @keyframes slideDown {
+        from {
+          transform: translate(-50%, -20px);
+          opacity: 0;
+        }
+        to {
+          transform: translate(-50%, 0);
+          opacity: 1;
+        }
+      }
+
+      @keyframes fadeOut {
+        from {
+          opacity: 1;
+        }
+        to {
+          opacity: 0;
+          visibility: hidden;
+        }
+      }
+
+      .error-message {
+        background-color: #fef2f2;
+        color: #991b1b;
+        padding: 15px;
+        border-radius: 8px;
+        margin-top: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        border-left: 4px solid var(--danger);
+      }
+
+      .error-message i {
+        font-size: 1.2rem;
+        color: var(--danger);
       }
 
       .footer {
@@ -307,15 +422,6 @@
         z-index: 1;
       }
 
-      .mobile-menu-btn {
-        display: none;
-        background: none;
-        border: none;
-        color: var(--dark);
-        font-size: 1.5rem;
-        cursor: pointer;
-      }
-
       /* Accessibility improvements */
       .skip-link {
         position: absolute;
@@ -333,7 +439,8 @@
       }
 
       button:focus,
-      a:focus {
+      a:focus,
+      input:focus {
         outline: 2px solid var(--primary);
         outline-offset: 2px;
       }
@@ -361,9 +468,6 @@
         .logo h1 {
           font-size: 1.5rem;
         }
-        .mobile-menu-btn {
-          display: block;
-        }
         .container {
           padding: 1.5rem;
         }
@@ -373,15 +477,8 @@
         .page-title h1 {
           font-size: 2rem;
         }
-        .confirmation-card {
-          padding: 1.5rem;
-        }
-        .action-buttons {
-          flex-direction: column;
-        }
-        .btn {
-          width: 100%;
-          justify-content: center;
+        .track-order-container {
+          grid-template-columns: 1fr;
         }
       }
 
@@ -389,11 +486,12 @@
         .page-title h1 {
           font-size: 1.8rem;
         }
-        .confirmation-section h2 {
-          font-size: 1.2rem;
+        .form-title,
+        .order-details-title {
+          font-size: 1.3rem;
         }
-        .confirmation-section p {
-          font-size: 1rem;
+        .alert {
+          min-width: 90%;
         }
       }
     </style>
@@ -418,39 +516,98 @@
       </a>
     </nav>
 
+    <!-- Alert messages that will disappear after 2 seconds -->
+    <div th:if="${session.pass}" class="alert alert-success">
+      <i class="fas fa-check-circle alert-icon"></i>
+      <span th:text="${session.pass}"></span>
+    </div>
+
+    <div th:if="${session.fail}" class="alert alert-danger">
+      <i class="fas fa-exclamation-circle alert-icon"></i>
+      <span th:text="${session.fail}"></span>
+    </div>
+
+    <th:block th:text="${@messageRemover.remove()}"></th:block>
+
     <main id="main-content" class="container">
       <div class="page-title">
-        <h1>Confirm Your Order</h1>
-        <p>Please verify your delivery details before proceeding to payment</p>
+        <h1>Track Your Order</h1>
+        <p>Enter your order number to check the current status</p>
       </div>
 
-      <div class="confirmation-card animate-fadeInUp">
-        <div class="confirmation-section">
-          <h2><i class="fas fa-mobile-alt"></i> Contact Number</h2>
-          <p th:text="${mobile}"></p>
+      <div class="track-order-container">
+        <div class="form-card animate-fadeInUp">
+          <h2 class="form-title">
+            <i class="fas fa-search"></i> Find Your Order
+          </h2>
+          <form action="/customer/track-orders" method="post">
+            <div class="form-group">
+              <label for="orderNumber">Order Number</label>
+              <input
+                type="text"
+                class="form-control"
+                id="orderNumber"
+                name="orderId"
+                placeholder="Enter your order number"
+                required
+              />
+            </div>
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-truck"></i> Track Order
+            </button>
+          </form>
         </div>
 
-        <div class="confirmation-section">
-          <h2><i class="fas fa-map-marker-alt"></i> Delivery Address</h2>
-          <p th:text="${address}"></p>
-        </div>
-
-        <div class="warning-message">
-          <i class="fas fa-exclamation-triangle"></i>
-          <div>
-            <strong>Please verify your details.</strong> If the information
-            above is incorrect, please update it before proceeding.
+        <div
+          class="order-details-card animate-fadeInUp"
+          th:if="${order != null}"
+        >
+          <h2 class="order-details-title">
+            <i class="fas fa-box-open"></i> Order Details
+          </h2>
+          <div class="order-info">
+            <div class="order-info-item">
+              <div class="order-info-label">Order Number:</div>
+              <div class="order-info-value" th:text="${order.id}"></div>
+            </div>
+            <div class="order-info-item">
+              <div class="order-info-label">Status:</div>
+              <div class="order-info-value">
+                <span
+                  class="order-status"
+                  th:classappend="${
+                    order.orderStatus == 'PENDING' ? 'status-pending' : 
+                    order.orderStatus == 'PROCESSING' ? 'status-processing' : 
+                    order.orderStatus == 'SHIPPED' ? 'status-shipped' : 
+                    order.orderStatus == 'DELIVERED' ? 'status-delivered' : 
+                    'status-cancelled'
+                  }"
+                  th:text="${order.orderStatus}"
+                ></span>
+              </div>
+            </div>
+            <div class="order-info-item">
+              <div class="order-info-label">Order Date:</div>
+              <div
+                class="order-info-value"
+                th:text="${#temporals.format(order.creationTime, 'dd-MM-yyyy HH:mm')}"
+              ></div>
+            </div>
+            <div class="order-info-item">
+              <div class="order-info-label">Total Amount:</div>
+              <div class="order-info-value">
+                ₹<span
+                  th:text="${#numbers.formatDecimal(order.totalAmount, 0, 2)}"
+                ></span>
+              </div>
+            </div>
           </div>
         </div>
+      </div>
 
-        <div class="action-buttons">
-          <a href="/customer/manage-profile" class="btn btn-secondary">
-            <i class="fas fa-user-edit"></i> Update Profile
-          </a>
-          <button id="rzp-button1" class="btn btn-payment">
-            <i class="fas fa-credit-card"></i> Pay with Razorpay
-          </button>
-        </div>
+      <div class="error-message" th:if="${error != null}">
+        <i class="fas fa-exclamation-circle"></i>
+        <span th:text="${error}"></span>
       </div>
     </main>
 
@@ -460,9 +617,21 @@
       </div>
     </footer>
 
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-    <script th:inline="javascript">
+    <script>
       document.addEventListener("DOMContentLoaded", function () {
+        // Handle alerts
+        const removeAlerts = () => {
+          const alerts = document.querySelectorAll(".alert");
+          if (alerts.length > 0) {
+            setTimeout(function () {
+              alerts.forEach((alert) => {
+                alert.style.display = "none";
+              });
+            }, 2000);
+          }
+        };
+        removeAlerts();
+
         // Add animation to elements
         const observeElements = (elements, className) => {
           const observer = new IntersectionObserver(
@@ -484,57 +653,28 @@
 
         // Apply animations if supported
         if ("IntersectionObserver" in window) {
-          const confirmationSections = document.querySelectorAll(".confirmation-section");
-          const warningMessage = document.querySelector(".warning-message");
-          const actionButtons = document.querySelector(".action-buttons");
+          const formCard = document.querySelector(".form-card");
+          const orderDetailsCard = document.querySelector(
+            ".order-details-card"
+          );
+          const errorMessage = document.querySelector(".error-message");
 
-          if (confirmationSections.length > 0) {
-            confirmationSections.forEach((section) => {
-              section.style.opacity = "0";
-            });
-            observeElements(confirmationSections, "animate-fadeInUp");
+          if (formCard) {
+            formCard.style.opacity = "0";
+            observeElements([formCard], "animate-fadeInUp");
           }
 
-          if (warningMessage) {
-            warningMessage.style.opacity = "0";
-            observeElements([warningMessage], "animate-fadeInUp");
+          if (orderDetailsCard) {
+            orderDetailsCard.style.opacity = "0";
+            observeElements([orderDetailsCard], "animate-fadeInUp");
           }
 
-          if (actionButtons) {
-            actionButtons.style.opacity = "0";
-            observeElements([actionButtons], "animate-fadeInUp");
+          if (errorMessage) {
+            errorMessage.style.opacity = "0";
+            observeElements([errorMessage], "animate-fadeInUp");
           }
         }
       });
-
-      var options = {
-        "key": [[${key}]],
-        "amount": "[[${amount}]]",
-        "currency": "INR",
-        "name": "ShopEase",
-        "description": "Payment for Order",
-        "image": "/images/logo.png",
-        "order_id": [[${orderId}]],
-        "callback_url": [[${url}]],
-        "prefill": {
-          "name": [[${session.customer.name}]],
-          "email": [[${session.customer.email}]],
-          "contact": ""
-        },
-        "notes": {
-          "address": "Razorpay Corporate Office"
-        },
-        "theme": {
-          "color": "#7c3aed"
-        }
-      };
-
-      var rzp1 = new Razorpay(options);
-
-      document.getElementById('rzp-button1').onclick = function(e) {
-        rzp1.open();
-        e.preventDefault();
-      }
     </script>
   </body>
 </html>

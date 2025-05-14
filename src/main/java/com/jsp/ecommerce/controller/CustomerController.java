@@ -16,6 +16,8 @@ import com.jsp.ecommerce.service.CustomerService;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @Controller
 @RequestMapping("/customer")
@@ -98,4 +100,20 @@ public class CustomerController {
 			@RequestParam("mobile") Long mobile) {
 		return customerService.manageProfile(session, dto, mobile, address);
 	}
+
+	@GetMapping("/order-history")
+	public String orderHistory(HttpSession session, Model model) {
+		return customerService.orderHistory(session, model);
+	}
+
+	@GetMapping("/track-orders")
+	public String trackOrders(HttpSession session) {
+		return customerService.loadTrackOrder(session);
+	}
+
+	@PostMapping("/track-orders")
+	public String trackOrders(@RequestParam Long orderId, HttpSession session, Model model) {
+		return customerService.trackOrders(orderId, session, model);
+	}
+	
 }

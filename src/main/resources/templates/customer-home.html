@@ -9,74 +9,71 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
     <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <style>
       :root {
-        --primary: #4361ee;
-        --primary-dark: #3a56d4;
-        --secondary: #7209b7;
-        --light: #f8f9fa;
-        --dark: #212529;
-        --success: #2ecc71;
-        --danger: #e74c3c;
-        --gray: #6c757d;
-        --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        --primary: #2563eb;
+        --primary-dark: #1d4ed8;
+        --secondary: #7c3aed;
+        --accent: #f59e0b;
+        --light: #f9fafb;
+        --dark: #111827;
+        --success: #10b981;
+        --danger: #ef4444;
+        --gray: #6b7280;
+        --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+          0 4px 6px -2px rgba(0, 0, 0, 0.05);
         --transition: all 0.3s ease;
-        --customer: #7209b7;
-        --customer-dark: #6008a0;
-        --customer-gradient: linear-gradient(135deg, #7209b7 0%, #6008a0 100%);
+        --customer: #7c3aed;
+        --customer-dark: #6d28d9;
+        --customer-gradient: linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%);
       }
-
       * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        font-family: "Poppins", sans-serif;
+        font-family: "Montserrat", sans-serif;
       }
-
       body {
         min-height: 100vh;
-        background-color: #f5f7fa;
+        background-color: var(--light);
         color: var(--dark);
         display: flex;
         flex-direction: column;
       }
-
       .navbar {
         display: flex;
         justify-content: space-between;
         align-items: center;
         padding: 1rem 5%;
         background-color: #ffffff;
-        box-shadow: var(--shadow);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         position: sticky;
         top: 0;
         z-index: 1000;
       }
-
       .logo {
         display: flex;
         align-items: center;
       }
-
       .logo a {
         text-decoration: none;
         color: var(--dark);
+        display: flex;
+        align-items: center;
       }
-
-      .logo img {
-        height: 40px;
+      .logo i {
+        font-size: 2rem;
+        color: var(--primary);
         margin-right: 10px;
       }
-
       .logo h1 {
         font-size: 1.8rem;
         color: var(--primary);
         font-weight: 700;
       }
-
       .customer-badge {
         background: var(--customer-gradient);
         color: white;
@@ -88,33 +85,31 @@
         align-items: center;
         gap: 5px;
       }
-
       .logout-btn {
-        background-color: #f1f1f1;
-        color: var(--dark);
+        padding: 10px 20px;
         border: none;
-        padding: 8px 15px;
-        border-radius: 5px;
+        border-radius: 8px;
+        font-weight: 600;
         cursor: pointer;
+        transition: var(--transition);
+        background-color: transparent;
+        color: var(--primary);
+        border: 2px solid var(--primary);
+        text-decoration: none;
         display: flex;
         align-items: center;
         gap: 8px;
-        font-weight: 500;
-        transition: var(--transition);
-        text-decoration: none;
       }
-
       .logout-btn:hover {
-        background-color: #e9e9e9;
+        background-color: rgba(37, 99, 235, 0.1);
       }
-
       .alert {
         position: fixed;
         top: 80px;
         left: 50%;
         transform: translateX(-50%);
         padding: 15px 25px;
-        border-radius: 8px;
+        border-radius: 10px;
         box-shadow: var(--shadow);
         z-index: 1001;
         display: flex;
@@ -123,24 +118,20 @@
         max-width: 500px;
         animation: slideDown 0.3s, fadeOut 0.5s 1.5s forwards;
       }
-
       .alert-success {
-        background-color: #d4edda;
-        color: #155724;
+        background-color: #ecfdf5;
+        color: #065f46;
         border-left: 4px solid var(--success);
       }
-
       .alert-danger {
-        background-color: #f8d7da;
-        color: #721c24;
+        background-color: #fef2f2;
+        color: #991b1b;
         border-left: 4px solid var(--danger);
       }
-
       .alert-icon {
         margin-right: 10px;
         font-size: 1.2rem;
       }
-
       @keyframes slideDown {
         from {
           transform: translate(-50%, -20px);
@@ -151,7 +142,6 @@
           opacity: 1;
         }
       }
-
       @keyframes fadeOut {
         from {
           opacity: 1;
@@ -161,84 +151,93 @@
           visibility: hidden;
         }
       }
-
       .container {
         max-width: 1200px;
         margin: 0 auto;
         padding: 2rem;
         flex: 1;
       }
-
       .welcome-section {
         background: var(--customer-gradient);
         color: white;
         padding: 2.5rem;
         border-radius: 15px;
         margin-bottom: 2.5rem;
-        box-shadow: 0 5px 15px rgba(114, 9, 183, 0.2);
+        box-shadow: 0 5px 15px rgba(124, 58, 237, 0.2);
+        position: relative;
+        overflow: hidden;
       }
-
+      .welcome-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('data:image/svg+xml;charset=utf8,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"%3E%3Cpath fill="%23ffffff" fill-opacity="0.1" d="M0,160L48,144C96,128,192,96,288,106.7C384,117,480,171,576,186.7C672,203,768,181,864,154.7C960,128,1056,96,1152,96C1248,96,1344,128,1392,144L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"%3E%3C/path%3E%3C/svg%3E');
+        background-size: cover;
+        background-position: center;
+      }
       .welcome-title {
         font-size: 2.2rem;
         margin-bottom: 1rem;
         font-weight: 600;
+        position: relative;
       }
-
       .welcome-text {
         font-size: 1.1rem;
         opacity: 0.9;
         max-width: 700px;
         line-height: 1.6;
+        position: relative;
       }
-
       .dashboard-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
         gap: 25px;
       }
-
       .dashboard-card {
         background-color: white;
-        border-radius: 15px;
+        border-radius: 16px;
         overflow: hidden;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
         transition: var(--transition);
         display: flex;
         flex-direction: column;
         height: 100%;
+        border: 1px solid #f3f4f6;
       }
-
       .dashboard-card:hover {
         transform: translateY(-10px);
-        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 20px 30px rgba(0, 0, 0, 0.1);
+        border-color: #e5e7eb;
       }
-
       .card-header {
-        background: linear-gradient(45deg, rgba(114, 9, 183, 0.8) 0%, rgba(114, 9, 183, 0.6) 100%);
+        background: linear-gradient(
+          45deg,
+          rgba(124, 58, 237, 0.8) 0%,
+          rgba(79, 70, 229, 0.8) 100%
+        );
         color: white;
         padding: 1.5rem;
         position: relative;
         overflow: hidden;
       }
-
       .card-icon {
         font-size: 2.5rem;
         margin-bottom: 1rem;
         display: block;
       }
-
       .card-title {
         font-size: 1.5rem;
         font-weight: 600;
         margin-bottom: 0.5rem;
       }
-
       .card-description {
         opacity: 0.9;
         font-size: 0.95rem;
         line-height: 1.5;
       }
-
       .card-body {
         padding: 1.5rem;
         flex: 1;
@@ -246,68 +245,91 @@
         flex-direction: column;
         justify-content: space-between;
       }
-
       .card-action {
         margin-top: 1.5rem;
         text-align: right;
       }
-
       .card-btn {
         background-color: var(--customer);
         color: white;
         border: none;
         padding: 10px 20px;
-        border-radius: 5px;
+        border-radius: 8px;
         cursor: pointer;
-        font-weight: 500;
+        font-weight: 600;
         transition: var(--transition);
         display: inline-flex;
         align-items: center;
         gap: 8px;
         text-decoration: none;
       }
-
       .card-btn:hover {
         background-color: var(--customer-dark);
+        transform: translateY(-2px);
       }
-
       .footer {
-        background-color: #1a1a1a;
+        background-color: #1e293b;
         color: white;
-        padding: 3rem 5% 1.5rem;
+        padding: 4rem 5% 2rem;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
         margin-top: auto;
       }
-
+      .footer::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('data:image/svg+xml;charset=utf8,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"%3E%3Cpath fill="%23ffffff" fill-opacity="0.05" d="M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,202.7C672,203,768,181,864,186.7C960,192,1056,224,1152,218.7C1248,213,1344,171,1392,149.3L1440,128L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"%3E%3C/path%3E%3C/svg%3E');
+        background-size: cover;
+        background-position: center;
+        opacity: 0.5;
+      }
+      .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        z-index: 1;
+      }
       .footer-bottom {
-        text-align: center;
-        padding-top: 1.5rem;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        width: 100%;
+        position: relative;
+        z-index: 1;
+      }
+      .footer-bottom p {
         color: rgba(255, 255, 255, 0.7);
         font-size: 0.9rem;
       }
-
       @media (max-width: 768px) {
         .dashboard-grid {
           grid-template-columns: 1fr;
         }
-        
+
         .welcome-section {
           padding: 2rem;
         }
-        
+
         .welcome-title {
           font-size: 1.8rem;
         }
       }
-
       @media (max-width: 576px) {
         .container {
           padding: 1.5rem;
         }
-        
+
         .alert {
           min-width: 90%;
         }
-        
+
         .welcome-section {
           padding: 1.5rem;
         }
@@ -318,9 +340,9 @@
     <nav class="navbar">
       <div class="logo">
         <a href="/customer/home">
-          <img src="/images/logo.png" alt="ShopEase Logo" />
+          <i class="fas fa-shopping-bag"></i>
+          <h1>ShopEase</h1>
         </a>
-        <a href="/customer/home"><h1>ShopEase</h1></a>
         <span class="customer-badge">
           <i class="fas fa-user"></i> Customer
         </span>
@@ -345,7 +367,8 @@
       <section class="welcome-section">
         <h1 class="welcome-title">Welcome to Your Dashboard</h1>
         <p class="welcome-text">
-          Explore our wide range of products, manage your profile, track your orders, and enjoy a seamless shopping experience with ShopEase.
+          Explore our wide range of products, manage your profile, track your
+          orders, and enjoy a seamless shopping experience with ShopEase.
         </p>
       </section>
 
@@ -354,10 +377,15 @@
           <div class="card-header">
             <i class="fas fa-user-circle card-icon"></i>
             <h2 class="card-title">Manage Profile</h2>
-            <p class="card-description">Update your personal information and preferences</p>
+            <p class="card-description">
+              Update your personal information and preferences
+            </p>
           </div>
           <div class="card-body">
-            <p>Keep your profile information up to date to ensure smooth delivery and communication.</p>
+            <p>
+              Keep your profile information up to date to ensure smooth delivery
+              and communication.
+            </p>
             <div class="card-action">
               <a href="/customer/manage-profile" class="card-btn">
                 <i class="fas fa-user-edit"></i> Manage Profile
@@ -365,15 +393,19 @@
             </div>
           </div>
         </div>
-
         <div class="dashboard-card">
           <div class="card-header">
             <i class="fas fa-shopping-bag card-icon"></i>
             <h2 class="card-title">Browse Products</h2>
-            <p class="card-description">Explore our extensive collection of products</p>
+            <p class="card-description">
+              Explore our extensive collection of products
+            </p>
           </div>
           <div class="card-body">
-            <p>Discover high-quality products across various categories at competitive prices.</p>
+            <p>
+              Discover high-quality products across various categories at
+              competitive prices.
+            </p>
             <div class="card-action">
               <a href="/customer/products" class="card-btn">
                 <i class="fas fa-search"></i> View Products
@@ -386,10 +418,15 @@
           <div class="card-header">
             <i class="fas fa-shopping-cart card-icon"></i>
             <h2 class="card-title">Your Cart</h2>
-            <p class="card-description">Review and manage items in your shopping cart</p>
+            <p class="card-description">
+              Review and manage items in your shopping cart
+            </p>
           </div>
           <div class="card-body">
-            <p>Check your selected items, update quantities, and proceed to checkout.</p>
+            <p>
+              Check your selected items, update quantities, and proceed to
+              checkout.
+            </p>
             <div class="card-action">
               <a href="/customer/cart" class="card-btn">
                 <i class="fas fa-shopping-cart"></i> View Cart
@@ -402,10 +439,15 @@
           <div class="card-header">
             <i class="fas fa-truck card-icon"></i>
             <h2 class="card-title">Track Orders</h2>
-            <p class="card-description">Monitor the status of your current orders</p>
+            <p class="card-description">
+              Monitor the status of your current orders
+            </p>
           </div>
           <div class="card-body">
-            <p>Get real-time updates on your order status, from processing to delivery.</p>
+            <p>
+              Get real-time updates on your order status, from processing to
+              delivery.
+            </p>
             <div class="card-action">
               <a href="/customer/track-orders" class="card-btn">
                 <i class="fas fa-map-marker-alt"></i> Track Orders
@@ -418,10 +460,15 @@
           <div class="card-header">
             <i class="fas fa-history card-icon"></i>
             <h2 class="card-title">Order History</h2>
-            <p class="card-description">View details of your previous purchases</p>
+            <p class="card-description">
+              View details of your previous purchases
+            </p>
           </div>
           <div class="card-body">
-            <p>Access information about your past orders, including invoices and delivery details.</p>
+            <p>
+              Access information about your past orders, including invoices and
+              delivery details.
+            </p>
             <div class="card-action">
               <a href="/customer/order-history" class="card-btn">
                 <i class="fas fa-clipboard-list"></i> View History
@@ -433,20 +480,22 @@
     </div>
 
     <footer class="footer">
-      <div class="footer-bottom">
-        <p>&copy; 2025 ShopEase. All Rights Reserved.</p>
+      <div class="footer-content">
+        <div class="footer-bottom">
+          <p>&copy; 2025 ShopEase. All Rights Reserved.</p>
+        </div>
       </div>
     </footer>
 
     <script>
       // Script to automatically remove alerts after 2 seconds
-      document.addEventListener('DOMContentLoaded', function() {
-        const alerts = document.querySelectorAll('.alert');
-        
+      document.addEventListener("DOMContentLoaded", function () {
+        const alerts = document.querySelectorAll(".alert");
+
         if (alerts.length > 0) {
-          setTimeout(function() {
-            alerts.forEach(alert => {
-              alert.style.display = 'none';
+          setTimeout(function () {
+            alerts.forEach((alert) => {
+              alert.style.display = "none";
             });
           }, 2000);
         }

@@ -3,45 +3,47 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Merchant Dashboard | ShopEase</title>
+    <title>Merchant Dashboard - ShopEase</title>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
     <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <style>
       :root {
-        --primary: #4361ee;
-        --primary-dark: #3a56d4;
-        --secondary: #7209b7;
-        --light: #f8f9fa;
-        --dark: #212529;
-        --success: #2ecc71;
-        --danger: #e74c3c;
-        --gray: #6c757d;
-        --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        --primary: #2563eb;
+        --primary-dark: #1d4ed8;
+        --secondary: #7c3aed;
+        --accent: #f59e0b;
+        --light: #f9fafb;
+        --dark: #111827;
+        --success: #10b981;
+        --danger: #ef4444;
+        --gray: #6b7280;
+        --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+          0 4px 6px -2px rgba(0, 0, 0, 0.05);
         --transition: all 0.3s ease;
-        --merchant: #4361ee;
-        --merchant-dark: #3a56d4;
-        --merchant-gradient: linear-gradient(135deg, #4361ee 0%, #3a56d4 100%);
+        --merchant: #7c3aed;
+        --merchant-dark: #6d28d9;
+        --merchant-gradient: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
       }
 
       * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        font-family: "Poppins", sans-serif;
+        font-family: "Montserrat", sans-serif;
       }
 
       body {
         min-height: 100vh;
-        background-color: #f5f7fa;
-        color: var(--dark);
         display: flex;
         flex-direction: column;
+        background-color: var(--light);
+        color: var(--dark);
       }
 
       .navbar {
@@ -50,7 +52,7 @@
         align-items: center;
         padding: 1rem 5%;
         background-color: #ffffff;
-        box-shadow: var(--shadow);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         position: sticky;
         top: 0;
         z-index: 1000;
@@ -64,10 +66,13 @@
       .logo a {
         text-decoration: none;
         color: var(--dark);
+        display: flex;
+        align-items: center;
       }
 
-      .logo img {
-        height: 40px;
+      .logo i {
+        font-size: 2rem;
+        color: var(--primary);
         margin-right: 10px;
       }
 
@@ -89,23 +94,30 @@
         gap: 5px;
       }
 
-      .logout-btn {
-        background-color: #f1f1f1;
-        color: var(--dark);
-        border: none;
-        padding: 8px 15px;
-        border-radius: 5px;
-        cursor: pointer;
+      .nav-buttons {
         display: flex;
-        align-items: center;
-        gap: 8px;
-        font-weight: 500;
+        gap: 15px;
+      }
+
+      .nav-btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
         transition: var(--transition);
+      }
+
+      .logout-btn {
+        background-color: transparent;
+        color: var(--primary);
+        border: 2px solid var(--primary);
         text-decoration: none;
+        display: inline-block;
       }
 
       .logout-btn:hover {
-        background-color: #e9e9e9;
+        background-color: rgba(37, 99, 235, 0.1);
       }
 
       .alert {
@@ -114,7 +126,7 @@
         left: 50%;
         transform: translateX(-50%);
         padding: 15px 25px;
-        border-radius: 8px;
+        border-radius: 10px;
         box-shadow: var(--shadow);
         z-index: 1001;
         display: flex;
@@ -125,14 +137,14 @@
       }
 
       .alert-success {
-        background-color: #d4edda;
-        color: #155724;
+        background-color: #ecfdf5;
+        color: #065f46;
         border-left: 4px solid var(--success);
       }
 
       .alert-danger {
-        background-color: #f8d7da;
-        color: #721c24;
+        background-color: #fef2f2;
+        color: #991b1b;
         border-left: 4px solid var(--danger);
       }
 
@@ -162,128 +174,236 @@
         }
       }
 
-      .container {
+      .dashboard-header {
+        background: var(--merchant-gradient);
+        color: white;
+        padding: 6rem 5%;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .dashboard-header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('data:image/svg+xml;charset=utf8,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"%3E%3Cpath fill="%23ffffff" fill-opacity="0.05" d="M0,160L48,144C96,128,192,96,288,106.7C384,117,480,171,576,186.7C672,203,768,181,864,154.7C960,128,1056,96,1152,96C1248,96,1344,128,1392,144L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"%3E%3C/path%3E%3C/svg%3E');
+        background-size: cover;
+        background-position: center;
+      }
+
+      .dashboard-content {
+        max-width: 800px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+      }
+
+      .dashboard-header h1 {
+        font-size: 3.5rem;
+        margin-bottom: 1.5rem;
+        font-weight: 700;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .dashboard-header p {
+        font-size: 1.2rem;
+        max-width: 700px;
+        margin: 0 auto;
+        opacity: 0.9;
+        line-height: 1.6;
+      }
+
+      .features {
+        padding: 6rem 5%;
+        background-color: white;
+        text-align: center;
+      }
+
+      .section-title {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        color: var(--dark);
+        font-weight: 700;
+        position: relative;
+        display: inline-block;
+      }
+
+      .section-title::after {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 4px;
+        background: linear-gradient(
+          90deg,
+          var(--primary) 0%,
+          var(--secondary) 100%
+        );
+        border-radius: 2px;
+      }
+
+      .section-subtitle {
+        color: var(--gray);
+        max-width: 700px;
+        margin: 2rem auto 3rem;
+        font-size: 1.1rem;
+      }
+
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
         max-width: 1200px;
         margin: 0 auto;
-        padding: 2rem;
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
       }
 
-      .page-title {
-        font-size: 2.5rem;
-        color: var(--dark);
-        margin-bottom: 2rem;
-        font-weight: 600;
-        text-align: center;
-      }
-
-      .merchant-actions {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 1.5rem;
-        margin-bottom: 2rem;
-        width: 100%;
-        max-width: 1000px;
-      }
-
-      .merchant-action {
-        background: white;
-        border-radius: 10px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-        padding: 1.5rem;
-        text-align: center;
+      .feature-card {
+        background-color: white;
+        padding: 2.5rem 2rem;
+        border-radius: 16px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
         transition: var(--transition);
-        text-decoration: none;
-        color: var(--dark);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        border: 2px solid transparent;
-        width: 220px;
-        height: 220px;
+        border: 1px solid #f3f4f6;
       }
 
-      .merchant-action:hover {
-        transform: translateY(-5px);
-        border-color: var(--merchant);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      .feature-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 30px rgba(0, 0, 0, 0.1);
+        border-color: #e5e7eb;
       }
 
-      .action-icon {
-        width: 70px;
-        height: 70px;
+      .feature-icon {
+        font-size: 3rem;
+        margin-bottom: 1.5rem;
+        display: inline-block;
+        position: relative;
+      }
+
+      .feature-icon i {
+        background: linear-gradient(
+          135deg,
+          var(--primary) 0%,
+          var(--secondary) 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        position: relative;
+        z-index: 1;
+      }
+
+      .feature-icon::after {
+        content: "";
+        position: absolute;
+        width: 60px;
+        height: 60px;
+        background-color: #eef2ff;
         border-radius: 50%;
-        background: var(--merchant-gradient);
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 0;
+      }
+
+      .feature-card h3 {
+        font-size: 1.5rem;
         margin-bottom: 1rem;
+        color: var(--dark);
       }
 
-      .action-icon i {
-        font-size: 1.8rem;
-        color: white;
-      }
-
-      .action-title {
-        font-size: 1.2rem;
-        font-weight: 600;
-        margin-bottom: 0.5rem;
-      }
-
-      .action-description {
+      .feature-card p {
         color: var(--gray);
-        font-size: 0.9rem;
+        line-height: 1.6;
+      }
+
+      .feature-link {
+        display: inline-block;
+        margin-top: 20px;
+        color: var(--primary);
+        font-weight: 600;
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      .feature-link:hover {
+        color: var(--primary-dark);
+        transform: translateX(5px);
       }
 
       .footer {
-        background-color: #1a1a1a;
+        background-color: #1e293b;
         color: white;
-        padding: 3rem 5% 1.5rem;
+        padding: 4rem 5% 2rem;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
         margin-top: auto;
       }
 
+      .footer::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('data:image/svg+xml;charset=utf8,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"%3E%3Cpath fill="%23ffffff" fill-opacity="0.05" d="M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,202.7C672,203,768,181,864,186.7C960,192,1056,224,1152,218.7C1248,213,1344,171,1392,149.3L1440,128L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"%3E%3C/path%3E%3C/svg%3E');
+        background-size: cover;
+        background-position: center;
+        opacity: 0.5;
+      }
+
       .footer-content {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
         max-width: 1200px;
         margin: 0 auto;
-        padding-bottom: 1.5rem;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        z-index: 1;
       }
 
       .footer-logo {
         display: flex;
         align-items: center;
+        margin-bottom: 20px;
       }
 
-      .footer-logo img {
-        height: 35px;
+      .footer-logo i {
+        font-size: 2rem;
         margin-right: 10px;
+        color: var(--accent);
       }
 
       .footer-logo h2 {
-        font-size: 1.5rem;
+        font-size: 1.8rem;
         color: white;
+      }
+
+      .footer-text {
+        max-width: 600px;
+        margin-bottom: 30px;
+        color: rgba(255, 255, 255, 0.7);
+        line-height: 1.6;
       }
 
       .social-icons {
         display: flex;
         gap: 15px;
+        margin-bottom: 30px;
+        justify-content: center;
       }
 
       .social-icons a {
         color: white;
         background-color: rgba(255, 255, 255, 0.1);
-        width: 40px;
-        height: 40px;
+        width: 45px;
+        height: 45px;
         border-radius: 50%;
         display: flex;
         align-items: center;
@@ -297,122 +417,340 @@
       }
 
       .footer-bottom {
-        text-align: center;
-        padding-top: 1.5rem;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        width: 100%;
+      }
+
+      .footer-bottom p {
         color: rgba(255, 255, 255, 0.7);
         font-size: 0.9rem;
       }
 
-      @media (max-width: 768px) {
-        .merchant-actions {
-          justify-content: center;
+      .mobile-menu-btn {
+        display: none;
+        background: none;
+        border: none;
+        color: var(--dark);
+        font-size: 1.5rem;
+        cursor: pointer;
+      }
+
+      .mobile-menu {
+        display: none;
+        position: fixed;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        background-color: white;
+        padding: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        z-index: 999;
+      }
+
+      .mobile-menu .nav-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .skip-link {
+        position: absolute;
+        top: -40px;
+        left: 0;
+        background: var(--primary);
+        color: white;
+        padding: 8px;
+        z-index: 1001;
+        transition: top 0.3s;
+      }
+
+      .skip-link:focus {
+        top: 0;
+      }
+
+      button:focus,
+      a:focus {
+        outline: 2px solid var(--primary);
+        outline-offset: 2px;
+      }
+
+      /* Animation classes */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
         }
-        
-        .footer-content {
-          flex-direction: column;
-          gap: 20px;
-          text-align: center;
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .animate-fadeInUp {
+        animation: fadeInUp 0.6s forwards;
+      }
+
+      @media (max-width: 768px) {
+        .navbar {
+          padding: 1rem 3%;
+        }
+        .logo h1 {
+          font-size: 1.5rem;
+        }
+        .mobile-menu-btn {
+          display: block;
+        }
+        .nav-buttons {
+          display: none;
+        }
+        .dashboard-header h1 {
+          font-size: 2.5rem;
+        }
+        .section-title {
+          font-size: 2rem;
+        }
+        .dashboard-header {
+          padding: 4rem 5%;
         }
       }
 
       @media (max-width: 576px) {
+        .dashboard-header h1 {
+          font-size: 2rem;
+        }
+        .dashboard-header p {
+          font-size: 1rem;
+        }
         .alert {
           min-width: 90%;
         }
-        
-        .merchant-actions {
-          flex-direction: column;
-          align-items: center;
-        }
-        
-        .merchant-action {
-          width: 100%;
-          max-width: 280px;
+        .section-title::after {
+          width: 60px;
         }
       }
     </style>
   </head>
   <body>
+    <!-- Accessibility skip link -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
     <nav class="navbar">
       <div class="logo">
         <a href="/merchant/home">
-          <img src="/images/logo.png" alt="ShopEase Logo" />
+          <i class="fas fa-shopping-bag"></i>
+          <h1>ShopEase</h1>
         </a>
-        <a href="/merchant/home"><h1>ShopEase</h1></a>
         <span class="merchant-badge">
           <i class="fas fa-store"></i> Merchant
         </span>
       </div>
-      <a href="/logout" class="logout-btn">
-        <i class="fas fa-sign-out-alt"></i> Logout
-      </a>
+
+      <button class="mobile-menu-btn" aria-label="Toggle mobile menu">
+        <i class="fas fa-bars"></i>
+      </button>
+
+      <div class="nav-buttons">
+        <a
+          href="/merchant/profile"
+          class="nav-btn logout-btn"
+          style="margin-right: 10px"
+        >
+          <i class="fas fa-user"></i> My Profile
+        </a>
+        <a href="/logout" class="nav-btn logout-btn">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
+      </div>
     </nav>
+
+    <!-- Mobile menu (hidden by default) -->
+    <div class="mobile-menu">
+      <div class="nav-buttons">
+        <a href="/merchant/profile" class="nav-btn logout-btn">
+          <i class="fas fa-user"></i> My Profile
+        </a>
+        <a href="/logout" class="nav-btn logout-btn">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
+      </div>
+    </div>
 
     <!-- Alert messages that will disappear after 2 seconds -->
     <div th:if="${session.pass}" class="alert alert-success">
       <i class="fas fa-check-circle alert-icon"></i>
       <span th:text="${session.pass}"></span>
     </div>
+
     <div th:if="${session.fail}" class="alert alert-danger">
       <i class="fas fa-exclamation-circle alert-icon"></i>
       <span th:text="${session.fail}"></span>
     </div>
+
     <th:block th:text="${@messageRemover.remove()}"></th:block>
 
-    <div class="container">
-      <h1 class="page-title">Merchant Dashboard</h1>
+    <main id="main-content">
+      <section class="dashboard-header">
+        <div class="dashboard-content">
+          <h1>Merchant Dashboard</h1>
+          <p>
+            Manage your products, track orders, and grow your business with
+            ShopEase's merchant tools.
+          </p>
+        </div>
+      </section>
 
-      <div class="merchant-actions">
-        <a href="/merchant/profile" class="merchant-action">
-          <div class="action-icon">
-            <i class="fas fa-user-edit"></i>
+      <section class="features">
+        <h2 class="section-title">Merchant Actions</h2>
+        <p class="section-subtitle">
+          Access all the tools you need to manage your store and products
+        </p>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-user-edit"></i>
+            </div>
+            <h3>Manage Profile</h3>
+            <p>
+              Update your merchant profile information, business details, and
+              contact information to keep your customers informed.
+            </p>
+            <a href="/merchant/profile" class="feature-link">
+              Go to Profile <i class="fas fa-arrow-right"></i>
+            </a>
           </div>
-          <div class="action-title">Manage Profile</div>
-          <div class="action-description">
-            Update your merchant profile information
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-plus-circle"></i>
+            </div>
+            <h3>Add Product</h3>
+            <p>
+              List a new product for sale on the platform with detailed
+              descriptions, images, pricing, and inventory information.
+            </p>
+            <a href="/merchant/add-product" class="feature-link">
+              Add New Product <i class="fas fa-arrow-right"></i>
+            </a>
           </div>
-        </a>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-boxes"></i>
+            </div>
+            <h3>Manage Products</h3>
+            <p>
+              View, edit, and update your existing product listings, manage
+              inventory levels, and track product performance.
+            </p>
+            <a href="/merchant/manage-products" class="feature-link">
+              View Products <i class="fas fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
 
-        <a href="/merchant/add-product" class="merchant-action">
-          <div class="action-icon">
-            <i class="fas fa-plus-circle"></i>
-          </div>
-          <div class="action-title">Add Product</div>
-          <div class="action-description">
-            List a new product for sale on the platform
-          </div>
-        </a>
-
-        <a href="/merchant/manage-products" class="merchant-action">
-          <div class="action-icon">
-            <i class="fas fa-boxes"></i>
-          </div>
-          <div class="action-title">Manage Products</div>
-          <div class="action-description">
-            View, edit, and update your product listings
-          </div>
-        </a>
-
-      </div>
-    </div>
-
+    <!-- Footer -->
     <footer class="footer">
-      <div class="footer-bottom">
-        <p>&copy; 2025 ShopEase. All Rights Reserved.</p>
+      <div class="footer-content">
+        <div class="footer-logo">
+          <i class="fas fa-shopping-bag"></i>
+          <h2>ShopEase</h2>
+        </div>
+        <p class="footer-text">
+          Your one-stop destination for all your shopping needs with unbeatable
+          prices and exceptional quality.
+        </p>
+        <div class="social-icons">
+          <a href="#" aria-label="Facebook"
+            ><i class="fab fa-facebook-f"></i
+          ></a>
+          <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+          <a href="#" aria-label="Instagram"
+            ><i class="fab fa-instagram"></i
+          ></a>
+          <a href="#" aria-label="LinkedIn"
+            ><i class="fab fa-linkedin-in"></i
+          ></a>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2025 ShopEase. All Rights Reserved.</p>
+        </div>
       </div>
     </footer>
 
     <script>
-      // Script to automatically remove alerts after 2 seconds
-      document.addEventListener('DOMContentLoaded', function() {
-        const alerts = document.querySelectorAll('.alert');
-        
-        if (alerts.length > 0) {
-          setTimeout(function() {
-            alerts.forEach(alert => {
-              alert.style.display = 'none';
-            });
-          }, 2000);
+      document.addEventListener("DOMContentLoaded", function () {
+        // Handle alerts
+        const removeAlerts = () => {
+          const alerts = document.querySelectorAll(".alert");
+          if (alerts.length > 0) {
+            setTimeout(function () {
+              alerts.forEach((alert) => {
+                alert.style.display = "none";
+              });
+            }, 2000);
+          }
+        };
+        removeAlerts();
+
+        // Mobile menu functionality
+        const mobileMenuBtn = document.querySelector(".mobile-menu-btn");
+        const mobileMenu = document.querySelector(".mobile-menu");
+        if (mobileMenuBtn && mobileMenu) {
+          mobileMenuBtn.addEventListener("click", function () {
+            if (mobileMenu.style.display === "block") {
+              mobileMenu.style.display = "none";
+              mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+              mobileMenuBtn.setAttribute("aria-expanded", "false");
+            } else {
+              mobileMenu.style.display = "block";
+              mobileMenuBtn.innerHTML = '<i class="fas fa-times"></i>';
+              mobileMenuBtn.setAttribute("aria-expanded", "true");
+            }
+          });
+        }
+
+        // Close mobile menu when clicking outside
+        document.addEventListener("click", function (event) {
+          if (mobileMenu && mobileMenu.style.display === "block") {
+            const isClickInsideMenu = mobileMenu.contains(event.target);
+            const isClickOnMenuBtn = mobileMenuBtn.contains(event.target);
+            if (!isClickInsideMenu && !isClickOnMenuBtn) {
+              mobileMenu.style.display = "none";
+              mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+              mobileMenuBtn.setAttribute("aria-expanded", "false");
+            }
+          }
+        });
+
+        // Add animation to feature cards when they come into view
+        const observeElements = (elements, className) => {
+          const observer = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                  entry.target.classList.add(className);
+                }
+              });
+            },
+            {
+              threshold: 0.1,
+            }
+          );
+          elements.forEach((element) => {
+            observer.observe(element);
+          });
+        };
+
+        // Apply animations
+        const featureCards = document.querySelectorAll(".feature-card");
+
+        if ("IntersectionObserver" in window) {
+          featureCards.forEach((card) => {
+            card.style.opacity = "0";
+          });
+
+          observeElements(featureCards, "animate-fadeInUp");
         }
       });
     </script>

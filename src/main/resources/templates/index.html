@@ -9,20 +9,21 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
     <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <style>
       :root {
-        --primary: #4361ee;
-        --primary-dark: #3a56d4;
-        --secondary: #7209b7;
-        --light: #f8f9fa;
-        --dark: #212529;
-        --success: #2ecc71;
-        --danger: #e74c3c;
-        --gray: #6c757d;
-        --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        --primary: #2563eb;
+        --primary-dark: #1d4ed8;
+        --secondary: #7c3aed;
+        --accent: #f59e0b;
+        --light: #f9fafb;
+        --dark: #111827;
+        --success: #10b981;
+        --danger: #ef4444;
+        --gray: #6b7280;
+        --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         --transition: all 0.3s ease;
       }
 
@@ -30,7 +31,7 @@
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        font-family: "Poppins", sans-serif;
+        font-family: "Montserrat", sans-serif;
       }
 
       body {
@@ -47,7 +48,7 @@
         align-items: center;
         padding: 1rem 5%;
         background-color: #ffffff;
-        box-shadow: var(--shadow);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         position: sticky;
         top: 0;
         z-index: 1000;
@@ -61,10 +62,13 @@
       .logo a {
         text-decoration: none;
         color: var(--dark);
+        display: flex;
+        align-items: center;
       }
 
-      .logo img {
-        height: 40px;
+      .logo i {
+        font-size: 2rem;
+        color: var(--primary);
         margin-right: 10px;
       }
 
@@ -72,22 +76,6 @@
         font-size: 1.8rem;
         color: var(--primary);
         font-weight: 700;
-      }
-
-      .nav-links {
-        display: flex;
-        gap: 30px;
-      }
-
-      .nav-links a {
-        color: var(--dark);
-        text-decoration: none;
-        font-weight: 500;
-        transition: var(--transition);
-      }
-
-      .nav-links a:hover {
-        color: var(--primary);
       }
 
       .nav-buttons {
@@ -98,7 +86,7 @@
       .nav-btn {
         padding: 10px 20px;
         border: none;
-        border-radius: 5px;
+        border-radius: 8px;
         font-weight: 600;
         cursor: pointer;
         transition: var(--transition);
@@ -111,8 +99,7 @@
       }
 
       .login-btn:hover {
-        background-color: var(--primary);
-        color: white;
+        background-color: rgba(37, 99, 235, 0.1);
       }
 
       .register-btn {
@@ -123,6 +110,7 @@
 
       .register-btn:hover {
         background-color: var(--primary-dark);
+        transform: translateY(-2px);
       }
 
       .dropdown {
@@ -136,8 +124,8 @@
         right: 0;
         background-color: #ffffff;
         min-width: 220px;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-        border-radius: 8px;
+        box-shadow: var(--shadow);
+        border-radius: 12px;
         z-index: 1;
         overflow: hidden;
         transition: var(--transition);
@@ -168,7 +156,7 @@
       }
 
       .dropdown-option:hover {
-        background-color: #f1f5ff;
+        background-color: #eef2ff;
         color: var(--primary);
       }
 
@@ -178,7 +166,7 @@
         left: 50%;
         transform: translateX(-50%);
         padding: 15px 25px;
-        border-radius: 8px;
+        border-radius: 10px;
         box-shadow: var(--shadow);
         z-index: 1001;
         display: flex;
@@ -189,14 +177,14 @@
       }
 
       .alert-success {
-        background-color: #d4edda;
-        color: #155724;
+        background-color: #ecfdf5;
+        color: #065f46;
         border-left: 4px solid var(--success);
       }
 
       .alert-danger {
-        background-color: #f8d7da;
-        color: #721c24;
+        background-color: #fef2f2;
+        color: #991b1b;
         border-left: 4px solid var(--danger);
       }
 
@@ -227,21 +215,38 @@
       }
 
       .hero {
-        background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
         color: white;
-        padding: 6rem 5%;
+        padding: 8rem 5%;
         text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('data:image/svg+xml;charset=utf8,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"%3E%3Cpath fill="%23ffffff" fill-opacity="0.05" d="M0,160L48,144C96,128,192,96,288,106.7C384,117,480,171,576,186.7C672,203,768,181,864,154.7C960,128,1056,96,1152,96C1248,96,1344,128,1392,144L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"%3E%3C/path%3E%3C/svg%3E');
+        background-size: cover;
+        background-position: center;
       }
 
       .hero-content {
         max-width: 800px;
         margin: 0 auto;
+        position: relative;
+        z-index: 1;
       }
 
       .hero h1 {
         font-size: 3.5rem;
         margin-bottom: 1.5rem;
         font-weight: 700;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       }
 
       .hero p {
@@ -254,20 +259,21 @@
 
       .cta-btn {
         padding: 15px 30px;
-        background-color: white;
-        color: var(--primary);
+        background-color: var(--accent);
+        color: white;
         border: none;
         border-radius: 30px;
         font-size: 1.1rem;
         font-weight: 600;
         cursor: pointer;
         transition: var(--transition);
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
       }
 
       .cta-btn:hover {
         transform: translateY(-3px);
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+        background-color: #e97d0d;
       }
 
       .features {
@@ -281,12 +287,26 @@
         margin-bottom: 1rem;
         color: var(--dark);
         font-weight: 700;
+        position: relative;
+        display: inline-block;
+      }
+
+      .section-title::after {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 4px;
+        background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+        border-radius: 2px;
       }
 
       .section-subtitle {
         color: var(--gray);
         max-width: 700px;
-        margin: 0 auto 3rem;
+        margin: 2rem auto 3rem;
         font-size: 1.1rem;
       }
 
@@ -299,25 +319,46 @@
       }
 
       .feature-card {
-        background-color: var(--light);
+        background-color: white;
         padding: 2.5rem 2rem;
-        border-radius: 12px;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        border-radius: 16px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
         transition: var(--transition);
+        border: 1px solid #f3f4f6;
       }
 
       .feature-card:hover {
         transform: translateY(-10px);
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 20px 30px rgba(0, 0, 0, 0.1);
+        border-color: #e5e7eb;
       }
 
       .feature-icon {
         font-size: 3rem;
-        color: var(--primary);
         margin-bottom: 1.5rem;
+        display: inline-block;
+        position: relative;
+      }
+
+      .feature-icon i {
         background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
+        position: relative;
+        z-index: 1;
+      }
+
+      .feature-icon::after {
+        content: "";
+        position: absolute;
+        width: 60px;
+        height: 60px;
+        background-color: #eef2ff;
+        border-radius: 50%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 0;
       }
 
       .feature-card h3 {
@@ -331,47 +372,172 @@
         line-height: 1.6;
       }
 
+      /* Testimonials Section */
+      .testimonials {
+        padding: 6rem 5%;
+        background-color: #f3f4f6;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .testimonials::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('data:image/svg+xml;charset=utf8,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"%3E%3Cpath fill="%232563eb" fill-opacity="0.03" d="M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 5zm-32-78c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57 23c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zm-40 3c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM15 80c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zm32 12c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z"%3E%3C/path%3E%3C/svg%3E');
+      }
+
+      .testimonial-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .testimonial-card {
+        background-color: white;
+        padding: 2.5rem 2rem;
+        border-radius: 16px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+        text-align: left;
+        position: relative;
+        transition: var(--transition);
+        border: 1px solid #e5e7eb;
+      }
+
+      .testimonial-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 30px rgba(0, 0, 0, 0.1);
+      }
+
+      .testimonial-card::before {
+        content: """;
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        font-size: 5rem;
+        color: rgba(37, 99, 235, 0.1);
+        font-family: serif;
+        line-height: 1;
+      }
+
+      .testimonial-content {
+        margin-bottom: 1.5rem;
+        color: var(--gray);
+        line-height: 1.6;
+        font-style: italic;
+        position: relative;
+        z-index: 1;
+        padding-top: 1rem;
+      }
+
+      .testimonial-author {
+        display: flex;
+        align-items: center;
+        border-top: 1px solid #f3f4f6;
+        padding-top: 1.5rem;
+      }
+
+      .author-avatar {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        margin-right: 15px;
+        object-fit: cover;
+        border: 3px solid #eef2ff;
+      }
+
+      .author-info h4 {
+        margin: 0;
+        color: var(--dark);
+        font-weight: 600;
+      }
+
+      .author-info p {
+        margin: 0;
+        color: var(--gray);
+        font-size: 0.9rem;
+      }
+
+      .rating {
+        color: var(--accent);
+        margin-top: 5px;
+      }
+
+      /* Footer */
       .footer {
-        background-color: #1a1a1a;
+        background-color: #1e293b;
         color: white;
-        padding: 3rem 5% 1.5rem;
+        padding: 4rem 5% 2rem;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .footer::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('data:image/svg+xml;charset=utf8,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"%3E%3Cpath fill="%23ffffff" fill-opacity="0.05" d="M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,202.7C672,203,768,181,864,186.7C960,192,1056,224,1152,218.7C1248,213,1344,171,1392,149.3L1440,128L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"%3E%3C/path%3E%3C/svg%3E');
+        background-size: cover;
+        background-position: center;
+        opacity: 0.5;
       }
 
       .footer-content {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
         max-width: 1200px;
         margin: 0 auto;
-        padding-bottom: 1.5rem;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        z-index: 1;
       }
 
       .footer-logo {
         display: flex;
         align-items: center;
+        margin-bottom: 20px;
       }
 
-      .footer-logo img {
-        height: 35px;
+      .footer-logo i {
+        font-size: 2rem;
         margin-right: 10px;
+        color: var(--accent);
       }
 
       .footer-logo h2 {
-        font-size: 1.5rem;
+        font-size: 1.8rem;
         color: white;
+      }
+
+      .footer-text {
+        max-width: 600px;
+        margin-bottom: 30px;
+        color: rgba(255, 255, 255, 0.7);
+        line-height: 1.6;
       }
 
       .social-icons {
         display: flex;
         gap: 15px;
+        margin-bottom: 30px;
+        justify-content: center;
       }
 
       .social-icons a {
         color: white;
         background-color: rgba(255, 255, 255, 0.1);
-        width: 40px;
-        height: 40px;
+        width: 45px;
+        height: 45px;
         border-radius: 50%;
         display: flex;
         align-items: center;
@@ -385,8 +551,12 @@
       }
 
       .footer-bottom {
-        text-align: center;
-        padding-top: 1.5rem;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        width: 100%;
+      }
+
+      .footer-bottom p {
         color: rgba(255, 255, 255, 0.7);
         font-size: 0.9rem;
       }
@@ -400,41 +570,61 @@
         cursor: pointer;
       }
 
-      @media (max-width: 992px) {
-        .nav-links {
-          display: none;
-        }
+      .mobile-menu {
+        display: none;
+        position: fixed;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        background-color: white;
+        padding: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        z-index: 999;
+      }
+
+      .mobile-menu .nav-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .mobile-menu .dropdown {
+        position: static;
+      }
+
+      .mobile-menu .dropdown-content {
+        position: static;
+        display: none;
+        box-shadow: none;
+        margin-top: 10px;
+        margin-left: 15px;
+      }
+
+      .mobile-menu .dropdown.active .dropdown-content {
+        display: block;
       }
 
       @media (max-width: 768px) {
         .navbar {
           padding: 1rem 3%;
         }
-
-        .mobile-menu-btn {
-          display: block;
-        }
-
-        .nav-buttons {
-          display: none;
-        }
-
         .logo h1 {
           font-size: 1.5rem;
         }
-
+        .mobile-menu-btn {
+          display: block;
+        }
+        .nav-buttons {
+          display: none;
+        }
         .hero h1 {
           font-size: 2.5rem;
         }
-
         .section-title {
           font-size: 2rem;
         }
-
-        .footer-content {
-          flex-direction: column;
-          gap: 20px;
-          text-align: center;
+        .hero {
+          padding: 6rem 5%;
         }
       }
 
@@ -442,26 +632,73 @@
         .hero h1 {
           font-size: 2rem;
         }
-
         .hero p {
           font-size: 1rem;
         }
-
         .alert {
           min-width: 90%;
         }
+        .testimonial-grid {
+          grid-template-columns: 1fr;
+        }
+        .section-title::after {
+          width: 60px;
+        }
+      }
+
+      /* Accessibility improvements */
+      .skip-link {
+        position: absolute;
+        top: -40px;
+        left: 0;
+        background: var(--primary);
+        color: white;
+        padding: 8px;
+        z-index: 1001;
+        transition: top 0.3s;
+      }
+
+      .skip-link:focus {
+        top: 0;
+      }
+
+      button:focus, a:focus {
+        outline: 2px solid var(--primary);
+        outline-offset: 2px;
+      }
+
+      /* Animation classes */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .animate-fadeInUp {
+        animation: fadeInUp 0.6s forwards;
       }
     </style>
   </head>
   <body>
+    <!-- Accessibility skip link -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
     <nav class="navbar">
       <div class="logo">
         <a href="/">
-          <img src="/images/logo.png" alt="ShopEase Logo" />
+          <i class="fas fa-shopping-bag"></i>
+          <h1>ShopEase</h1>
         </a>
-        <a href="/"><h1>ShopEase</h1></a>
       </div>
 
+      <button class="mobile-menu-btn" aria-label="Toggle mobile menu">
+        <i class="fas fa-bars"></i>
+      </button>
 
       <div class="nav-buttons">
         <a href="/login"><button class="nav-btn login-btn">Login</button></a>
@@ -482,173 +719,351 @@
       </div>
     </nav>
 
+    <!-- Mobile menu (hidden by default) -->
+    <div class="mobile-menu">
+      <div class="nav-buttons">
+        <a href="/login"><button class="nav-btn login-btn">Login</button></a>
+        <div class="dropdown">
+          <button class="nav-btn register-btn mobile-dropdown-toggle">
+            Register <i class="fas fa-chevron-down"></i>
+          </button>
+          <div class="dropdown-content">
+            <a href="/admin/register" class="dropdown-option">
+              <i class="fas fa-user-shield"></i> Admin Register
+            </a>
+            <a href="/merchant/register" class="dropdown-option">
+              <i class="fas fa-store"></i> Merchant Register
+            </a>
+            <a href="/customer/register" class="dropdown-option">
+              <i class="fas fa-user"></i> Customer Register
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Alert messages that will disappear after 2 seconds -->
     <div th:if="${session.pass}" class="alert alert-success">
       <i class="fas fa-check-circle alert-icon"></i>
       <span th:text="${session.pass}"></span>
     </div>
+
     <div th:if="${session.fail}" class="alert alert-danger">
       <i class="fas fa-exclamation-circle alert-icon"></i>
       <span th:text="${session.fail}"></span>
     </div>
+
     <th:block th:text="${@messageRemover.remove()}"></th:block>
 
-    <section class="hero">
-      <div class="hero-content">
-        <h1>Welcome to ShopEase</h1>
-        <p>
-          Discover a world of products with unbeatable prices and exceptional
-          quality. Your one-stop destination for all your shopping needs.
+    <main id="main-content">
+      <section class="hero">
+        <div class="hero-content">
+          <h1>Welcome to ShopEase</h1>
+          <p>
+            Discover a world of products with unbeatable prices and exceptional
+            quality. Your one-stop destination for all your shopping needs.
+          </p>
+          <a href="/login"
+            ><button class="cta-btn">
+              Shop Now <i class="fas fa-arrow-right"></i></button
+          ></a>
+        </div>
+      </section>
+
+      <section class="features">
+        <h2 class="section-title">Why Choose Us</h2>
+        <p class="section-subtitle">
+          We provide the best shopping experience with premium services tailored
+          to your needs.
         </p>
-        <a href="/login"><button class="cta-btn">Shop Now <i class="fas fa-arrow-right"></i></button></a>
-      </div>
-    </section>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-shipping-fast"></i>
+            </div>
+            <h3>Fast Delivery</h3>
+            <p>
+              Get your products delivered to your doorstep within 24-48 hours of
+              placing your order with our premium shipping partners.
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-shield-alt"></i>
+            </div>
+            <h3>Secure Payments</h3>
+            <p>
+              Our payment gateway ensures your transactions are safe and secure
+              at all times with end-to-end encryption technology.
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-undo"></i>
+            </div>
+            <h3>Easy Returns</h3>
+            <p>
+              Not satisfied with your purchase? Return it within 30 days for a
+              full refund with our hassle-free return policy.
+            </p>
+          </div>
+        </div>
+      </section>
 
-    <section class="features">
-      <h2 class="section-title">Why Choose Us</h2>
-      <p class="section-subtitle">
-        We provide the best shopping experience with premium services tailored to your needs.
-      </p>
-            <div class="features-grid">
-        <div class="feature-card">
-          <div class="feature-icon">
-            <i class="fas fa-shipping-fast"></i>
+      <section class="features" style="background-color: #f9fafb">
+        <h2 class="section-title">Our Products</h2>
+        <p class="section-subtitle">
+          Browse through our extensive collection of high-quality products
+        </p>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-tshirt"></i>
+            </div>
+            <h3>Fashion</h3>
+            <p>
+              Discover the latest trends in clothing, footwear, and accessories
+              for men, women, and children.
+            </p>
           </div>
-          <h3>Fast Delivery</h3>
-          <p>
-            Get your products delivered to your doorstep within 24-48 hours of
-            placing your order with our premium shipping partners.
-          </p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">
-            <i class="fas fa-shield-alt"></i>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-mobile-alt"></i>
+            </div>
+            <h3>Electronics</h3>
+            <p>
+              Explore cutting-edge gadgets, smartphones, laptops, and home
+              appliances from top brands.
+            </p>
           </div>
-          <h3>Secure Payments</h3>
-          <p>
-            Our payment gateway ensures your transactions are safe and secure at
-            all times with end-to-end encryption technology.
-          </p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">
-            <i class="fas fa-undo"></i>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-home"></i>
+            </div>
+            <h3>Home & Living</h3>
+            <p>
+              Transform your living space with our stylish furniture, decor
+              items, and kitchen essentials.
+            </p>
           </div>
-          <h3>Easy Returns</h3>
-          <p>
-            Not satisfied with your purchase? Return it within 30 days for a
-            full refund with our hassle-free return policy.
-          </p>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section class="features" style="background-color: var(--light);">
-      <h2 class="section-title">Our Products</h2>
-      <p class="section-subtitle">
-        Browse through our extensive collection of high-quality products
-      </p>
-      <div class="features-grid">
-        <div class="feature-card">
-          <div class="feature-icon">
-            <i class="fas fa-tshirt"></i>
+      <!-- Testimonials Section -->
+      <section class="testimonials">
+        <h2 class="section-title">What Our Customers Say</h2>
+        <p class="section-subtitle">
+          Don't just take our word for it - hear from our satisfied customers
+        </p>
+        <div class="testimonial-grid">
+          <div class="testimonial-card">
+            <p class="testimonial-content">
+              ShopEase has completely transformed my online shopping experience.
+              The products are high-quality, and the delivery is always on time.
+              I'm never going back to other platforms!
+            </p>
+            <div class="testimonial-author">
+              <img
+                src="https://randomuser.me/api/portraits/women/32.jpg"
+                alt="Sarah Johnson"
+                class="author-avatar"
+              />
+              <div class="author-info">
+                <h4>Sarah Johnson</h4>
+                <p>Loyal Customer</p>
+                <div class="rating">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                </div>
+              </div>
+            </div>
           </div>
-          <h3>Fashion</h3>
-          <p>
-            Discover the latest trends in clothing, footwear, and accessories for men, women, and children.
-          </p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">
-            <i class="fas fa-mobile-alt"></i>
+          <div class="testimonial-card">
+            <p class="testimonial-content">
+              I've been shopping with ShopEase for over a year now, and I'm
+              impressed with their customer service. Any issues are resolved
+              quickly, and the return process is hassle-free.
+            </p>
+            <div class="testimonial-author">
+              <img
+                src="https://randomuser.me/api/portraits/men/45.jpg"
+                alt="Michael Chen"
+                class="author-avatar"
+              />
+              <div class="author-info">
+                <h4>Michael Chen</h4>
+                <p>Tech Enthusiast</p>
+                <div class="rating">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star-half-alt"></i>
+                </div>
+              </div>
+            </div>
           </div>
-          <h3>Electronics</h3>
-          <p>
-            Explore cutting-edge gadgets, smartphones, laptops, and home appliances from top brands.
-          </p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">
-            <i class="fas fa-home"></i>
+          <div class="testimonial-card">
+            <p class="testimonial-content">
+              The variety of products available on ShopEase is amazing! I found
+              items here that I couldn't find anywhere else, and at better
+              prices too. Highly recommended!
+            </p>
+            <div class="testimonial-author">
+              <img
+                src="https://randomuser.me/api/portraits/women/68.jpg"
+                alt="Emily Rodriguez"
+                class="author-avatar"
+              />
+              <div class="author-info">
+                <h4>Emily Rodriguez</h4>
+                <p>Fashion Blogger</p>
+                <div class="rating">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                </div>
+              </div>
+            </div>
           </div>
-          <h3>Home & Living</h3>
-          <p>
-            Transform your living space with our stylish furniture, decor items, and kitchen essentials.
-          </p>
         </div>
-      </div>
-    </section>
+      </section>
+    </main>
 
+    <!-- Footer -->
     <footer class="footer">
-      <div class="footer-bottom">
-        <p>&copy; 2025 ShopEase. All Rights Reserved.</p>
+      <div class="footer-content">
+        <div class="footer-logo">
+          <i class="fas fa-shopping-bag"></i>
+          <h2>ShopEase</h2>
+        </div>
+        <p class="footer-text">
+          Your one-stop destination for all your shopping needs with unbeatable
+          prices and exceptional quality.
+        </p>
+        <div class="social-icons">
+          <a href="#" aria-label="Facebook"
+            ><i class="fab fa-facebook-f"></i
+          ></a>
+          <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+          <a href="#" aria-label="Instagram"
+            ><i class="fab fa-instagram"></i
+          ></a>
+          <a href="#" aria-label="LinkedIn"
+            ><i class="fab fa-linkedin-in"></i
+          ></a>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2025 ShopEase. All Rights Reserved.</p>
+        </div>
       </div>
     </footer>
 
     <script>
-      // Script to automatically remove alerts after 2 seconds
-      document.addEventListener('DOMContentLoaded', function() {
-        const alerts = document.querySelectorAll('.alert');
-        
-        if (alerts.length > 0) {
-          setTimeout(function() {
-            alerts.forEach(alert => {
-              alert.style.display = 'none';
-            });
-          }, 2000);
-        }
-        
-        // Mobile menu toggle functionality
-        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-        const navLinks = document.querySelector('.nav-links');
-        const navButtons = document.querySelector('.nav-buttons');
-        
-        if (mobileMenuBtn) {
-          mobileMenuBtn.addEventListener('click', function() {
-            // Create mobile menu if it doesn't exist
-            if (!document.querySelector('.mobile-menu')) {
-              const mobileMenu = document.createElement('div');
-              mobileMenu.className = 'mobile-menu';
-              mobileMenu.style.position = 'fixed';
-              mobileMenu.style.top = '70px';
-              mobileMenu.style.left = '0';
-              mobileMenu.style.width = '100%';
-              mobileMenu.style.backgroundColor = '#fff';
-              mobileMenu.style.padding = '20px';
-              mobileMenu.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
-              mobileMenu.style.zIndex = '999';
-              mobileMenu.style.display = 'none';
-              
-              // Clone nav links
-              if (navLinks) {
-                const clonedLinks = navLinks.cloneNode(true);
-                clonedLinks.style.display = 'flex';
-                clonedLinks.style.flexDirection = 'column';
-                clonedLinks.style.gap = '15px';
-                mobileMenu.appendChild(clonedLinks);
-              }
-              
-              // Clone nav buttons
-              if (navButtons) {
-                const clonedButtons = navButtons.cloneNode(true);
-                clonedButtons.style.display = 'flex';
-                clonedButtons.style.marginTop = '20px';
-                mobileMenu.appendChild(clonedButtons);
-              }
-              
-              document.body.appendChild(mobileMenu);
-            }
-            
-            const mobileMenu = document.querySelector('.mobile-menu');
-            if (mobileMenu.style.display === 'none' || mobileMenu.style.display === '') {
-              mobileMenu.style.display = 'block';
+      document.addEventListener("DOMContentLoaded", function () {
+        // Handle alerts
+        const removeAlerts = () => {
+          const alerts = document.querySelectorAll(".alert");
+          if (alerts.length > 0) {
+            setTimeout(function () {
+              alerts.forEach((alert) => {
+                alert.style.display = "none";
+              });
+            }, 2000);
+          }
+        };
+        removeAlerts();
+
+        // Mobile menu functionality
+        const mobileMenuBtn = document.querySelector(".mobile-menu-btn");
+        const mobileMenu = document.querySelector(".mobile-menu");
+        if (mobileMenuBtn && mobileMenu) {
+          mobileMenuBtn.addEventListener("click", function () {
+            if (mobileMenu.style.display === "block") {
+              mobileMenu.style.display = "none";
+              mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+              mobileMenuBtn.setAttribute("aria-expanded", "false");
             } else {
-              mobileMenu.style.display = 'none';
+              mobileMenu.style.display = "block";
+              mobileMenuBtn.innerHTML = '<i class="fas fa-times"></i>';
+              mobileMenuBtn.setAttribute("aria-expanded", "true");
             }
           });
+        }
+
+        // Mobile dropdown toggle
+        const mobileDropdownToggles = document.querySelectorAll(
+          ".mobile-dropdown-toggle"
+        );
+        mobileDropdownToggles.forEach((toggle) => {
+          toggle.addEventListener("click", function (e) {
+            e.preventDefault();
+            const parent = this.parentElement;
+            if (parent.classList.contains("active")) {
+              parent.classList.remove("active");
+              this.querySelector("i").classList.remove("fa-chevron-up");
+              this.querySelector("i").classList.add("fa-chevron-down");
+            } else {
+              parent.classList.add("active");
+              this.querySelector("i").classList.remove("fa-chevron-down");
+              this.querySelector("i").classList.add("fa-chevron-up");
+            }
+          });
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener("click", function (event) {
+          if (mobileMenu && mobileMenu.style.display === "block") {
+            const isClickInsideMenu = mobileMenu.contains(event.target);
+            const isClickOnMenuBtn = mobileMenuBtn.contains(event.target);
+            if (!isClickInsideMenu && !isClickOnMenuBtn) {
+              mobileMenu.style.display = "none";
+              mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+              mobileMenuBtn.setAttribute("aria-expanded", "false");
+            }
+          }
+        });
+
+        // Add animation to feature cards when they come into view
+        const observeElements = (elements, className) => {
+          const observer = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                  entry.target.classList.add(className);
+                }
+              });
+            },
+            {
+              threshold: 0.1,
+            }
+          );
+          elements.forEach((element) => {
+            observer.observe(element);
+          });
+        };
+
+        // Apply animations
+        const featureCards = document.querySelectorAll(".feature-card");
+        const testimonialCards = document.querySelectorAll(".testimonial-card");
+
+        if ("IntersectionObserver" in window) {
+          featureCards.forEach((card) => {
+            card.style.opacity = "0";
+          });
+          testimonialCards.forEach((card) => {
+            card.style.opacity = "0";
+          });
+
+          observeElements(featureCards, "animate-fadeInUp");
+          observeElements(testimonialCards, "animate-fadeInUp");
         }
       });
     </script>
   </body>
 </html>
-
