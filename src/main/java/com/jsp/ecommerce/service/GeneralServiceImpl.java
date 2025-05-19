@@ -23,6 +23,8 @@ public class GeneralServiceImpl implements GeneralService {
 	@Autowired
 	AdminRepository adminRepository;
 
+	
+
 	@Override
 	public String login(String email, String password, HttpSession session) {
 		session.removeAttribute("admin");

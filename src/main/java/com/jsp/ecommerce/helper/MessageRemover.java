@@ -10,12 +10,15 @@ import jakarta.servlet.http.HttpSession;
 
 @Component
 public class MessageRemover {
+
 	public void remove() {
 		RequestAttributes requestAttributes = RequestContextHolder.currentRequestAttributes();
 		ServletRequestAttributes attributes = (ServletRequestAttributes) requestAttributes;
 		HttpServletRequest request = attributes.getRequest();
-		HttpSession session = request.getSession(true);
-
+		HttpSession session = request.getSession(false);
+		if(session == null) {
+			return;
+		}
 		session.removeAttribute("pass");
 		session.removeAttribute("fail");
 	}
