@@ -1303,47 +1303,6 @@
           });
         });
 
-        // Form submission with success animation
-        otpForm.addEventListener("submit", function (e) {
-          // In a real implementation, you would validate the OTP server-side
-          // This is just for demonstration purposes
-
-          // Uncomment this line for actual form submission
-          // return true;
-
-          // For demo: show success animation
-          e.preventDefault();
-
-          // Disable inputs and button during "verification"
-          digitInputs.forEach((input) => {
-            input.disabled = true;
-          });
-          verifyButton.disabled = true;
-          verifyButton.innerHTML =
-            '<i class="fas fa-spinner fa-spin"></i> Verifying...';
-
-          // Simulate verification process
-          setTimeout(() => {
-            // Hide form elements
-            otpForm.style.opacity = "0";
-            document.getElementById("timerContainer").style.display = "none";
-
-            // Show success animation
-            setTimeout(() => {
-              otpForm.style.display = "none";
-              document.querySelector(".otp-header p").textContent =
-                "Your account has been successfully verified! You will be redirected to the login page.";
-              document.getElementById("successCheckmark").style.display =
-                "block";
-
-              // Redirect after showing success (in a real app)
-              setTimeout(() => {
-                window.location.href = "/login";
-              }, 3000);
-            }, 300);
-          }, 1500);
-        });
-
         // Countdown timer for OTP expiration
         const countdownEl = document.getElementById("countdown");
         const timerContainer = document.getElementById("timerContainer");
